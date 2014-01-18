@@ -1,0 +1,142 @@
+Restore Archived Project report for tutorialone
+Sat Jan 18 00:25:19 2014
+Quartus II 32-bit Version 12.0 Build 263 08/02/2012 Service Pack 2 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Restore Archived Project Summary
+  3. Restore Archived Project Messages
+  4. Files Restored
+  5. Files Not Restored
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2012 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------------+
+; Restore Archived Project Summary                                        ;
++---------------------------------+---------------------------------------+
+; Restore Archived Project Status ; Successful - Sat Jan 18 00:25:19 2014 ;
+; Revision Name                   ; tutorialone                           ;
+; Top-level Entity Name           ; lights                                ;
+; Family                          ; Cyclone II                            ;
++---------------------------------+---------------------------------------+
+
+
++-----------------------------------+
+; Restore Archived Project Messages ;
++-----------------------------------+
+Info: Successfully restored 'C:/Altera/12.0sp2/tutorialone_tmp_archive.qar' into the 'C:/Users/colin/Documents/Working Processor' directory
+Info: Generated report 'tutorialone.restore.rpt'
+
+
++------------------------------------------------------------------------------------------+
+; Files Restored                                                                           ;
++------------------------------------------------------------------------------------------+
+; File Name                                                                                ;
++------------------------------------------------------------------------------------------+
+; lights.vhd                                                                               ;
+; incremental_db/compiled_partitions/tutorialone.db_info                                   ;
+; nios_system.qsys                                                                         ;
+; nios_system.sopcinfo                                                                     ;
+; nios_system/lights.vhd                                                                   ;
+; nios_system/synthesis/nios_system.qip                                                    ;
+; nios_system/synthesis/nios_system.v                                                      ;
+; nios_system/synthesis/submodules/altera_avalon_sc_fifo.v                                 ;
+; nios_system/synthesis/submodules/altera_avalon_st_pipeline_base.v                        ;
+; nios_system/synthesis/submodules/altera_merlin_arbitrator.sv                             ;
+; nios_system/synthesis/submodules/altera_merlin_burst_adapter.sv                          ;
+; nios_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv                     ;
+; nios_system/synthesis/submodules/altera_merlin_master_agent.sv                           ;
+; nios_system/synthesis/submodules/altera_merlin_master_translator.sv                      ;
+; nios_system/synthesis/submodules/altera_merlin_slave_agent.sv                            ;
+; nios_system/synthesis/submodules/altera_merlin_slave_translator.sv                       ;
+; nios_system/synthesis/submodules/altera_merlin_traffic_limiter.sv                        ;
+; nios_system/synthesis/submodules/altera_merlin_width_adapter.sv                          ;
+; nios_system/synthesis/submodules/altera_reset_controller.sdc                             ;
+; nios_system/synthesis/submodules/altera_reset_controller.v                               ;
+; nios_system/synthesis/submodules/altera_reset_synchronizer.v                             ;
+; nios_system/synthesis/submodules/altera_up_character_lcd_communication.v                 ;
+; nios_system/synthesis/submodules/altera_up_character_lcd_initialization.v                ;
+; nios_system/synthesis/submodules/nios_system_LEDs.v                                      ;
+; nios_system/synthesis/submodules/nios_system_addr_router.sv                              ;
+; nios_system/synthesis/submodules/nios_system_addr_router_001.sv                          ;
+; nios_system/synthesis/submodules/nios_system_character_lcd_0.v                           ;
+; nios_system/synthesis/submodules/nios_system_clocks.v                                    ;
+; nios_system/synthesis/submodules/nios_system_cmd_xbar_demux.sv                           ;
+; nios_system/synthesis/submodules/nios_system_cmd_xbar_demux_001.sv                       ;
+; nios_system/synthesis/submodules/nios_system_cmd_xbar_mux.sv                             ;
+; nios_system/synthesis/submodules/nios_system_id_router.sv                                ;
+; nios_system/synthesis/submodules/nios_system_id_router_002.sv                            ;
+; nios_system/synthesis/submodules/nios_system_id_router_003.sv                            ;
+; nios_system/synthesis/submodules/nios_system_id_router_006.sv                            ;
+; nios_system/synthesis/submodules/nios_system_irq_mapper.sv                               ;
+; nios_system/synthesis/submodules/nios_system_jtag_uart_0.v                               ;
+; nios_system/synthesis/submodules/nios_system_jtag_uart_0_input_mutex.dat                 ;
+; nios_system/synthesis/submodules/nios_system_jtag_uart_0_input_stream.dat                ;
+; nios_system/synthesis/submodules/nios_system_jtag_uart_0_output_stream.dat               ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor.ocp                         ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor.sdc                         ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor.v                           ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_ic_tag_ram.mif              ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_jtag_debug_module_sysclk.v  ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_jtag_debug_module_tck.v     ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_jtag_debug_module_wrapper.v ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_oci_test_bench.v            ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_ociram_default_contents.mif ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_rf_ram_a.mif                ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_rf_ram_b.mif                ;
+; nios_system/synthesis/submodules/nios_system_nios2_processor_test_bench.v                ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0.sdc                            ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0.v                              ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_ic_tag_ram.mif                 ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_jtag_debug_module_sysclk.v     ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_jtag_debug_module_tck.v        ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_jtag_debug_module_wrapper.v    ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_oci_test_bench.v               ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_ociram_default_contents.mif    ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_rf_ram_a.mif                   ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_rf_ram_b.mif                   ;
+; nios_system/synthesis/submodules/nios_system_nios2_qsys_0_test_bench.v                   ;
+; nios_system/synthesis/submodules/nios_system_onchip_memory2_0.hex                        ;
+; nios_system/synthesis/submodules/nios_system_onchip_memory2_0.v                          ;
+; nios_system/synthesis/submodules/nios_system_rsp_xbar_demux.sv                           ;
+; nios_system/synthesis/submodules/nios_system_rsp_xbar_demux_002.sv                       ;
+; nios_system/synthesis/submodules/nios_system_rsp_xbar_demux_003.sv                       ;
+; nios_system/synthesis/submodules/nios_system_rsp_xbar_mux.sv                             ;
+; nios_system/synthesis/submodules/nios_system_rsp_xbar_mux_001.sv                         ;
+; nios_system/synthesis/submodules/nios_system_sdram.v                                     ;
+; nios_system/synthesis/submodules/nios_system_switches.v                                  ;
+; tutorialone.qpf                                                                          ;
+; tutorialone.qsf                                                                          ;
+; assignment_defaults.qdf                                                                  ;
++------------------------------------------------------------------------------------------+
+
+
++--------------------+
+; Files Not Restored ;
++--------------------+
+; File Name          ;
++--------------------+
+
+

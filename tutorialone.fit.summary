@@ -1,0 +1,16 @@
+Fitter Status : Successful - Sat Jan 18 00:27:45 2014
+Quartus II 32-bit Version : 12.0 Build 263 08/02/2012 SP 2 SJ Web Edition
+Revision Name : tutorialone
+Top-level Entity Name : lights
+Family : Cyclone II
+Device : EP2C35F672C6
+Timing Models : Final
+Total logic elements : 3,139 / 33,216 ( 9 % )
+    Total combinational functions : 2,929 / 33,216 ( 9 % )
+    Dedicated logic registers : 1,800 / 33,216 ( 5 % )
+Total registers : 1868
+Total pins : 69 / 475 ( 15 % )
+Total virtual pins : 0
+Total memory bits : 79,488 / 483,840 ( 16 % )
+Embedded Multiplier 9-bit elements : 0 / 70 ( 0 % )
+Total PLLs : 1 / 4 ( 25 % )
