@@ -14,7 +14,7 @@
 
 int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer);
 
-int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer);
+int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer, Queue * x0_queue, Queue * x1_queue, Queue * y0_queue, Queue * y1_queue);
 
 int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
     int x0 = X_OFFSET, y0 = Y_OFFSET, x1 = WIDTH, y1 = HEIGHT, i, color = 0;
@@ -33,44 +33,33 @@ int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
     return 0;
 }
 
-int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
+int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer, Queue * x0_queue, Queue * x1_queue, Queue * y0_queue, Queue * y1_queue) {
     // int x0 = -40, y0 = 120, x1 = 360, y1 = 120;
     float theta = 0.0, r = 200.0, inc = 0.01745, pi = 3.14159;
-    int x0 = 0, y0 = 0, x1 = 0, y1 = 0;
-    int color = 0;
-    int delay = 8;
+    int x0, y0, x1, y1, color = 0xFFFF, delay = 19;
 
-    Queue * x0_queue = queue_new(10);
-    Queue * y0_queue = queue_new(10);
-    Queue * x1_queue = queue_new(10);
-    Queue * y1_queue = queue_new(10);
+    while (1) {
+        if (theta > pi) theta = 0.0;
 
-    while (theta < pi) {
-        //Rectangular coordinates unsuitable
-        // y0 = 120 + (int)sqrt(-pow(x0, 2) + 320 * x0 + 14400);
-        // y1 = 120 - (int)sqrt(-pow(x1, 2) + 320 * x1 + 14400);
-
-        //Use polar instead, I don't know the cost of calculation
+        //I don't know the cost of calculation
         x0 = (int)(r * cos(theta)) + WIDTH / 2;
         y0 = (int)(r * sin(theta)) + HEIGHT / 2;
-
         x1 = (int)(r * cos(theta + pi)) + WIDTH / 2;
         y1 = (int)(r * sin(theta + pi)) + HEIGHT / 2;
+
+        theta += inc;
 
         enqueue(x0_queue, x0);
         enqueue(y0_queue, y0);
         enqueue(x1_queue, x1);
         enqueue(y1_queue, y1);
 
-        theta += inc;
-
-        //color += COLOR_INC;
+        color += COLOR_INC;
         alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x0, y0, x1, y1, color, 0);
 
         if (delay == 0) {
             x0 = dequeue(x0_queue);
             y0 = dequeue(y0_queue);
-
             x1 = dequeue(x1_queue);
             y1 = dequeue(y1_queue);
 
@@ -79,18 +68,6 @@ int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
         else
             delay--;
 
-        usleep(SLEEP);
-    }
-
-    //Clean out the cleaning buffer
-    while(!is_empty(x0_queue)) {
-        x0 = dequeue(x0_queue);
-        y0 = dequeue(y0_queue);
-
-        x1 = dequeue(x1_queue);
-        y1 = dequeue(y1_queue);
-
-        alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x0, y0, x1, y1, 0, 0);
         usleep(SLEEP);
     }
 
@@ -119,8 +96,12 @@ int main(void) {
     alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
 
     //Do your thing
-    while(1)
-        spinner(pixel_buffer);
-
+    Queue * x0_queue = queue_new(20);
+    Queue * y0_queue = queue_new(20);
+    Queue * x1_queue = queue_new(20);
+    Queue * y1_queue = queue_new(20);
+    while(1) {
+        spinner(pixel_buffer, x0_queue, x1_queue, y0_queue, y1_queue);
+    }
     return 0;
 }
