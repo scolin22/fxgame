@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <math.h>
+#include "altera_up_avalon_video_pixel_buffer_dma.h"
+#include "queue_type.h"
+
+#define HEIGHT 240
+#define WIDTH 320
+#define X_OFFSET 6
+#define Y_OFFSET 0
+#define SLEEP 15625
+#define COLOR_MAX 65535
+#define COLOR_INC 546
+
+int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer);
+
+int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer);
+
+int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
+    int x0 = X_OFFSET, y0 = Y_OFFSET, x1 = WIDTH, y1 = HEIGHT, i, color = 0;
+
+    for (i = 0; i < HEIGHT / 2; i++) {
+        color += COLOR_INC;
+        alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x0 + i, y0 + i, x1 - i, y1 - i, color, 0);
+        usleep(SLEEP);
+    }
+    for (i = HEIGHT / 2; i >= 0; i--) {
+        color = 0x0000;
+        alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x0 + i, y0 + i, x1 - i, y1 - i, color, 0);
+        usleep(SLEEP);
+    }
+
+    return 0;
+}
+
+int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
+    // int x0 = -40, y0 = 120, x1 = 360, y1 = 120;
+    float theta = 0.0, r = 200.0, inc = 0.01745, pi = 3.14159;
+    int x0 = 0, y0 = 0, x1 = 0, y1 = 0;
+    int color = 0;
+    int delay = 8;
+
+    Queue * x0_queue = queue_new(10);
+    Queue * y0_queue = queue_new(10);
+    Queue * x1_queue = queue_new(10);
+    Queue * y1_queue = queue_new(10);
+
+    while (theta < pi) {
+        //Rectangular coordinates unsuitable
+        // y0 = 120 + (int)sqrt(-pow(x0, 2) + 320 * x0 + 14400);
+        // y1 = 120 - (int)sqrt(-pow(x1, 2) + 320 * x1 + 14400);
+
+        //Use polar instead, I don't know the cost of calculation
+        x0 = (int)(r * cos(theta)) + WIDTH / 2;
+        y0 = (int)(r * sin(theta)) + HEIGHT / 2;
+
+        x1 = (int)(r * cos(theta + pi)) + WIDTH / 2;
+        y1 = (int)(r * sin(theta + pi)) + HEIGHT / 2;
+
+        enqueue(x0_queue, x0);
+        enqueue(y0_queue, y0);
+        enqueue(x1_queue, x1);
+        enqueue(y1_queue, y1);
+
+        theta += inc;
+
+        //color += COLOR_INC;
+        alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x0, y0, x1, y1, color, 0);
+
+        if (delay == 0) {
+            x0 = dequeue(x0_queue);
+            y0 = dequeue(y0_queue);
+
+            x1 = dequeue(x1_queue);
+            y1 = dequeue(y1_queue);
+
+            alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x0, y0, x1, y1, 0, 0);
+        }
+        else
+            delay--;
+
+        usleep(SLEEP);
+    }
+
+    //Clean out the cleaning buffer
+    while(!is_empty(x0_queue)) {
+        x0 = dequeue(x0_queue);
+        y0 = dequeue(y0_queue);
+
+        x1 = dequeue(x1_queue);
+        y1 = dequeue(y1_queue);
+
+        alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x0, y0, x1, y1, 0, 0);
+        usleep(SLEEP);
+    }
+
+    return 0;
+}
+
+int main(void) {
+    printf("Hello from Nios II!\n");
+
+    alt_up_pixel_buffer_dma_dev * pixel_buffer;
+
+    //Opens the pixel buffer device specified by /dev/pixel_buffer_dma
+    pixel_buffer = alt_up_pixel_buffer_dma_open_dev("/dev/pixel_buffer_dma");
+
+    //Set the background buffer address - Although we don't use the background, they only provide a function to change the background buffer address, so we must set that, and then swap it to the foreground
+    //Changes the back buffer's start address
+    alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer, PIXEL_BUFFER_BASE);
+
+    //Swap background and foreground buffers
+    alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
+
+    //Wait for the swap to complete
+    while(alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer));
+
+    //Clear the screen
+    alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
+
+    //Do your thing
+    while(1)
+        spinner(pixel_buffer);
+
+    return 0;
+}
