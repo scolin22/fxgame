@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jan 18, 2014 3:11:17 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1390086677505</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jan 19, 2014 4:44:05 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1390178645513</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\Users\colin\Documents\Working_Processor\software\vga_demo_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>C:\Users\colin\Documents\Working_Processor\nios_system.sopcinfo</SopcDesignFile>
@@ -857,32 +857,44 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>char_drawer_avalon_char_buffer_slave</slaveDescriptor>
+                <addressRange>0x00002000 - 0x00003FFF</addressRange>
+                <addressSpan>8192</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>LEDs</slaveDescriptor>
-                <addressRange>0x00002000 - 0x0000200F</addressRange>
+                <addressRange>0x00004000 - 0x0000400F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>switches</slaveDescriptor>
-                <addressRange>0x00002010 - 0x0000201F</addressRange>
+                <addressRange>0x00004010 - 0x0000401F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>pixel_buffer_dma</slaveDescriptor>
-                <addressRange>0x00002020 - 0x0000202F</addressRange>
+                <addressRange>0x00004020 - 0x0000402F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x00002030 - 0x00002037</addressRange>
+                <addressRange>0x00004030 - 0x00004037</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>char_drawer_avalon_char_control_slave</slaveDescriptor>
+                <addressRange>0x00004038 - 0x0000403F</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x00002038 - 0x00002039</addressRange>
+                <addressRange>0x00004040 - 0x00004041</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

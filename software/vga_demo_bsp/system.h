@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_processor' in SOPC Builder design 'nios_system'
  * SOPC Builder design path: C:/Users/colin/Documents/Working_Processor/nios_system.sopcinfo
  *
- * Generated: Sat Jan 18 15:10:49 PST 2014
+ * Generated: Sun Jan 19 16:41:07 PST 2014
  */
 
 /*
@@ -130,6 +130,7 @@
 #define __ALTERA_NIOS2_QSYS
 #define __ALTERA_UP_AVALON_CHARACTER_LCD
 #define __ALTERA_UP_AVALON_SRAM
+#define __ALTERA_UP_AVALON_VIDEO_CHARACTER_BUFFER_WITH_DMA
 #define __ALTERA_UP_AVALON_VIDEO_PIXEL_BUFFER_DMA
 
 
@@ -139,7 +140,7 @@
  */
 
 #define ALT_MODULE_CLASS_LEDs altera_avalon_pio
-#define LEDS_BASE 0x2000
+#define LEDS_BASE 0x4000
 #define LEDS_BIT_CLEARING_EDGE_REGISTER 0
 #define LEDS_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define LEDS_CAPTURE 0
@@ -176,19 +177,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x2030
+#define ALT_STDERR_BASE 0x4030
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x2030
+#define ALT_STDIN_BASE 0x4030
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x2030
+#define ALT_STDOUT_BASE 0x4030
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -197,12 +198,40 @@
 
 
 /*
+ * char_drawer_avalon_char_buffer_slave configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_char_drawer_avalon_char_buffer_slave altera_up_avalon_video_character_buffer_with_dma
+#define CHAR_DRAWER_AVALON_CHAR_BUFFER_SLAVE_BASE 0x2000
+#define CHAR_DRAWER_AVALON_CHAR_BUFFER_SLAVE_IRQ -1
+#define CHAR_DRAWER_AVALON_CHAR_BUFFER_SLAVE_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define CHAR_DRAWER_AVALON_CHAR_BUFFER_SLAVE_NAME "/dev/char_drawer_avalon_char_buffer_slave"
+#define CHAR_DRAWER_AVALON_CHAR_BUFFER_SLAVE_SPAN 8192
+#define CHAR_DRAWER_AVALON_CHAR_BUFFER_SLAVE_TYPE "altera_up_avalon_video_character_buffer_with_dma"
+
+
+/*
+ * char_drawer_avalon_char_control_slave configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_char_drawer_avalon_char_control_slave altera_up_avalon_video_character_buffer_with_dma
+#define CHAR_DRAWER_AVALON_CHAR_CONTROL_SLAVE_BASE 0x4038
+#define CHAR_DRAWER_AVALON_CHAR_CONTROL_SLAVE_IRQ -1
+#define CHAR_DRAWER_AVALON_CHAR_CONTROL_SLAVE_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define CHAR_DRAWER_AVALON_CHAR_CONTROL_SLAVE_NAME "/dev/char_drawer_avalon_char_control_slave"
+#define CHAR_DRAWER_AVALON_CHAR_CONTROL_SLAVE_SPAN 8
+#define CHAR_DRAWER_AVALON_CHAR_CONTROL_SLAVE_TYPE "altera_up_avalon_video_character_buffer_with_dma"
+
+
+/*
  * character_lcd_0 configuration
  *
  */
 
 #define ALT_MODULE_CLASS_character_lcd_0 altera_up_avalon_character_lcd
-#define CHARACTER_LCD_0_BASE 0x2038
+#define CHARACTER_LCD_0_BASE 0x4040
 #define CHARACTER_LCD_0_IRQ -1
 #define CHARACTER_LCD_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
@@ -226,7 +255,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x2030
+#define JTAG_UART_0_BASE 0x4030
 #define JTAG_UART_0_IRQ 5
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -287,7 +316,7 @@
  */
 
 #define ALT_MODULE_CLASS_pixel_buffer_dma altera_up_avalon_video_pixel_buffer_dma
-#define PIXEL_BUFFER_DMA_BASE 0x2020
+#define PIXEL_BUFFER_DMA_BASE 0x4020
 #define PIXEL_BUFFER_DMA_IRQ -1
 #define PIXEL_BUFFER_DMA_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define PIXEL_BUFFER_DMA_NAME "/dev/pixel_buffer_dma"
@@ -340,7 +369,7 @@
  */
 
 #define ALT_MODULE_CLASS_switches altera_avalon_pio
-#define SWITCHES_BASE 0x2010
+#define SWITCHES_BASE 0x4010
 #define SWITCHES_BIT_CLEARING_EDGE_REGISTER 0
 #define SWITCHES_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define SWITCHES_CAPTURE 0
