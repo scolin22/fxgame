@@ -7,7 +7,7 @@
 
 #define HEIGHT 240
 #define WIDTH 320
-#define X_OFFSET 6
+#define X_OFFSET 0 //6
 #define Y_OFFSET 0
 #define SLEEP 15625
 #define COLOR_MAX 65535
@@ -25,12 +25,12 @@ int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
     for (i = 0; i < HEIGHT / 2; i++) {
         color += COLOR_INC;
         alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x0 + i, y0 + i, x1 - i, y1 - i, color, 0);
-        usleep(SLEEP);
+        usleep(SLEEP/2);
     }
     for (i = HEIGHT / 2; i >= 0; i--) {
         color = 0x0000;
         alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x0 + i, y0 + i, x1 - i, y1 - i, color, 0);
-        usleep(SLEEP);
+        usleep(SLEEP/2);
     }
 
     return 0;
@@ -122,7 +122,7 @@ int infinite_spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer, Queue * x0_queue
         else
             delay_count--;
 
-        usleep((int)SLEEP/2);
+        usleep((int)SLEEP);
     }
     return 0;
 }
@@ -165,7 +165,7 @@ int main(void) {
     Queue * x1_queue = queue_new(20);
     Queue * y1_queue = queue_new(20);
     while(1) {
-        spinner(pixel_buffer, x0_queue, x1_queue, y0_queue, y1_queue);
+        // spinner(pixel_buffer, x0_queue, x1_queue, y0_queue, y1_queue);
         pulsing_box(pixel_buffer);
     }
 
