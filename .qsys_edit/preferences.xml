@@ -11,13 +11,13 @@
  </systemtable>
  <clocktable>
   <columns>
-   <clockname preferredWidth="518" />
-   <clocksource preferredWidth="516" />
-   <frequency preferredWidth="498" />
+   <clockname preferredWidth="251" />
+   <clocksource preferredWidth="250" />
+   <frequency preferredWidth="242" />
   </columns>
  </clocktable>
  <library
-   expandedCategories="Library,Library/University Program/Audio &amp; Video,Library/University Program,Library/University Program/Audio &amp; Video/Video,Project" />
- <window width="1928" height="986" x="-4" y="-4" />
+   expandedCategories="Library/Peripherals,Library,Library/Peripherals/Microcontroller Peripherals,Project" />
+ <window width="1057" height="736" x="171" y="24" />
  <hdlexample language="VHDL" />
 </preferences>
