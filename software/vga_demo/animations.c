@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <system.h>
 #include "animations.h"
 
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
@@ -141,7 +142,7 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location){
     pixel_buffer = alt_up_pixel_buffer_dma_open_dev(location);
 
     unsigned int pixel_buffer_addr1 = PIXEL_BUFFER_BASE;
-    unsigned int pixel_buffer_addr2 = PIXEL_BUFFER_BASE + (320 * 320 * 2);
+    unsigned int pixel_buffer_addr2 = PIXEL_BUFFER_BASE + PIXEL_BUFFER_SPAN;
 
     //Change the 1st buffer's start address
     alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer, pixel_buffer_addr1);
