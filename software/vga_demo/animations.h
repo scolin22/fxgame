@@ -13,6 +13,10 @@
 #define COLOR_MAX 65535
 #define COLOR_INC 546
 
+alt_up_char_buffer_dev *init_char_stuff(char *location);
+
+alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location);
+
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer);
 
 int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer);
