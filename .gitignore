@@ -4,14 +4,13 @@ software/vga_demo/obj/*
 *.objdump
 software/vga_demo/Makefile
 
-# OSX.gitignore
+# OSX
 .DS_Store
 .AppleDouble
 .LSOverride
 
 # Icon must ends with two \r.
 Icon
-
 
 # Thumbnails
 ._*
@@ -78,6 +77,7 @@ Icon
 *.pin
 *.mif
 *.hex
+*.tmp
 
 # ignore Quartus II generated folders
 db/

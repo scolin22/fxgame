@@ -24,7 +24,7 @@
    {
       datum _sortIndex
       {
-         value = "16";
+         value = "17";
          type = "int";
       }
    }
@@ -48,7 +48,7 @@
    {
       datum baseAddress
       {
-         value = "16472";
+         value = "17496";
          type = "long";
       }
    }
@@ -56,7 +56,7 @@
    {
       datum baseAddress
       {
-         value = "16448";
+         value = "17472";
          type = "long";
       }
    }
@@ -64,7 +64,7 @@
    {
       datum baseAddress
       {
-         value = "16464";
+         value = "17488";
          type = "long";
       }
    }
@@ -72,7 +72,15 @@
    {
       datum baseAddress
       {
-         value = "16480";
+         value = "17504";
+         type = "long";
+      }
+   }
+   element sd_card.avalon_sdcard_slave
+   {
+      datum baseAddress
+      {
+         value = "16384";
          type = "long";
       }
    }
@@ -88,7 +96,7 @@
    {
       datum _sortIndex
       {
-         value = "15";
+         value = "16";
          type = "int";
       }
    }
@@ -96,7 +104,7 @@
    {
       datum _sortIndex
       {
-         value = "8";
+         value = "9";
          type = "int";
       }
    }
@@ -152,7 +160,7 @@
    {
       datum _sortIndex
       {
-         value = "9";
+         value = "10";
          type = "int";
       }
    }
@@ -160,7 +168,7 @@
    {
       datum _sortIndex
       {
-         value = "10";
+         value = "11";
          type = "int";
       }
    }
@@ -176,8 +184,24 @@
    {
       datum _sortIndex
       {
-         value = "11";
+         value = "12";
          type = "int";
+      }
+   }
+   element sdram.s1
+   {
+      datum baseAddress
+      {
+         value = "16777216";
+         type = "long";
+      }
+   }
+   element timer_0.s1
+   {
+      datum baseAddress
+      {
+         value = "17408";
+         type = "long";
       }
    }
    element onchip_memory2.s1
@@ -197,23 +221,7 @@
    {
       datum baseAddress
       {
-         value = "16416";
-         type = "long";
-      }
-   }
-   element sdram.s1
-   {
-      datum baseAddress
-      {
-         value = "16777216";
-         type = "long";
-      }
-   }
-   element timer_0.s1
-   {
-      datum baseAddress
-      {
-         value = "16384";
+         value = "17440";
          type = "long";
       }
    }
@@ -221,7 +229,7 @@
    {
       datum baseAddress
       {
-         value = "16432";
+         value = "17456";
          type = "long";
       }
    }
@@ -229,7 +237,15 @@
    {
       datum _sortIndex
       {
-         value = "12";
+         value = "13";
+         type = "int";
+      }
+   }
+   element sd_card
+   {
+      datum _sortIndex
+      {
+         value = "8";
          type = "int";
       }
    }
@@ -258,7 +274,7 @@
    {
       datum _sortIndex
       {
-         value = "17";
+         value = "18";
          type = "int";
       }
    }
@@ -266,7 +282,7 @@
    {
       datum _sortIndex
       {
-         value = "14";
+         value = "15";
          type = "int";
       }
    }
@@ -274,7 +290,7 @@
    {
       datum _sortIndex
       {
-         value = "13";
+         value = "14";
          type = "int";
       }
    }
@@ -293,7 +309,7 @@
  <parameter name="projectName" value="lights.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1390498552737" />
+ <parameter name="timeStamp" value="1390501310406" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk.clk_in" type="clock" dir="end" />
@@ -323,6 +339,11 @@
  <interface
    name="vga_controller"
    internal="vga_controller.external_interface"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="sd_card"
+   internal="sd_card.conduit_end"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="12.0" enabled="1" name="clk">
@@ -424,7 +445,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2.s1' start='0x0' end='0x1000' /><slave name='nios2_processor.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='sdram.s1' start='0x1000000' end='0x1800000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2.s1' start='0x0' end='0x1000' /><slave name='nios2_processor.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='char_drawer.avalon_char_buffer_slave' start='0x2000' end='0x4000' /><slave name='timer_0.s1' start='0x4000' end='0x4020' /><slave name='LEDs.s1' start='0x4020' end='0x4030' /><slave name='switches.s1' start='0x4030' end='0x4040' /><slave name='pixel_buffer_dma.avalon_control_slave' start='0x4040' end='0x4050' /><slave name='jtag_uart.avalon_jtag_slave' start='0x4050' end='0x4058' /><slave name='char_drawer.avalon_char_control_slave' start='0x4058' end='0x4060' /><slave name='character_lcd.avalon_lcd_slave' start='0x4060' end='0x4062' /><slave name='pixel_buffer.avalon_sram_slave' start='0x80000' end='0x100000' /><slave name='sdram.s1' start='0x1000000' end='0x1800000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2.s1' start='0x0' end='0x1000' /><slave name='nios2_processor.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='char_drawer.avalon_char_buffer_slave' start='0x2000' end='0x4000' /><slave name='sd_card.avalon_sdcard_slave' start='0x4000' end='0x4400' /><slave name='timer_0.s1' start='0x4400' end='0x4420' /><slave name='LEDs.s1' start='0x4420' end='0x4430' /><slave name='switches.s1' start='0x4430' end='0x4440' /><slave name='pixel_buffer_dma.avalon_control_slave' start='0x4440' end='0x4450' /><slave name='jtag_uart.avalon_jtag_slave' start='0x4450' end='0x4458' /><slave name='char_drawer.avalon_char_control_slave' start='0x4458' end='0x4460' /><slave name='character_lcd.avalon_lcd_slave' start='0x4460' end='0x4462' /><slave name='pixel_buffer.avalon_sram_slave' start='0x80000' end='0x100000' /><slave name='sdram.s1' start='0x1000000' end='0x1800000' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone II" />
   <parameter name="internalIrqMaskSystemInfo" value="48" />
@@ -661,6 +682,14 @@
   <parameter name="timeoutPulseOutput" value="false" />
   <parameter name="timerPreset" value="FULL_FEATURED" />
  </module>
+ <module
+   kind="Altera_UP_SD_Card_Avalon_Interface"
+   version="1.0"
+   enabled="1"
+   name="sd_card">
+  <parameter name="AUTO_CLOCK_SINK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone II" />
+ </module>
  <connection
    kind="avalon"
    version="12.0"
@@ -735,7 +764,7 @@
    start="nios2_processor.data_master"
    end="LEDs.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4020" />
+  <parameter name="baseAddress" value="0x4420" />
  </connection>
  <connection
    kind="avalon"
@@ -743,7 +772,7 @@
    start="nios2_processor.data_master"
    end="switches.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4030" />
+  <parameter name="baseAddress" value="0x4430" />
  </connection>
  <connection
    kind="reset"
@@ -761,7 +790,7 @@
    start="nios2_processor.data_master"
    end="jtag_uart.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4050" />
+  <parameter name="baseAddress" value="0x4450" />
  </connection>
  <connection
    kind="interrupt"
@@ -841,7 +870,7 @@
    start="nios2_processor.data_master"
    end="character_lcd.avalon_lcd_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4060" />
+  <parameter name="baseAddress" value="0x4460" />
  </connection>
  <connection
    kind="reset"
@@ -900,7 +929,7 @@
    start="nios2_processor.data_master"
    end="pixel_buffer_dma.avalon_control_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4040" />
+  <parameter name="baseAddress" value="0x4440" />
  </connection>
  <connection
    kind="clock"
@@ -1013,7 +1042,7 @@
    start="nios2_processor.data_master"
    end="char_drawer.avalon_char_control_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4058" />
+  <parameter name="baseAddress" value="0x4458" />
  </connection>
  <connection
    kind="avalon"
@@ -1065,7 +1094,7 @@
    start="nios2_processor.data_master"
    end="timer_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4000" />
+  <parameter name="baseAddress" value="0x4400" />
  </connection>
  <connection kind="reset" version="12.0" start="clk.clk_reset" end="timer_0.reset" />
  <connection
@@ -1075,4 +1104,27 @@
    end="timer_0.irq">
   <parameter name="irqNumber" value="4" />
  </connection>
+ <connection
+   kind="avalon"
+   version="12.0"
+   start="nios2_processor.data_master"
+   end="sd_card.avalon_sdcard_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x4000" />
+ </connection>
+ <connection
+   kind="clock"
+   version="12.0"
+   start="clocks.sys_clk"
+   end="sd_card.clock_sink" />
+ <connection
+   kind="reset"
+   version="12.0"
+   start="nios2_processor.jtag_debug_module_reset"
+   end="sd_card.clock_sink_reset" />
+ <connection
+   kind="reset"
+   version="12.0"
+   start="clk.clk_reset"
+   end="sd_card.clock_sink_reset" />
 </system>

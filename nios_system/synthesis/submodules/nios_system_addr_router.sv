@@ -35,7 +35,7 @@ module nios_system_addr_router_default_decode
                DEFAULT_DESTID = 2 
    )
   (output [94 - 91 : 0] default_destination_id,
-   output [12-1 : 0] default_src_channel
+   output [13-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
@@ -44,7 +44,7 @@ module nios_system_addr_router_default_decode
     if (DEFAULT_CHANNEL == -1)
       assign default_src_channel = '0;
     else
-      assign default_src_channel = 12'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 13'b1 << DEFAULT_CHANNEL;
   end endgenerate
 
 endmodule
@@ -72,7 +72,7 @@ module nios_system_addr_router
     // -------------------
     output                          src_valid,
     output reg [105-1    : 0] src_data,
-    output reg [12-1 : 0] src_channel,
+    output reg [13-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -86,7 +86,7 @@ module nios_system_addr_router
     localparam PKT_DEST_ID_H = 94;
     localparam PKT_DEST_ID_L = 91;
     localparam ST_DATA_W = 105;
-    localparam ST_CHANNEL_W = 12;
+    localparam ST_CHANNEL_W = 13;
     localparam DECODER_TYPE = 0;
 
     localparam PKT_TRANS_WRITE = 70;
@@ -130,7 +130,7 @@ module nios_system_addr_router
     assign src_endofpacket   = sink_endofpacket;
 
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [12-1 : 0] default_src_channel;
+    wire [13-1 : 0] default_src_channel;
 
 
 
@@ -152,19 +152,19 @@ module nios_system_addr_router
 
         // ( 0x0 .. 0x1000 )
         if ( {address[RG:PAD0],{PAD0{1'b0}}} == 'h0 ) begin
-            src_channel = 12'b010;
+            src_channel = 13'b010;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
         end
 
         // ( 0x1800 .. 0x2000 )
         if ( {address[RG:PAD1],{PAD1{1'b0}}} == 'h1800 ) begin
-            src_channel = 12'b001;
+            src_channel = 13'b001;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 0;
         end
 
         // ( 0x1000000 .. 0x1800000 )
         if ( {address[RG:PAD2],{PAD2{1'b0}}} == 'h1000000 ) begin
-            src_channel = 12'b100;
+            src_channel = 13'b100;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 2;
         end
     end
