@@ -13,6 +13,11 @@
 #define COLOR_MAX 65535
 #define COLOR_INC 546
 
+typedef struct {
+    int pos[2];
+    char type;
+} MapCell;
+
 
 
 #endif
