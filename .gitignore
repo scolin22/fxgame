@@ -1,23 +1,21 @@
-software/vga_demo/obj/*
-*.elf
-*.map
-*.objdump
-software/vga_demo/Makefile
+# Ignoring files in top level folder
+.qsys_edit/
+*.qpf
+*.qsf
+*.bsf
+*.sopcinfo
 
-# OSX
-.DS_Store
-.AppleDouble
-.LSOverride
+# Ignoring everything except for .c and .h files in software/fxgame/
+software/fxgame/*
+software/fxgame_bsp/*
+!software/fxgame/*.c
+!software/fxgame/*.h
 
-# Icon must ends with two \r.
-Icon
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+# Ignoring everything in nios_system/synthesis/ except for the 3 SD card files we have to update
+nios_system/synthesis/*
+!nios_system/synthesis/submodules/Altera_UP_SD_Card_Memory_Block.bsf
+!nios_system/synthesis/submodules/Altera_UP_SD_Card_Memory_Block.cmp
+!nios_system/synthesis/submodules/Altera_UP_SD_Card_Memory_Block.vhd
 
 # Working with Altera Quartus II (Q2) and do proper versioning is not that easy
 # but if you follow some rules it can be accomplished. :)
@@ -86,3 +84,8 @@ simulation/
 timing/
 testbench/
 *_sim/
+
+
+# OSX
+.DS_Store
+._*
