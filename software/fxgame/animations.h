@@ -1,3 +1,5 @@
+//This contains some API functions for drawing the screen
+
 #ifndef ANIMATIONS_H_
 #define ANIMATIONS_H_
 

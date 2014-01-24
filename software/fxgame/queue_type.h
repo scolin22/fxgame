@@ -1,3 +1,5 @@
+//This defines a queue structure that was useful for doing animations, you can use this for other things but this version only stores ints.
+
 #ifndef QUEUE_TYPE_H_
 #define QUEUE_TYPE_H_
 
