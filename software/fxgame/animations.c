@@ -1,4 +1,5 @@
 #include "animations.h"
+#include "readingbmp.c"
 
 alt_up_char_buffer_dev *init_char_stuff(char *location) {
     //Character Buffer
@@ -46,10 +47,16 @@ int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
     return 1;
 }
 
-int draw_pixel(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
-    return 1;
-}
-
-int draw_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, int* bitstream) {
+int draw_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel* pixel_map_16) {
+    int i, j = 0;
+    unsigned int x, y, color;
+    for (i = 0; i < PS; i++) {
+        x = i % 16;
+        // Go down one line, except if it's the first line
+        if (i % 16 == 0 && i != 0) j++;
+        y = j;
+        color = pixel_map_16[i].red << 11 | pixel_map_16[i].green << 5 | pixel_map_16[i].blue;
+        alt_up_pixel_buffer_dma_draw(pixel_buffer, color, x, y);
+    }
     return 1;
 }
