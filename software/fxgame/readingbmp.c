@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define PS 16
+#define PS 256
 
 #pragma pack(push, 1)
 
@@ -32,8 +32,6 @@ typedef struct Pixel{
     uint8_t green;
     uint8_t red;
 } Pixel;
-
-Pixel pixel_map[PS][PS];
 
 unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
     FILE* fd;
@@ -81,29 +79,73 @@ unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
     return bmp_data;
 }
 
+// Pixel **alloc_array(int rows, int columns)
+// {
+//     int i;
+//     int j;
+//     Pixel **PixelMap = (Pixel**) (malloc(rows * sizeof(Pixel *)));
+//     Pixel **PixelMapStart = PixelMap;
+//     Pixel *currentrow;
+
+//     for ( i = 0; i < rows; i++ ){
+//         *(PixelMap + i) =  (malloc(columns * sizeof(Pixel)));
+//     }
+
+//     // Correct way to access but incorrect type
+//     // for (j = 0; j < rows; j++) {
+//     //     currentrow = *(PixelMap + j);
+//     //     for ( i = 0; i < columns; i++ ) {
+//     //         *(currentrow + i) = i;
+//     //         printf("%d\n", *(currentrow+i));
+//     //     }
+//     // }
+//     return PixelMap;
+// }
+
+Pixel* convert_24_to_16(Pixel* pixel_map_24) {
+    Pixel* pixel_map_16 = (Pixel*) malloc(sizeof(Pixel) * PS);
+
+    int i;
+    for (i = 0; i < PS; i++) {
+        pixel_map_16[i].blue = pixel_map_24[i].blue / 8;
+        pixel_map_16[i].green = pixel_map_24[i].green / 4;
+        pixel_map_16[i].red = pixel_map_24[i].red / 8;
+    }
+
+    return pixel_map_16;
+}
+
 int main(int argc, char *argv[]) {
     BitmapFileHeader bmfh;
 
     unsigned char* bmp_data = pixel_data(argv[1], &bmfh);
 
+    Pixel pixel_map[PS];
+
     // In a traditional 24-bit uncompressed RGB color mode, we don't use color lookup tables nor "colors available" and "colors used" data fields are used. Each pixel is 8 bits of blue, green, then red. From Left->Down
-    int i, j, k = 0;
-    for (i = 0; i < PS; i++) {
-        for (j = 0; j < PS; j++)
-        {
-            pixel_map[j][i].blue = bmp_data[k++];
-            pixel_map[j][i].green = bmp_data[k++];
-            pixel_map[j][i].red = bmp_data[k++];
-        }
+    int i, k = 0;
+    for (i = 0; i < PS; i++)
+    {
+        pixel_map[i].blue = bmp_data[k++];
+        pixel_map[i].green = bmp_data[k++];
+        pixel_map[i].red = bmp_data[k++];
     }
 
-    for (i = 0; i < PS; i++) {
-        for (j = 0; j < PS; j++)
-        {
-            printf("%02X%02X%02X ", pixel_map[j][i].blue, pixel_map[j][i].green, pixel_map[j][i].red);
-        }
-        printf("\n");
+    for (i = 0; i < PS; i++)
+    {
+        if (i % 16 == 0 ) printf("\n");
+        printf("%02X%02X%02X ", pixel_map[i].blue, pixel_map[i].green, pixel_map[i].red);
     }
+    printf("\n");
+
+    Pixel* pixel_map_16 = convert_24_to_16(pixel_map);
+
+    for (i = 0; i < PS; i++)
+    {
+        if (i % 16 == 0 ) printf("\n");
+        printf("%02X%02X%02X ", pixel_map_16[i].blue, pixel_map_16[i].green, pixel_map_16[i].red);
+    }
+    printf("\n");
 
     return 1;
 }
