@@ -3,6 +3,7 @@
 
 #pragma pack(push, 1)
 
+// Note, you must disable alpha channel in the bitmap. You can do this on OSX by opening the bitmap in Preview, File->Export, Option+LClick on the File Types, Select Microsoft BMP and uncheck Alpha Channel.
 typedef struct BitMapFileHeader {
     uint16_t bmp_type;
     uint32_t bmp_size;
@@ -42,21 +43,45 @@ unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
     // rewind(fd);
     // printf("verify size %ld\n", verify_size);
 
-    fread(&bmfh->bmp_type, sizeof(uint16_t), 1, fd);
-    fread(&bmfh->bmp_size, sizeof(uint32_t), 1, fd);
+    fread(bmfh, sizeof(BitmapFileHeader), 1, fd);
 
-    printf("%lu\n", sizeof(uint16_t));
-    printf("%lu\n", sizeof(uint32_t));
+    // printf("%lu\n", sizeof(BitmapFileHeader));
+    // printf("%x\n", bmfh->bmp_type);
+    // printf("%u\n", bmfh->bmp_size);
+    // printf("%u\n", bmfh->bmp_reserved);
+    // printf("%u\n", bmfh->bmp_offset);
+    // printf("%u\n", bmfh->bmp_header_size);
+    // printf("%u\n", bmfh->bmp_width);
+    // printf("%u\n", bmfh->bmp_height);
+    // printf("%u\n", bmfh->bmp_planes);
+    // printf("%u\n", bmfh->bmp_bits_pixel);
+    // printf("%u\n", bmfh->bmp_compression);
+    // printf("%u\n", bmfh->bmp_pixel_data_size);
+    // printf("%u\n", bmfh->bmp_width_ppm);
+    // printf("%u\n", bmfh->bmp_height_ppm);
+    // printf("%u\n", bmfh->bmp_colors_used);
+    // printf("%u\n", bmfh->bmp_imp_colors);
 
+    bmfh->bmp_pixel_data_size = bmfh->bmp_size - bmfh->bmp_offset;
 
-    printf("%x\n", bmfh->bmp_type);
-    printf("%u\n", bmfh->bmp_size);
+    unsigned char *bmp_data = (unsigned char*) malloc(bmfh->bmp_pixel_data_size);
+    fread(bmp_data, bmfh->bmp_pixel_data_size, 1, fd);
 
-    return NULL;
+    return bmp_data;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    BitmapFileHeader bmfh;
 
+    unsigned char* bmp_data = pixel_data(argv[1], &bmfh);
+
+    // In a traditional 24-bit uncompressed RGB color mode, we don't use color lookup tables nor "colors available" and "colors used" data fields are used. Each pixel is 8 bits of blue, green, then red. From Left->Down
+    int i;
+    for (i = 0; i < 16; i++) {
+        printf("%2X", bmp_data[2+i*3]);
+        printf("%2X", bmp_data[1+i*3]);
+        printf("%2X\n", bmp_data[0+i*3]);
+    }
 
     return 1;
 }
