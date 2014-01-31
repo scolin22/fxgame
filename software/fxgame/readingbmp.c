@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define PS 16
+
 #pragma pack(push, 1)
 
 // Note, you must disable alpha channel in the bitmap. You can do this on OSX by opening the bitmap in Preview, File->Export, Option+LClick on the File Types, Select Microsoft BMP and uncheck Alpha Channel.
@@ -22,7 +24,16 @@ typedef struct BitMapFileHeader {
     uint32_t bmp_imp_colors;
 } BitmapFileHeader;
 
+
 #pragma pack(pop)
+
+typedef struct Pixel{
+    uint8_t blue;
+    uint8_t green;
+    uint8_t red;
+} Pixel;
+
+Pixel pixel_map[PS][PS];
 
 unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
     FILE* fd;
@@ -76,11 +87,22 @@ int main(int argc, char *argv[]) {
     unsigned char* bmp_data = pixel_data(argv[1], &bmfh);
 
     // In a traditional 24-bit uncompressed RGB color mode, we don't use color lookup tables nor "colors available" and "colors used" data fields are used. Each pixel is 8 bits of blue, green, then red. From Left->Down
-    int i;
-    for (i = 0; i < 16; i++) {
-        printf("%2X", bmp_data[2+i*3]);
-        printf("%2X", bmp_data[1+i*3]);
-        printf("%2X\n", bmp_data[0+i*3]);
+    int i, j, k = 0;
+    for (i = 0; i < PS; i++) {
+        for (j = 0; j < PS; j++)
+        {
+            pixel_map[j][i].blue = bmp_data[k++];
+            pixel_map[j][i].green = bmp_data[k++];
+            pixel_map[j][i].red = bmp_data[k++];
+        }
+    }
+
+    for (i = 0; i < PS; i++) {
+        for (j = 0; j < PS; j++)
+        {
+            printf("%02X%02X%02X ", pixel_map[j][i].blue, pixel_map[j][i].green, pixel_map[j][i].red);
+        }
+        printf("\n");
     }
 
     return 1;
