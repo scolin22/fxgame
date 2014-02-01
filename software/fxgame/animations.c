@@ -1,5 +1,5 @@
 #include "animations.h"
-#include "readingbmp.c"
+#include "readbmp.h"
 
 //alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
 alt_up_char_buffer_dev *init_char_stuff(char *location) {
@@ -20,7 +20,7 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location){
     pixel_buffer = alt_up_pixel_buffer_dma_open_dev(location);
 
     unsigned int pixel_buffer_addr1 = PIXEL_BUFFER_BASE;
-    unsigned int pixel_buffer_addr2 = PIXEL_BUFFER_BASE + PIXEL_BUFFER_SPAN;
+    unsigned int pixel_buffer_addr2 = PIXEL_BUFFER_BASE + PIXEL_BUFFER_SPAN / 2;
 
     //Change the 1st buffer's start address
     alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer, pixel_buffer_addr1);

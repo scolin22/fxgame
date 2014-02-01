@@ -4,6 +4,7 @@
 #include <system.h>
 #include <io.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "Map.h"
 
@@ -20,6 +21,7 @@ int main()
 	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
 	renderMap(map, pixel_buffer);
 	refresh(pixel_buffer);
+	printf("PRINT 1");
 	//clock_t start, stop;
 	while (1) {
 		//start = clock();

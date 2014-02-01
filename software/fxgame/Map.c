@@ -67,7 +67,7 @@ char y_to_ty (int y)
 
 void renderMap (char** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
 {
-	int i, j;
+	int i, j, x, y;
 	for (j = 0; j < NTILEY; j++)
 	{
 		for (i = 0; i < NTILEX; i++) {
