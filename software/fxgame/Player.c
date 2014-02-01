@@ -21,7 +21,10 @@ void move (Player* p)
 
 void renderPlayer (Player* p)
 {
-
+    ///TODO COLIN: green box
+    //draw a player at x = p->posX, y = p->posY
+    //TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite for this p->id;
+    //draw this pixel_map_16 at x,y
 }
 
 char checkCollision (Player* p)
