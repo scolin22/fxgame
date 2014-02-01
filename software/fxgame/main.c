@@ -17,7 +17,9 @@ int main()
 {
 	char** map = initMap();
 	//initialize other stuff such as vga, sd card, etc.
-
+	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
+	renderMap(map, pixel_buffer);
+	refresh(pixel_buffer);
 	//clock_t start, stop;
 	while (1) {
 		//start = clock();

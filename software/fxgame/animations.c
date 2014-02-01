@@ -1,6 +1,7 @@
 #include "animations.h"
 #include "readingbmp.c"
 
+//alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
 alt_up_char_buffer_dev *init_char_stuff(char *location) {
     //Character Buffer
     alt_up_char_buffer_dev *char_buffer;
@@ -10,6 +11,7 @@ alt_up_char_buffer_dev *init_char_stuff(char *location) {
     return char_buffer;
 }
 
+//alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
 alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location){
     //Pixel Buffer
     alt_up_pixel_buffer_dma_dev *pixel_buffer;

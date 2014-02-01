@@ -65,19 +65,23 @@ char y_to_ty (int y)
 	return y / TILE_SIZE;
 }
 
-void renderMap (char** d)
+void renderMap (char** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
 {
 	int i, j;
 	for (j = 0; j < NTILEY; j++)
 	{
 		for (i = 0; i < NTILEX; i++) {
+			x = i * TILE_SIZE;
+			y = j * TILE_SIZE;
 			switch(d[j][i]){
 				case GRASS:
 					//TODO COLIN: green box
-					//draw a grass at x = i*TILE_SIZE, y = j*TILE_SIZE
+					//draw a grass at ,
 					//GRASS == 0
 					//TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite
 					//draw this pixel_map_16 at x,y
+					//draw_bmp()
+					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x003F00,1);
 					break;
 				case FRUIT:
 					//TODO COLIN: red box
@@ -85,6 +89,7 @@ void renderMap (char** d)
 					//FRUIT == 1
 					//TODO COLIN: create a function that retrieves the pixel_map_16 for FRUIT sprite
 					//draw this pixel_map_16 at x,y
+					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x1F0000,1);
 					break;
 				case EXPLOSION:
 					//TODO COLIN: orange box
@@ -92,6 +97,7 @@ void renderMap (char** d)
 					//EXPLOSION == 2
 					//TODO COLIN: create a function that retrieves the pixel_map_16 for EXPLOSION sprite
 					//draw this pixel_map_16 at x,y
+					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x1F2900,1);
 					break;
 				case CRATE:
 					//TODO COLIN: brown box
@@ -99,6 +105,7 @@ void renderMap (char** d)
 					//CRATE == 3
 					//TODO COLIN: create a function that retrieves the pixel_map_16 for CRATE sprite
 					//draw this pixel_map_16 at x,y
+					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0A0502,1);
 					break;
 				case BLOCK:
 					//TODO COLIN: grey box
@@ -106,6 +113,7 @@ void renderMap (char** d)
 					//BLOCK == 4
 					//TODO COLIN: create a function that retrieves the pixel_map_16 for BLOCK sprite
 					//draw this pixel_map_16 at x,y
+					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x102010,1);
 					break;
 			}
 		}
