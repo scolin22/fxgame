@@ -67,7 +67,49 @@ char y_to_ty (int y)
 
 void renderMap (char** d)
 {
-
+	int i, j;
+	for (j = 0; j < NTILEY; j++)
+	{
+		for (i = 0; i < NTILEX; i++) {
+			switch(d[j][i]){
+				case GRASS:
+					//TODO COLIN: green box
+					//draw a grass at x = i*TILE_SIZE, y = j*TILE_SIZE
+					//GRASS == 0
+					//TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite
+					//draw this pixel_map_16 at x,y
+					break;
+				case FRUIT:
+					//TODO COLIN: red box
+					//draw a FRUIT at x = i*TILE_SIZE, y = j*TILE_SIZE
+					//FRUIT == 1
+					//TODO COLIN: create a function that retrieves the pixel_map_16 for FRUIT sprite
+					//draw this pixel_map_16 at x,y
+					break;
+				case EXPLOSION:
+					//TODO COLIN: orange box
+					//draw a EXPLOSION at x = i*TILE_SIZE, y = j*TILE_SIZE
+					//EXPLOSION == 2
+					//TODO COLIN: create a function that retrieves the pixel_map_16 for EXPLOSION sprite
+					//draw this pixel_map_16 at x,y
+					break;
+				case CRATE:
+					//TODO COLIN: brown box
+					//draw a CRATE at x = i*TILE_SIZE, y = j*TILE_SIZE
+					//CRATE == 3
+					//TODO COLIN: create a function that retrieves the pixel_map_16 for CRATE sprite
+					//draw this pixel_map_16 at x,y
+					break;
+				case BLOCK:
+					//TODO COLIN: grey box
+					//draw a BLOCK at x = i*TILE_SIZE, y = j*TILE_SIZE
+					//BLOCK == 4
+					//TODO COLIN: create a function that retrieves the pixel_map_16 for BLOCK sprite
+					//draw this pixel_map_16 at x,y
+					break;
+			}
+		}
+	}
 }
 
 void debugPrint (char** d)
