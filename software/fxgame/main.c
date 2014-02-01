@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "Map.h"
+#include "Player.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -22,6 +23,8 @@ int main()
 	renderMap(map, pixel_buffer);
 	refresh(pixel_buffer);
 	printf("PRINT 1");
+
+
 	//clock_t start, stop;
 	while (1) {
 		//start = clock();

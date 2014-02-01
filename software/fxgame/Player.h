@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "animations.h"
+
 static const int VELOCITY = 5;
 
 typedef struct Player {
