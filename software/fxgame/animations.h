@@ -23,8 +23,8 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location);
 
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer);
 
-int draw_pixel(alt_up_pixel_buffer_dma_dev *pixel_buffer, int x, int y);
+// int draw_pixel(alt_up_pixel_buffer_dma_dev *pixel_buffer, int x, int y);
 
-int draw_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, int* bitstream);
+// int draw_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, int* bitstream);
 
 #endif
