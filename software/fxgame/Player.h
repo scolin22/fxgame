@@ -16,10 +16,10 @@ typedef struct Player {
     char id;
 } Player;
 
-void handleEvents (Player* p);
-void move (Player* p);
+void handleEvents (Player* p, char switches);
+void move (Player* p, char** map);
 void render (Player* p);
 
-char checkCollision (Player* p);
+char checkCollision (Player* p, char** map);
 
 #endif //PLAYER_H
