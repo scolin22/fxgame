@@ -7,6 +7,7 @@
 
 #include "Map.h"
 #include "Player.h"
+#include "animations.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -16,47 +17,50 @@
 
 int main()
 {
-	char** map = initMap();
-	//initialize other stuff such as vga, sd card, etc.
-	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
-	Player* p1 = (Player*)malloc(sizeof(Player));
+    char** map = initMap();
+    //initialize other stuff such as vga, sd card, etc.
+    alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
+    Player* p1 = (Player*)malloc(sizeof(Player));
 
-	p1->posX = 17;
-	p1->posY = 17;
-	p1->height = TILE_SIZE-2;
-	p1->width = TILE_SIZE-2;
-	p1->dropBomb = 0;
-	p1->nBombs = 2;
+    p1->posX = 17;
+    p1->posY = 17;
+    p1->height = TILE_SIZE-2;
+    p1->width = TILE_SIZE-2;
+    p1->dropBomb = 0;
+    p1->nBombs = 2;
 
-	//clock_t start, stop;
-	while (1) {
-		//start = clock();
+    Pixel* pixel_map_16 = init_pixel_map_16_from_bmp("TEST1.BMP");
+    draw_screen_from_pixel_map_16(pixel_buffer, pixel_map_16, 16, 16);
 
-	    handleEvents(p1, IORD(switches, 0));
+    //clock_t start, stop;
+    while (1) {
+        // //start = clock();
 
-	    move(p1, map);
+     //    handleEvents(p1, IORD(switches, 0));
 
-	    renderMap(map, pixel_buffer);
-	    renderPlayer (p1, pixel_buffer);
-	    refresh(pixel_buffer);
+     //    move(p1, map);
 
-
-
-		//handle inputs (adjust player velocity, drop a fruit)
-		//move the players (change x,y coordinates, check collisions)
-		//render everything onto the screen
+     //    renderMap(map, pixel_buffer);
+     //    renderPlayer (p1, pixel_buffer);
+     //    refresh(pixel_buffer);
 
 
 
-		//CAP FRAMERATE
-		/*stop = clock();
-		printf("%f\n", (((float)stop - (float)start) / CLOCKS_PER_SEC));
-		if ((((float)stop - (float)start) / CLOCKS_PER_SEC) > TICKS_PER_FRAME) {
-			usleep((TICKS_PER_FRAME - (((float)stop - (float)start) / CLOCKS_PER_SEC)));
-		}*/
+        // //handle inputs (adjust player velocity, drop a fruit)
+        // //move the players (change x,y coordinates, check collisions)
+        // //render everything onto the screen
 
-		IOWR(leds, 0, IORD(switches, 0));
-	}
-	destroyMap(map);
-	return 0;
+
+
+        // //CAP FRAMERATE
+        // /*stop = clock();
+        // printf("%f\n", (((float)stop - (float)start) / CLOCKS_PER_SEC));
+        // if ((((float)stop - (float)start) / CLOCKS_PER_SEC) > TICKS_PER_FRAME) {
+        //  usleep((TICKS_PER_FRAME - (((float)stop - (float)start) / CLOCKS_PER_SEC)));
+        // }*/
+
+        // IOWR(leds, 0, IORD(switches, 0));
+    }
+    destroyMap(map);
+    return 0;
 }
