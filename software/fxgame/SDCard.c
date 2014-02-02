@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <altera_up_sd_card_avalon_interface.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 int initSD(int *connected) {
     alt_up_sd_card_dev *device_reference = NULL;
@@ -98,13 +99,15 @@ int readFile(char *file, bool create, char *result) {
 }
 
 // close file after done reading to reset next byte pointer
-int readFileBytes(char *file, int bytes, char *result) {
-    FILE *fp;
-    fp = alt_up_sd_card_fopen(file, false);
+int readFileBytes(char *file, int bytes, char *result, FILE *fp) {
     if (DEBUG) printf("File %s opened %d\n", file, fp);
+    if (fp == -2) {
+    	if (DEBUG) printf("FILE ALREADY OPEN\n");
+    	return -1;
+    }
 
     int index = 0;
-    int res = 0;
+    uint8_t res = 0;
     while (index < bytes) {
         res = alt_up_sd_card_read(fp);
         if (res == -2) {
@@ -117,19 +120,18 @@ int readFileBytes(char *file, int bytes, char *result) {
             result[index] = NULL;
             return -1; //end or content or error
         }
-        result[index++] = res;
-        if (DEBUG) printf("%X", (char) res);
+        result[index++] = res & 0xFF;
+        if (DEBUG && bytes > 54) printf("%02X ", res);
     }
-
     result[index] = NULL;
     return 0; //success
 }
 
-int closeFile(char *file) {
-    FILE *fp;
-    fp = alt_up_sd_card_fopen(file, false);
+int closeFile(char *file, FILE* fp) {
+    FILE *status;
+    status = alt_up_sd_card_fopen(file, false);
     int res = 0;
-    if (fp == -2) {
+    if (status == -2) {
         res = alt_up_sd_card_fclose(fp);
     }
     if (DEBUG) printf("File %s closed %d\n", file, res);

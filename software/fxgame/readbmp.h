@@ -7,8 +7,6 @@
 
 #define PS 256
 
-#pragma pack(1)
-
 // Note, you must disable alpha channel in the bitmap. You can do this on OSX by opening the bitmap in Preview, File->Export, Option+LClick on the File Types, Select Microsoft BMP and uncheck Alpha Channel.
 typedef struct BitMapFileHeader {
     uint16_t bmp_type;
@@ -36,7 +34,7 @@ typedef struct Pixel{
 
 Pixel* init_pixel_map_16_from_bmp(char* filename);
 
-unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh);
+unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh, uint8_t *bmp_data);
 
 Pixel* convert_24_to_16(Pixel* pixel_map_24);
 

@@ -29,8 +29,14 @@ int main()
     p1->dropBomb = 0;
     p1->nBombs = 2;
 
+    int connected = 0;
+    while (connected == 0) {
+        initSD(&connected);
+    }
+
     printf("READING TEST1.BMP\n");
     Pixel* pixel_map_16 = init_pixel_map_16_from_bmp("TEST1.BMP");
+    printf("Finished Converting 24 to 16\n");
     draw_screen_from_pixel_map_16(pixel_buffer, pixel_map_16, 16, 16);
 
     //clock_t start, stop;

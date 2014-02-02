@@ -52,15 +52,20 @@ int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
 }
 
 int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel* pixel_map_16, int x0, int y0) {
-    int i, j = 0;
-    unsigned int x, y, color;
+    int i, j = 0, x, y;
+    uint16_t color;
     for (i = 0; i < PS; i++) {
         x = i % 16;
         // Go down one line, except if it's the first line
-        if (i % 16 == 0 && i != 0) j++;
+        if (i % 16 == 0 && i != 0){
+            j++;
+            printf("\n");
+        }
         y = j;
+        //printf("%02X%02X%02X.", pixel_map_16[i].red, pixel_map_16[i].green, pixel_map_16[i].blue);
         color = pixel_map_16[i].red << 11 | pixel_map_16[i].green << 5 | pixel_map_16[i].blue;
-        alt_up_pixel_buffer_dma_draw(pixel_buffer, color, x + x0, y + y0);
+        printf("D%X X%d Y%d", color, x + x0, y + y0);
+        alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 0);
     }
     return 1;
 }
