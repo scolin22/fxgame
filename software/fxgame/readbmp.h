@@ -34,7 +34,7 @@ typedef struct Pixel{
 
 Pixel* init_pixel_map_16_from_bmp(char* filename);
 
-unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh, uint8_t *bmp_data);
+unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh);
 
 Pixel* convert_24_to_16(Pixel* pixel_map_24);
 

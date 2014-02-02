@@ -124,7 +124,7 @@ int readFileBytes(char *file, int bytes, char *result, FILE *fp) {
             return -1; //end or content or error
         }
         result[index++] = res & 0xFF;
-        if (DEBUG && bytes > 54) printf("%02X ", res);
+        // if (DEBUG) printf("%02X ", res);
     }
     result[index] = NULL;
     return 0; //success

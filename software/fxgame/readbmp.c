@@ -3,17 +3,16 @@
 Pixel* init_pixel_map_16_from_bmp(char* filename) {
     BitmapFileHeader* bmfh = (BitmapFileHeader*)malloc(8*sizeof(BitmapFileHeader));
 
-    uint8_t *bmp_data = (uint8_t*) malloc(bmfh->bmp_pixel_data_size);
-    unsigned char* bmp_data_ret = pixel_data(filename, bmfh, bmp_data);
+    unsigned char* bmp_data = pixel_data(filename, bmfh);
 
     Pixel pixel_map[PS];
 
     int i, k = 0;
     for (i = 0; i < PS; i++)
     {
-        pixel_map[i].blue = bmp_data_ret[k++];
-        pixel_map[i].green = bmp_data_ret[k++];
-        pixel_map[i].red = bmp_data_ret[k++];
+        pixel_map[i].blue = bmp_data[k++];
+        pixel_map[i].green = bmp_data[k++];
+        pixel_map[i].red = bmp_data[k++];
     }
 
     Pixel* pixel_map_16 = convert_24_to_16(pixel_map);
@@ -21,7 +20,7 @@ Pixel* init_pixel_map_16_from_bmp(char* filename) {
     return pixel_map_16;
 }
 
-unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh, uint8_t *bmp_data) {
+unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
     uint8_t * result = (uint8_t*)malloc(54*sizeof(uint8_t));
     FILE *fd;
     fd = alt_up_sd_card_fopen(filename, 0);
@@ -31,6 +30,7 @@ unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh, uint8_t *bmp_d
 
     bmfh->bmp_pixel_data_size = bmfh->bmp_size - bmfh->bmp_offset;
 
+    uint8_t *bmp_data = (uint8_t*) malloc(bmfh->bmp_pixel_data_size);
     readFileBytes(filename, bmfh->bmp_pixel_data_size, bmp_data, fd);
 
     alt_up_sd_card_fclose(fd);
