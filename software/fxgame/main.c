@@ -25,15 +25,14 @@ int main()
 	p1->posY = 17;
 	p1->height = TILE_SIZE-2;
 	p1->width = TILE_SIZE-2;
+	p1->dropBomb = 0;
+	p1->nBombs = 2;
 
 	//clock_t start, stop;
 	while (1) {
 		//start = clock();
 
 	    handleEvents(p1, IORD(switches, 0));
-
-	    printf("%i\n", IORD(switches, 0));
-	    printf("%i %i\n", p1->velX, p1->velY);
 
 	    move(p1, map);
 

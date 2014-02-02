@@ -13,6 +13,7 @@ typedef struct Player {
 	char nBombs; // number of bombs player can place
 	char velX; // velocity of the player
 	char velY;
+	char dropBomb;
     char id;
 } Player;
 
