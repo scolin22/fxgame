@@ -14,6 +14,7 @@
 
 #define FPS 2.0
 #define TICKS_PER_FRAME (1000.0 / FPS)
+#define PS 256
 
 int main()
 {
@@ -35,8 +36,16 @@ int main()
         initSD(&connected);
     }
 
-    draw_screen_from_bmp(pixel_buffer, "TEST1.BMP", 32, 32);
-    draw_screen_from_bmp(pixel_buffer, "TEST1.BMP", 16, 16);
+    //This is booting bmps -Colin
+    Pixel_Map* booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
+    booted_bmps = boot_bmps(booted_bmps);
+
+    draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, 0, 0);
+    draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, 16, 16);
+    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, 32, 32);
+    draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, 48, 48);
+    draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, 64, 64);
+    draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, 80, 80);
 
     //clock_t start, stop;
     // while (1) {

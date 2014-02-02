@@ -1,3 +1,4 @@
+#include <string.h>
 #include "animations.h"
 #include "readbmp.h"
 
@@ -68,11 +69,36 @@ int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pix
     return 1;
 }
 
-int draw_screen_from_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, char* filename, int x, int y) {
-    printf("READING TEST1.BMP\n");
-    Pixel* pixel_map_16 = init_pixel_map_16_from_bmp(filename);
+int draw_screen_from_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel_Map* booted_bmps, int filename, int x, int y) {
+    printf("READING BMP\n");
+    Pixel* pixel_map_16 = NULL;
+    if (filename == 0) {
+        pixel_map_16 = booted_bmps->TEST1_pixel_map;
+    } else if (filename == 1) {
+        pixel_map_16 = booted_bmps->GRASS_pixel_map;
+    } else if (filename == 2) {
+        pixel_map_16 = booted_bmps->FB_pixel_map;
+    } else if (filename == 3) {
+        pixel_map_16 = booted_bmps->VOLT_pixel_map;
+    } else if (filename == 4) {
+        pixel_map_16 = booted_bmps->PIKA_pixel_map;
+    } else if (filename == 5) {
+        pixel_map_16 = booted_bmps->WALL_pixel_map;
+    }
+
     printf("Finished Converting 24 to 16\n");
     draw_screen_from_pixel_map_16(pixel_buffer, pixel_map_16, x, y);
 
     return 1;
+}
+
+int boot_bmps(Pixel_Map* booted_bmps) {
+    booted_bmps->TEST1_pixel_map = init_pixel_map_16_from_bmp("TEST1.BMP");
+    booted_bmps->GRASS_pixel_map = init_pixel_map_16_from_bmp("GRASS.BMP");
+    booted_bmps->FB_pixel_map = init_pixel_map_16_from_bmp("FB.BMP");
+    booted_bmps->VOLT_pixel_map = init_pixel_map_16_from_bmp("VOLT.BMP");
+    booted_bmps->PIKA_pixel_map = init_pixel_map_16_from_bmp("PIKA.BMP");
+    booted_bmps->WALL_pixel_map = init_pixel_map_16_from_bmp("WALL.BMP");
+
+    return booted_bmps;
 }
