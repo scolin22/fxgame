@@ -27,6 +27,8 @@ typedef struct Pixel_Map{
     Pixel* WALL_pixel_map;
 } Pixel_Map;
 
+extern Pixel_Map* booted_bmps;
+
 alt_up_char_buffer_dev *init_char_stuff(char *location);
 
 alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location);

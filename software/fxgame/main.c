@@ -19,7 +19,6 @@
 #define TICKS_PER_FRAME (1000.0 / FPS)
 #define PS 256
 
-
 int main() {
     char** map = initMap();
     //initialize other stuff such as vga, sd card, etc.
@@ -31,8 +30,8 @@ int main() {
 
     Player* p1 = (Player*)malloc(sizeof(Player));
 
-    p1->posX = 17;
-    p1->posY = 17;
+    p1->posX = 16;
+    p1->posY = 16;
     p1->height = TILE_SIZE-2;
     p1->width = TILE_SIZE-2;
     p1->respawnTime = 0;
@@ -47,8 +46,8 @@ int main() {
 
     Player* p2 = (Player*)malloc(sizeof(Player));
 
-    p2->posX = 17+TILE_SIZE*10;
-    p2->posY = 17+TILE_SIZE*10;
+    p2->posX = 16+TILE_SIZE*10;
+    p2->posY = 16+TILE_SIZE*10;
     p2->height = TILE_SIZE-2;
     p2->width = TILE_SIZE-2;
     p2->dropBomb = 0;
@@ -70,21 +69,21 @@ int main() {
     printf("Ready for key press: \n");
 
     //Keep this here -Colin
-    int connected = 0;
-    while (connected == 0) {
-        initSD(&connected);
-    }
-
-    //This is booting bmps -Colin
-    Pixel_Map* booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
-    booted_bmps = boot_bmps(booted_bmps);
-
-    draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, 0, 0);
-    draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, 16, 16);
-    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, 32, 32);
-    draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, 48, 48);
-    draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, 64, 64);
-    draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, 80, 80);
+//    int connected = 0;
+//    while (connected == 0) {
+//        initSD(&connected);
+//    }
+//
+//    //This is booting bmps -Colin
+//    booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
+//    booted_bmps = boot_bmps(booted_bmps);
+//
+//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, 0, 0);
+//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, 16, 16);
+//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, 32, 32);
+//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, 48, 48);
+//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, 64, 64);
+//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, 80, 80);
 
     while (1) {
         handleEvents(p1, IORD(switches, 0));

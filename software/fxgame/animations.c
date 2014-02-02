@@ -2,6 +2,8 @@
 #include "animations.h"
 #include "readbmp.h"
 
+Pixel_Map* booted_bmps;
+
 //alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
 alt_up_char_buffer_dev *init_char_stuff(char *location) {
     //Character Buffer
@@ -62,7 +64,7 @@ int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pix
         y = j;
 
         color = pixel_map_16[i].red << 11 | pixel_map_16[i].green << 5 | pixel_map_16[i].blue;
-        alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 0);
+        alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 1);
     }
     return 1;
 }

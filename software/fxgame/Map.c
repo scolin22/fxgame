@@ -76,7 +76,7 @@ void renderMap (char** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
 					//TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite
 					//draw this pixel_map_16 at x,y
 					//draw_bmp()
-					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x003F00,1);
+					alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0007c0,1);
 					break;
 				case FRUIT:
 					//TODO COLIN: red box
