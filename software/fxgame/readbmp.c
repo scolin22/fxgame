@@ -21,29 +21,12 @@ Pixel* init_pixel_map_16_from_bmp(char* filename) {
 }
 
 unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
-    // FILE* fd;
-    // printf("Opening %s\n", filename);
-    // fd = fopen(filename, "rb");
-
-    // if (fd == NULL) {
-    //     printf("FAILED TO OPEN\n");
-    //     return NULL;
-    // }
-
-    // fread(bmfh, sizeof(BitmapFileHeader), 1, fd);
-
-    // bmfh->bmp_pixel_data_size = bmfh->bmp_size - bmfh->bmp_offset;
-
-    // unsigned char *bmp_data = (unsigned char*) malloc(bmfh->bmp_pixel_data_size);
-
-    // fread(bmp_data, bmfh->bmp_pixel_data_size, 1, fd);
-
     int connected = 0;
     while (connected == 0) {
         initSD(&connected);
     }
 
-    readFileBytes(filename, sizeof(BitmapFileHeader), bmfh);
+    readFileBytesContinuous(filename, sizeof(BitmapFileHeader), bmfh);
 
     bmfh->bmp_pixel_data_size = bmfh->bmp_size - bmfh->bmp_offset;
 

@@ -125,6 +125,33 @@ int readFileBytes(char *file, int bytes, char *result) {
 	return 0; //success
 }
 
+int readFileBytesContinuous(char *file, int bytes, char *result) {
+	FILE *fp;
+	fp = alt_up_sd_card_fopen(file, false);
+	if (DEBUG) printf("File %s opened %d\n", file, fp);
+
+	int index = 0;
+	int res = 0;
+	while (index < bytes) {
+		res = alt_up_sd_card_read(fp);
+		if (res == -2) {
+			if (DEBUG) printf("File %s cannot be read any more\n", file);
+			result[index] = NULL;
+			return 1; //end of file
+		}
+		if (res == -1) {
+			//printf("File %s is an invalid handle\n", file);
+			result[index] = NULL;
+			return -1; //end or content or error
+		}
+		result = res;
+		if (DEBUG) printf("%c", (char) res);
+	}
+
+	result = NULL;
+	return 0; //success
+}
+
 // must open file before, and close file after done reading to reset next byte pointer
 //TODO: pass in file handle, not file name
 char readFileByte(char *file) {
