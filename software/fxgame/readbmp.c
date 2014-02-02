@@ -26,7 +26,7 @@ unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
         initSD(&connected);
     }
 
-    readFileBytesContinuous(filename, sizeof(BitmapFileHeader), bmfh);
+    readFileBytes(filename, sizeof(BitmapFileHeader), bmfh);
 
     bmfh->bmp_pixel_data_size = bmfh->bmp_size - bmfh->bmp_offset;
 

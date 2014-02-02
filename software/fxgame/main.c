@@ -65,4 +65,3 @@ int main()
     destroyMap(map);
     return 0;
 }
-);
