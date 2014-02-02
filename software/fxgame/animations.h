@@ -24,6 +24,6 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location);
 
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer);
 
-// int draw_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, int* bitstream);
+int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel* pixel_map_16);
 
 #endif

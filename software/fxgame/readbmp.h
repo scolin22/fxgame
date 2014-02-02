@@ -1,9 +1,10 @@
-#ifndef ANIMATIONS_H_
-#define ANIMATIONS_H_
+#ifndef BMP_H_
+#define BMP_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "SDCard.c"
 
 #define PS 256
 
@@ -33,6 +34,8 @@ typedef struct Pixel{
     uint8_t green;
     uint8_t red;
 } Pixel;
+
+Pixel* init_pixel_map_16_from_bmp(char* filename);
 
 unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh);
 
