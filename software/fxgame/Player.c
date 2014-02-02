@@ -51,10 +51,14 @@ void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
     //TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite for this p->id;
     //draw this pixel_map_16 at x,y
     if(!p->respawnTime)
-        if(p->id == 0)
+        if(p->id == 0) {
             alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
-        else
+    		//draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+        }
+        else {
             alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
+            //draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+        }
     else if (p->respawnTime % 2 == 1){
         alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
     }
