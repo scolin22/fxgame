@@ -37,7 +37,19 @@ ENTITY fxgame IS
         SRAM_CE_N : OUT STD_LOGIC;
         SRAM_OE_N : OUT STD_LOGIC;
         SRAM_WE_N : OUT STD_LOGIC;
-        -- SD CARD
+		  -- AV Config
+		  I2C_SDAT : INOUT STD_LOGIC;
+		  I2C_SCLK : OUT STD_LOGIC;
+		  -- Clock (audio)
+		  AUD_XCK : out std_logic;
+		  CLOCK_27 : in std_logic;
+		  -- Audio
+			AUD_ADCDAT         : in    STD_LOGIC;
+			AUD_ADCLRCK        : in    STD_LOGIC;
+			AUD_BCLK           : in    STD_LOGIC;
+			AUD_DACDAT         : out   STD_LOGIC;
+			AUD_DACLRCK        : in    STD_LOGIC;
+        -- SD Card
         SD_CMD : INOUT STD_LOGIC;
         SD_DAT : INOUT STD_LOGIC;
         SD_DAT3 : INOUT STD_LOGIC;
@@ -81,6 +93,18 @@ ARCHITECTURE Structure OF fxgame IS
         sram_ce_n : out std_logic;
         sram_oe_n : out std_logic;
         sram_we_n: out std_logic;
+		  -- AV Config
+		  av_config_SDAT : inout std_logic;
+		  av_config_SCLK : out std_logic;
+		  -- Clock (audio)
+		  audio_clk_clk : out std_logic;
+		  audio_clk_in_clk : in std_logic;
+		  -- Audio
+			audio_ADCDAT         : in    std_logic;
+			audio_ADCLRCK        : in    std_logic;
+			audio_BCLK           : in    std_logic;
+			audio_DACDAT         : out   std_logic;
+			audio_DACLRCK        : in    std_logic;
         -- SD CARD
         sd_card_b_SD_cmd : inout std_logic;
         sd_card_b_SD_dat : inout std_logic;
@@ -133,6 +157,18 @@ BEGIN
             sram_CE_N => SRAM_CE_N,
             sram_OE_N => SRAM_OE_N,
             sram_WE_N => SRAM_WE_N,
+				-- AV Config
+            av_config_SDAT => I2C_SDAT,
+            av_config_SCLK => I2C_SCLK,
+			   -- Clock (audio)
+			   audio_clk_clk => AUD_XCK,
+			   audio_clk_in_clk => CLOCK_27,
+				-- Audio
+            audio_ADCDAT         => AUD_ADCDAT,
+            audio_ADCLRCK        => AUD_ADCLRCK,
+            audio_BCLK           => AUD_BCLK,
+            audio_DACDAT         => AUD_DACDAT,
+            audio_DACLRCK        => AUD_DACLRCK,
             -- SD CARD
             sd_card_b_SD_cmd => SD_CMD,
             sd_card_b_SD_dat => SD_DAT,
