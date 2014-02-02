@@ -29,6 +29,7 @@ int main()
     p1->dropBomb = 0;
     p1->nBombs = 2;
 
+    printf("READING TEST1.BMP\n");
     Pixel* pixel_map_16 = init_pixel_map_16_from_bmp("TEST1.BMP");
     draw_screen_from_pixel_map_16(pixel_buffer, pixel_map_16, 16, 16);
 
@@ -64,3 +65,4 @@ int main()
     destroyMap(map);
     return 0;
 }
+);
