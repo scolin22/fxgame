@@ -1,7 +1,10 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "Fruits.h"
 #include "animations.h"
+
+#define NUM_PLAYERS 2
 
 static const int SCREEN_WIDTH = 320;
 static const int SCREEN_HEIGHT = 240;
@@ -37,7 +40,7 @@ typedef enum {
 char** initMap ();
 
 void destroyMap (char** d);
-char dropFruit (char** d, int x, int y);
+tile_t changeTile(char** d, int x, int y, tile_t tile);
 tile_t checkType (char** d, int x, int y);
 void debugPrint (char** d);
 void renderMap (char** d, alt_up_pixel_buffer_dma_dev *pixel_buffer);

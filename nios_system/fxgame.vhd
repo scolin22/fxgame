@@ -41,7 +41,9 @@ ENTITY fxgame IS
         SD_CMD : INOUT STD_LOGIC;
         SD_DAT : INOUT STD_LOGIC;
         SD_DAT3 : INOUT STD_LOGIC;
-        SD_CLK : OUT STD_LOGIC
+        SD_CLK : OUT STD_LOGIC;
+		  PS2_CLK : INOUT STD_LOGIC;
+		  PS2_DAT : INOUT STD_LOGIC
         );
 END fxgame;
 ARCHITECTURE Structure OF fxgame IS
@@ -85,7 +87,9 @@ ARCHITECTURE Structure OF fxgame IS
         sd_card_b_SD_cmd : inout std_logic;
         sd_card_b_SD_dat : inout std_logic;
         sd_card_b_SD_dat3 : inout std_logic;
-        sd_card_o_SD_clock : out std_logic
+        sd_card_o_SD_clock : out std_logic;
+		  ps2_CLK : inout std_logic;
+		  ps2_DAT : inout std_logic
         );
     END COMPONENT;
     SIGNAL DQM : STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -137,6 +141,8 @@ BEGIN
             sd_card_b_SD_cmd => SD_CMD,
             sd_card_b_SD_dat => SD_DAT,
             sd_card_b_SD_dat3 => SD_DAT3,
-            sd_card_o_SD_clock => SD_CLK
+            sd_card_o_SD_clock => SD_CLK,
+				ps2_CLK => PS2_CLK,
+            ps2_DAT => PS2_DAT
             );
 END Structure;
