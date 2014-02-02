@@ -1,13 +1,11 @@
-#ifndef ANIMATIONS_H_
-#define ANIMATIONS_H_
+#ifndef BMP_H_
+#define BMP_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 
 #define PS 256
-
-#pragma pack(1)
 
 // Note, you must disable alpha channel in the bitmap. You can do this on OSX by opening the bitmap in Preview, File->Export, Option+LClick on the File Types, Select Microsoft BMP and uncheck Alpha Channel.
 typedef struct BitMapFileHeader {
@@ -33,6 +31,8 @@ typedef struct Pixel{
     uint8_t green;
     uint8_t red;
 } Pixel;
+
+Pixel* init_pixel_map_16_from_bmp(char* filename);
 
 unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh);
 
