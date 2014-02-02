@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -32,18 +31,6 @@ void destroyMap (char** d)
 	free (d);
 }
 
-char dropFruit (char** d, int x, int y)
-{
-	x = x_to_tx (x);
-	y = y_to_ty (y);
-	if (d[y][x] == FRUIT) {
-		return 0;
-	} else {
-		d[y][x] = FRUIT;
-		return 1;
-	}
-}
-
 tile_t checkType (char** d, int x, int y)
 {
 	if (y < SCREEN_HEIGHT && x < SCREEN_WIDTH) {
@@ -53,6 +40,14 @@ tile_t checkType (char** d, int x, int y)
 	} else {
 		return END;
 	}
+}
+
+tile_t changeTile(char** d, int x, int y, tile_t tile) {
+	x = x_to_tx(x);
+	y = y_to_ty(y);
+	tile_t temp = d[y][x];
+	d[y][x] = tile;
+	return temp;
 }
 
 char x_to_tx (int x)
