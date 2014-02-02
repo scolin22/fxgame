@@ -1,8 +1,11 @@
-//This contains some API functions for drawing the screen
-
 #ifndef ANIMATIONS_H_
 #define ANIMATIONS_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <system.h>
+
+#include "readbmp.h"
 #include "queue_type.h"
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
@@ -21,10 +24,6 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location);
 
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer);
 
-int pulsing_box(alt_up_pixel_buffer_dma_dev *pixel_buffer);
-
-int spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer, Queue * x0_queue, Queue * x1_queue, Queue * y0_queue, Queue * y1_queue);
-
-int infinite_spinner(alt_up_pixel_buffer_dma_dev *pixel_buffer, Queue * x0_queue, Queue * x1_queue, Queue * y0_queue, Queue * y1_queue);
+// int draw_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, int* bitstream);
 
 #endif

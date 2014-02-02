@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "animations.h"
+
 static const int VELOCITY = 5;
 
 typedef struct Player {
@@ -11,12 +13,14 @@ typedef struct Player {
 	char nBombs; // number of bombs player can place
 	char velX; // velocity of the player
 	char velY;
+	char dropBomb;
+    char id;
 } Player;
 
-void handleEvents (Player* p);
-void move (Player* p);
+void handleEvents (Player* p, char switches);
+void move (Player* p, char** map);
 void render (Player* p);
 
-char checkCollision (Player* p);
+char checkCollision (Player* p, char** map);
 
 #endif //PLAYER_H

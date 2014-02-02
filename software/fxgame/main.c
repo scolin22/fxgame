@@ -6,6 +6,7 @@
 #include <time.h>
 
 #include "Map.h"
+#include "Player.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -17,10 +18,27 @@ int main()
 {
 	char** map = initMap();
 	//initialize other stuff such as vga, sd card, etc.
+	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
+	Player* p1 = (Player*)malloc(sizeof(Player));
+
+	p1->posX = 17;
+	p1->posY = 17;
+	p1->height = TILE_SIZE-2;
+	p1->width = TILE_SIZE-2;
+	p1->dropBomb = 0;
+	p1->nBombs = 2;
 
 	//clock_t start, stop;
 	while (1) {
 		//start = clock();
+
+	    handleEvents(p1, IORD(switches, 0));
+
+	    move(p1, map);
+
+	    renderMap(map, pixel_buffer);
+	    renderPlayer (p1, pixel_buffer);
+	    refresh(pixel_buffer);
 
 
 
