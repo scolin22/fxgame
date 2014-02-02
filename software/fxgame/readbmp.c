@@ -22,37 +22,18 @@ Pixel* init_pixel_map_16_from_bmp(char* filename) {
 }
 
 unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh, uint8_t *bmp_data) {
-    int connected = 0;
-    while (connected == 0) {
-        initSD(&connected);
-    }
-
-    printf("COLIN'S DATA\n");
-
     uint8_t * result = (uint8_t*)malloc(54*sizeof(uint8_t));
-
     FILE *fd;
-    fd = alt_up_sd_card_fopen("TEST1.BMP", 0);
-    printf("%d\n", fd);
+    fd = alt_up_sd_card_fopen(filename, 0);
     readFileBytes(filename, 54, result, fd);
-
-    int index;
-    for(index = 0; index < 54; index++) {
-        printf("%02X", result[index]);
-    }
-    printf("\n");
 
     assign_header_data(result, bmfh);
 
     bmfh->bmp_pixel_data_size = bmfh->bmp_size - bmfh->bmp_offset;
-    printf("bmfh->bmp_pixel_data_size %08x\n", bmfh->bmp_pixel_data_size);
 
     readFileBytes(filename, bmfh->bmp_pixel_data_size, bmp_data, fd);
 
-    if (alt_up_sd_card_fclose(fd) == 0) printf("NOTCLOSED\n");
-    else printf("CLOSED\n");
-
-    printf("Finished reading pixel data\n");
+    alt_up_sd_card_fclose(fd);
 
     return bmp_data;
 }
@@ -86,19 +67,4 @@ void assign_header_data(char* result, BitmapFileHeader* bmfh) {
     bmfh->bmp_height_ppm = result[42] << 24 | result[43] << 16 | result[44] << 8 | result[45];
     bmfh->bmp_colors_used = result[46] << 24 | result[47] << 16 | result[48] << 8 | result[49];
     bmfh->bmp_imp_colors = result[50] << 24 | result[51] << 16 | result[52] << 8 | result[53];
-    // printf("bmfh->bmp_type %04x\n", bmfh->bmp_type);
-    // printf("bmfh->bmp_size %08x\n", bmfh->bmp_size);
-    // printf("bmfh->bmp_reserved %08x\n", bmfh->bmp_reserved);
-    // printf("bmfh->bmp_offset %08x\n", bmfh->bmp_offset);
-    // printf("bmfh->bmp_header_size %08x\n", bmfh->bmp_header_size);
-    // printf("bmfh->bmp_width %08x\n", bmfh->bmp_width);
-    // printf("bmfh->bmp_height %08x\n", bmfh->bmp_height);
-    // printf("bmfh->bmp_planes %04x\n", bmfh->bmp_planes);
-    // printf("bmfh->bmp_bits_pixel %04x\n", bmfh->bmp_bits_pixel);
-    // printf("bmfh->bmp_compression %08x\n", bmfh->bmp_compression);
-    // printf("bmfh->bmp_pixel_data_size %08x\n", bmfh->bmp_pixel_data_size);
-    // printf("bmfh->bmp_width_ppm %08x\n", bmfh->bmp_width_ppm);
-    // printf("bmfh->bmp_height_ppm %08x\n", bmfh->bmp_height_ppm);
-    // printf("bmfh->bmp_colors_used %08x\n", bmfh->bmp_colors_used);
-    // printf("bmfh->bmp_imp_colors %08x\n", bmfh->bmp_imp_colors);
 }

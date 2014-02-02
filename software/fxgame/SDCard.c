@@ -1,3 +1,6 @@
+// ONLY READFILEBYTES WORKS RIGHT NOW
+// CHECK readbmp.c TO SEE HOW SDCARD API WORKS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

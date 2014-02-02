@@ -29,18 +29,17 @@ int main()
     p1->dropBomb = 0;
     p1->nBombs = 2;
 
+    //Keep this here -Colin
     int connected = 0;
     while (connected == 0) {
         initSD(&connected);
     }
 
-    printf("READING TEST1.BMP\n");
-    Pixel* pixel_map_16 = init_pixel_map_16_from_bmp("TEST1.BMP");
-    printf("Finished Converting 24 to 16\n");
-    draw_screen_from_pixel_map_16(pixel_buffer, pixel_map_16, 16, 16);
+    draw_screen_from_bmp(pixel_buffer, "TEST1.BMP", 32, 32);
+    draw_screen_from_bmp(pixel_buffer, "TEST1.BMP", 16, 16);
 
     //clock_t start, stop;
-    while (1) {
+    // while (1) {
         // //start = clock();
 
      //    handleEvents(p1, IORD(switches, 0));
@@ -67,7 +66,7 @@ int main()
         // }*/
 
         // IOWR(leds, 0, IORD(switches, 0));
-    }
+    // }
     destroyMap(map);
     return 0;
 }
