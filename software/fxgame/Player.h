@@ -6,7 +6,7 @@
 #include "keyboard.h"
 
 #define RESPAWN_TIME 30
-static const int VELOCITY = 5;
+static const int VELOCITY = 8;
 
 typedef struct Player {
 	int posX; // x coordinate of the player (NOT the tile coordinate)
@@ -30,6 +30,6 @@ void handleEvents (Player* p, char switches);
 void move (Player* p, char** map, FruitCtrl* fruitCtrl);
 void render (Player* p);
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
-char checkCollision (Player* p, char** map);
+char checkCollision (Player* p, char** map, int isRight, int isDown, int isHoriz);
 
 #endif //PLAYER_H
