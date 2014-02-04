@@ -41,13 +41,13 @@ int main() {
     p1->rightKey = 'D';
     p1->upKey = 'W';
     p1->downKey = 'S';
-    p1->fruitKey = 'Z';
+    p1->fruitKey = 'Q';
     p1->lives = 10;
 
     Player* p2 = (Player*)malloc(sizeof(Player));
 
-    p2->posX = 16+TILE_SIZE*10;
-    p2->posY = 16+TILE_SIZE*10;
+    p2->posX = 16+TILE_SIZE*17;
+    p2->posY = 16+TILE_SIZE*12;
     p2->height = TILE_SIZE-2;
     p2->width = TILE_SIZE-2;
     p2->dropBomb = 0;
@@ -57,7 +57,7 @@ int main() {
     p2->rightKey = 'L';
     p2->upKey = 'I';
     p2->downKey = 'K';
-    p2->fruitKey = 'M';
+    p2->fruitKey = 'U';
     p2->lives = 10;
 
     Score* score = (Score*)malloc(sizeof(Score));
