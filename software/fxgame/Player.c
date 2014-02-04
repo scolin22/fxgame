@@ -23,8 +23,10 @@ void handleEvents (Player* p, char switches)
     }
 }
 
-void move (Player* p, char** map, FruitCtrl* fruitCtrl)
+void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
 {
+    int tempx = p->posX;
+    int tempy = p->posY;
     p->posX += p->velX;
     if (checkCollision(p, map, (p->velX > 0 ? 1 : 0), 0, 1)) {
         p->posX -= p->velX;
@@ -39,6 +41,7 @@ void move (Player* p, char** map, FruitCtrl* fruitCtrl)
         dropFruit(fruitCtrl, p->id, p->posX, p->posY);
         p->dropBomb = 0;
     }
+    set_db(map, tempx, tempy);
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
@@ -52,21 +55,35 @@ void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
     //draw this pixel_map_16 at x,y
     if(!p->respawnTime)
         if(p->id == 0) {
+<<<<<<< HEAD
             alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
             //draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+=======
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
+>>>>>>> master
         }
         else {
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
-            //draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
         }
     else if (p->respawnTime % 2 == 1){
-        alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
+        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
+        // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
     }
     else if (p->respawnTime % 2 == 0){
-        if(p->id == 0)
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
-        else
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
+        if(p->id == 0) {
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
+        }
+        else {
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
+        }
     }
 }
 
@@ -76,7 +93,7 @@ void updatePlayer(Player* p)
         p->respawnTime--;
 }
 
-char checkCollision (Player* p, char** map, int isRight, int isDown, int isHoriz)
+char checkCollision (Player* p, mapTile** map, int isRight, int isDown, int isHoriz)
 {
     int x = p->posX;
     int y = p->posY;
