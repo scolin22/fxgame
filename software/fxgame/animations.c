@@ -64,13 +64,15 @@ int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pix
         y = j;
 
         color = pixel_map_16[i].red << 11 | pixel_map_16[i].green << 5 | pixel_map_16[i].blue;
-        alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 1);
+        if (color != 0x7C0) {
+            alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 1);
+        }
     }
     return 1;
 }
 
 int draw_screen_from_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel_Map* booted_bmps, int filename, int x, int y) {
-    printf("READING BMP\n");
+    //printf("READING BMP\n");
     Pixel* pixel_map_16 = NULL;
     if (filename == 0) {
         pixel_map_16 = booted_bmps->TEST1_pixel_map;
@@ -86,7 +88,7 @@ int draw_screen_from_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel_Map* b
         pixel_map_16 = booted_bmps->WALL_pixel_map;
     }
 
-    printf("Finished Converting 24 to 16\n");
+    //printf("Finished Converting 24 to 16\n");
     draw_screen_from_pixel_map_16(pixel_buffer, pixel_map_16, x, y);
 
     return 1;

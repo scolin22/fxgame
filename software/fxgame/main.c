@@ -20,7 +20,7 @@
 #define PS 256
 
 int main() {
-    char** map = initMap();
+    mapTile** map = initMap();
     //initialize other stuff such as vga, sd card, etc.
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
@@ -69,22 +69,21 @@ int main() {
     printf("Ready for key press: \n");
 
     //Keep this here -Colin
-//    int connected = 0;
-//    while (connected == 0) {
-//        initSD(&connected);
-//    }
-//
-//    //This is booting bmps -Colin
-//    booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
-//    booted_bmps = boot_bmps(booted_bmps);
-//
-//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, 0, 0);
-//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, 16, 16);
-//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, 32, 32);
-//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, 48, 48);
-//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, 64, 64);
-//    draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, 80, 80);
+   int connected = 0;
+   while (connected == 0) {
+       initSD(&connected);
+   }
 
+   //This is booting bmps -Colin
+    booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
+    booted_bmps = boot_bmps(booted_bmps);
+
+    printf("BOOTED IMAGES\n");
+
+    renderMap(map, pixel_buffer);
+    refresh(pixel_buffer);
+    renderMap(map, pixel_buffer);
+    refresh(pixel_buffer);
     while (1) {
         handleEvents(p1, IORD(switches, 0));
 

@@ -3,8 +3,9 @@
 
 #include "Fruits.h"
 
-void initFruits(FruitCtrl *fruitCtrl, char** d) {
-    int i = 0;fruitCtrl->map = d;
+void initFruits(FruitCtrl *fruitCtrl, mapTile** d) {
+    int i = 0;
+    fruitCtrl->map = d;
     while (i < NUM_PLAYERS) {
         fruitCtrl->startIndex[i] = i*FRUITS_PER_PLAYER;
         fruitCtrl->numFruits[i] = 0;
