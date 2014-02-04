@@ -29,10 +29,10 @@ typedef struct FruitCtrl {
     int startIndex[NUM_PLAYERS];
     int maxFruits[NUM_PLAYERS];
     int numFruits[NUM_PLAYERS];
-    char** map;
+    mapTile** map;
 } FruitCtrl;
 
-void initFruits(FruitCtrl *fruitCtrl, char** d);
+void initFruits(FruitCtrl *fruitCtrl, mapTile** d);
 void printFruits(FruitCtrl *fruitCtrl);
 void updateFruits(FruitCtrl *fruitCtrl);
 char checkExplosion(FruitCtrl *fruitCtrl, int x, int y);
