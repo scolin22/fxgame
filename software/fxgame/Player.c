@@ -42,6 +42,9 @@ void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
         p->dropBomb = 0;
     }
     set_db(map, tempx, tempy);
+    set_db(map, tempx + TILE_SIZE, tempy);
+    set_db(map, tempx, tempy + TILE_SIZE);
+    set_db(map, tempx + TILE_SIZE, tempy  + TILE_SIZE);
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
@@ -115,11 +118,11 @@ char checkCollision (Player* p, mapTile** map, int isRight, int isDown, int isHo
             tile2 = checkType(map, x + width, y - (height-1));
     }
 
-    if ((tile1 == EXPLOSION || tile2 == EXPLOSION) && p->respawnTime == 0) {
+    if ((tile1 == EXPLOSION && tile2 == EXPLOSION) && p->respawnTime == 0) {
         p->respawnTime = RESPAWN_TIME;
         p->lives--;
         return 0;
-    } else if (tile1 == EXPLOSION || tile2 == EXPLOSION) {
+    } else if (tile1 == EXPLOSION && tile2 == EXPLOSION) {
         return 0;
     } else if (tile1 != GRASS || tile2 != GRASS) {
         return 1;
