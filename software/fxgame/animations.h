@@ -25,6 +25,9 @@ typedef struct Pixel_Map{
     Pixel* VOLT_pixel_map;
     Pixel* PIKA_pixel_map;
     Pixel* WALL_pixel_map;
+    Pixel* BOMB_pixel_map;
+    Pixel* EXPL_pixel_map;
+    Pixel* CRATE_pixel_map;
 } Pixel_Map;
 
 extern Pixel_Map* booted_bmps;

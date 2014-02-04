@@ -98,7 +98,7 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
                         //TODO COLIN: create a function that retrieves the pixel_map_16 for EXPLOSION sprite
                         //draw this pixel_map_16 at x,y
                         // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x1F2900,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, x, y);
+                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 6, x, y);
                     break;
                     case CRATE:
                         //TODO COLIN: brown box

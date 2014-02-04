@@ -75,17 +75,19 @@ int draw_screen_from_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel_Map* b
     //printf("READING BMP\n");
     Pixel* pixel_map_16 = NULL;
     if (filename == 0) {
-        pixel_map_16 = booted_bmps->TEST1_pixel_map;
+        pixel_map_16 = booted_bmps->CRATE_pixel_map;
     } else if (filename == 1) {
         pixel_map_16 = booted_bmps->GRASS_pixel_map;
     } else if (filename == 2) {
-        pixel_map_16 = booted_bmps->FB_pixel_map;
+        pixel_map_16 = booted_bmps->BOMB_pixel_map;
     } else if (filename == 3) {
         pixel_map_16 = booted_bmps->VOLT_pixel_map;
     } else if (filename == 4) {
         pixel_map_16 = booted_bmps->PIKA_pixel_map;
     } else if (filename == 5) {
         pixel_map_16 = booted_bmps->WALL_pixel_map;
+    } else if (filename == 6) {
+        pixel_map_16 = booted_bmps->EXPL_pixel_map;
     }
 
     //printf("Finished Converting 24 to 16\n");
@@ -101,6 +103,9 @@ int boot_bmps(Pixel_Map* booted_bmps) {
     booted_bmps->VOLT_pixel_map = init_pixel_map_16_from_bmp("VOLT.BMP");
     booted_bmps->PIKA_pixel_map = init_pixel_map_16_from_bmp("PIKA.BMP");
     booted_bmps->WALL_pixel_map = init_pixel_map_16_from_bmp("WALL.BMP");
+    booted_bmps->BOMB_pixel_map = init_pixel_map_16_from_bmp("BOMB.BMP");
+    booted_bmps->EXPL_pixel_map = init_pixel_map_16_from_bmp("EXPL.BMP");
+    booted_bmps->CRATE_pixel_map = init_pixel_map_16_from_bmp("CRATE.BMP");
 
     return booted_bmps;
 }

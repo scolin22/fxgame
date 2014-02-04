@@ -46,7 +46,7 @@ void updateFruits(FruitCtrl *fruitCtrl) {
                         fruitCtrl->numFruits[fruitCtrl->fruits[i].owner] -= 1;
                     cleanExplosion(fruitCtrl, fruitCtrl->fruits[i]);
                     for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++)
-                        if (fruitCtrl->fruits[i].timeLeft > 0 || fruitCtrl->fruits[i].status == exploding)
+                        if (fruitCtrl->fruits[i].timeLeft > 0 && fruitCtrl->fruits[i].status == exploding)
                             explodeFruit(fruitCtrl, fruitCtrl->fruits[i]);
                 }
             }
@@ -67,8 +67,6 @@ char checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
                 if (fruitCtrl->fruits[i].status == active) {
                     fruitCtrl->fruits[i].status = exploding;
                     fruitCtrl->fruits[i].timeLeft = EXPLOSION_TIMEOUT;
-                    if (fruitCtrl->numFruits[fruitCtrl->fruits[i].owner] >= 1)
-                        fruitCtrl->numFruits[fruitCtrl->fruits[i].owner] -= 1;
                     explodeFruit(fruitCtrl, fruitCtrl->fruits[i]);
                 }
                 break;
