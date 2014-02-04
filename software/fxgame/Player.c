@@ -7,16 +7,16 @@ void handleEvents (Player* p, char switches)
     p->velX = 0;
     p->velY = 0;
     if (keyboard[get_ascii_code_index(p->rightKey)].pressed) {
-        p->velX += TILE_SIZE;
+        p->velX += VELOCITY;
     }
     if (keyboard[get_ascii_code_index(p->leftKey)].pressed) {
-        p->velX -= TILE_SIZE;
+        p->velX -= VELOCITY;
     }
     if (keyboard[get_ascii_code_index(p->upKey)].pressed) {
-        p->velY -=TILE_SIZE;
+        p->velY -= VELOCITY;
     }
     if (keyboard[get_ascii_code_index(p->downKey)].pressed) {
-        p->velY += TILE_SIZE;
+        p->velY += VELOCITY;
     }
     if (keyboard[get_ascii_code_index(p->fruitKey)].pressed) {
         p->dropBomb = 1;
@@ -28,12 +28,12 @@ void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
     int tempx = p->posX;
     int tempy = p->posY;
     p->posX += p->velX;
-    if (checkCollision(p, map)) {
+    if (checkCollision(p, map, (p->velX > 0 ? 1 : 0), 0, 1)) {
         p->posX -= p->velX;
     }
 
     p->posY += p->velY;
-    if (checkCollision(p, map)) {
+    if (checkCollision(p, map, 0, (p->velY > 0 ? 1 : 0), 0)) {
         p->posY -= p->velY;
     }
 
@@ -42,6 +42,9 @@ void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
         p->dropBomb = 0;
     }
     set_db(map, tempx, tempy);
+    set_db(map, tempx + TILE_SIZE, tempy);
+    set_db(map, tempx, tempy + TILE_SIZE);
+    set_db(map, tempx + TILE_SIZE, tempy  + TILE_SIZE);
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
@@ -88,17 +91,40 @@ void updatePlayer(Player* p)
         p->respawnTime--;
 }
 
-char checkCollision (Player* p, mapTile** map)
+char checkCollision (Player* p, mapTile** map, int isRight, int isDown, int isHoriz)
 {
-    if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
+    int x = p->posX;
+    int y = p->posY;
+    int height = p->height;
+    int width = p->width;
+
+    if (x < 0 || y < 0 || (x+width) >= SCREEN_WIDTH || (y+height) >= SCREEN_HEIGHT) {
         return 1;
-    } else if (checkType(map, p->posX, p->posY) == EXPLOSION && p->respawnTime == 0) {
+    }
+    tile_t tile1, tile2;
+    if (isHoriz) {
+        tile1 = checkType(map, x + isRight*width, y);
+        if (tile1 == FRUIT && !isRight)
+            tile1 = checkType(map, x - (width-1), y);
+        tile2 = checkType(map, x + isRight*width, y + height);
+        if (tile2 == FRUIT && !isRight)
+            tile2 = checkType(map, x - (width-1), y + height);
+    } else {
+        tile1 = checkType(map, x, y + isDown*height);
+        if (tile1 == FRUIT && !isDown)
+            tile1 = checkType(map, x, y - (height-1));
+        tile2 = checkType(map, x + width, y + isDown*height);
+        if (tile2 == FRUIT && !isDown)
+            tile2 = checkType(map, x + width, y - (height-1));
+    }
+
+    if ((tile1 == EXPLOSION && tile2 == EXPLOSION) && p->respawnTime == 0) {
         p->respawnTime = RESPAWN_TIME;
         p->lives--;
         return 0;
-    } else if (checkType(map, p->posX, p->posY) == EXPLOSION) {
+    } else if (tile1 == EXPLOSION && tile2 == EXPLOSION) {
         return 0;
-    } else if (checkType(map, p->posX, p->posY) != GRASS) {
+    } else if (tile1 != GRASS || tile2 != GRASS) {
         return 1;
     }
     return 0;

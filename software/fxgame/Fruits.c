@@ -45,9 +45,9 @@ void updateFruits(FruitCtrl *fruitCtrl) {
                     if (fruitCtrl->numFruits[fruitCtrl->fruits[i].owner] >= 1)
                         fruitCtrl->numFruits[fruitCtrl->fruits[i].owner] -= 1;
                     cleanExplosion(fruitCtrl, fruitCtrl->fruits[i]);
-//                    for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++)
-//                        if (fruitCtrl->fruits[i].timeLeft > 0 && fruitCtrl->fruits[i].status == exploding)
-//                            explodeFruit(fruitCtrl, fruitCtrl->fruits[i]);
+                    for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++)
+                        if (fruitCtrl->fruits[i].timeLeft > 0 && fruitCtrl->fruits[i].status == exploding)
+                            explodeFruit(fruitCtrl, fruitCtrl->fruits[i]);
                 }
             }
         }
