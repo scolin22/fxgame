@@ -23,7 +23,7 @@ void handleEvents (Player* p, char switches)
     }
 }
 
-void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
+void move (Player* p, mapTile** map)
 {
     int tempx = p->posX;
     int tempy = p->posY;
@@ -38,7 +38,7 @@ void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
     }
 
     if (p->dropBomb == 1) {
-        dropFruit(fruitCtrl, p->id, p->posX, p->posY);
+        dropFruit(p->fruitCtrl, p->id, p->posX, p->posY);
         p->dropBomb = 0;
     }
     set_db(map, tempx, tempy);

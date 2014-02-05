@@ -24,10 +24,11 @@ typedef struct Player {
     char upKey;
     char downKey;
     char fruitKey;
+    FruitCtrl *fruitCtrl;
 } Player;
 
 void handleEvents (Player* p, char switches);
-void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl);
+void move (Player* p, mapTile** map);
 void render (Player* p);
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 char checkCollision (Player* p, mapTile** map);

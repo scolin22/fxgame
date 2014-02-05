@@ -8,6 +8,8 @@
 # Ignoring everything except for .c and .h files in software/fxgame/
 software/fxgame/*
 software/fxgame_bsp/*
+software/fruits/*
+software/fruits_bsp/*
 !software/fxgame/*.c
 !software/fxgame/*.h
 

@@ -43,6 +43,7 @@ int main() {
     p1->downKey = 'S';
     p1->fruitKey = 'Q';
     p1->lives = 10;
+    p1->fruitCtrl = fruitCtrl;
 
     Player* p2 = (Player*)malloc(sizeof(Player));
 
@@ -59,6 +60,7 @@ int main() {
     p2->downKey = 'K';
     p2->fruitKey = 'U';
     p2->lives = 10;
+    p2->fruitCtrl = fruitCtrl;
 
     Score* score = (Score*)malloc(sizeof(Score));
 
@@ -87,11 +89,11 @@ int main() {
     while (1) {
         handleEvents(p1, IORD(switches, 0));
 
-        move(p1, map, fruitCtrl);
+        move(p1, map);
 
         handleEvents(p2, IORD(switches, 0));
 
-        move(p2, map, fruitCtrl);
+        move(p2, map);
 
         updateFruits(fruitCtrl);
 
