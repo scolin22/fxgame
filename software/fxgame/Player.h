@@ -27,8 +27,12 @@ typedef struct Player {
     FruitCtrl *fruitCtrl;
 } Player;
 
-void handleEvents (Player* p, char switches);
-void move (Player* p, mapTile** map);
+extern Player* p1;
+extern Player* p2;
+
+void handleEvents (Player* p);
+void move (Player* p);
+void movePress (Player* p, char ascii);
 void render (Player* p);
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 char checkCollision (Player* p, mapTile** map);

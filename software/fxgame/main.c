@@ -20,7 +20,7 @@
 #define PS 256
 
 int main() {
-    mapTile** map = initMap();
+    map = initMap();
     //initialize other stuff such as vga, sd card, etc.
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
@@ -28,7 +28,7 @@ int main() {
     FruitCtrl* fruitCtrl = malloc(sizeof(FruitCtrl));
     initFruits(fruitCtrl,map);
 
-    Player* p1 = (Player*)malloc(sizeof(Player));
+    p1 = (Player*)malloc(sizeof(Player));
 
     p1->posX = 16;
     p1->posY = 16;
@@ -45,7 +45,7 @@ int main() {
     p1->lives = 10;
     p1->fruitCtrl = fruitCtrl;
 
-    Player* p2 = (Player*)malloc(sizeof(Player));
+    p2 = (Player*)malloc(sizeof(Player));
 
     p2->posX = 16+TILE_SIZE*17;
     p2->posY = 16+TILE_SIZE*12;
@@ -54,11 +54,11 @@ int main() {
     p2->dropBomb = 0;
     p2->respawnTime = 0;
     p2->id = 1;
-    p2->leftKey = 'J';
-    p2->rightKey = 'L';
-    p2->upKey = 'I';
-    p2->downKey = 'K';
-    p2->fruitKey = 'U';
+    p2->leftKey = 'l';
+    p2->rightKey = 'r';
+    p2->upKey = 'u';
+    p2->downKey = 'd';
+    p2->fruitKey = 'b';
     p2->lives = 10;
     p2->fruitCtrl = fruitCtrl;
 
@@ -87,14 +87,9 @@ int main() {
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
     while (1) {
-        handleEvents(p1, IORD(switches, 0));
 
-        move(p1, map);
-
-        handleEvents(p2, IORD(switches, 0));
-
-        move(p2, map);
-
+    	handleEvents(p1);
+    	handleEvents(p2);
         updateFruits(fruitCtrl);
 
         updatePlayer(p1);

@@ -1,29 +1,16 @@
-
 #include "Player.h"
+
+Player* p1;
+Player* p2;
+
 #include "Map.h"
 
-void handleEvents (Player* p, char switches)
+void handleEvents (Player* p)
 {
-    p->velX = 0;
-    p->velY = 0;
-    if (keyboard[get_ascii_code_index(p->rightKey)].pressed) {
-        p->velX += TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->leftKey)].pressed) {
-        p->velX -= TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->upKey)].pressed) {
-        p->velY -=TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->downKey)].pressed) {
-        p->velY += TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->fruitKey)].pressed) {
-        p->dropBomb = 1;
-    }
+	checkCollision(p, map);
 }
 
-void move (Player* p, mapTile** map)
+void move (Player* p)
 {
     int tempx = p->posX;
     int tempy = p->posY;
@@ -36,12 +23,36 @@ void move (Player* p, mapTile** map)
     if (checkCollision(p, map)) {
         p->posY -= p->velY;
     }
-
-    if (p->dropBomb == 1) {
-        dropFruit(p->fruitCtrl, p->id, p->posX, p->posY);
-        p->dropBomb = 0;
-    }
     set_db(map, tempx, tempy);
+}
+
+void movePress (Player* p, char ascii) {
+
+	 set_db(map, p->posX, p->posY);
+    if (ascii_codes[get_ascii_code_index(p->fruitKey)] == ascii) {
+        dropFruit(p->fruitCtrl, p->id, p->posX, p->posY);
+        return;
+    }
+    else if (ascii_codes[get_ascii_code_index(p->rightKey)] == ascii) {
+        p->posX += TILE_SIZE;
+        if (checkCollision(p, map))
+            p->posX -= TILE_SIZE;
+    }
+    else if (ascii_codes[get_ascii_code_index(p->leftKey)] == ascii) {
+        p->posX -= TILE_SIZE;
+        if (checkCollision(p, map))
+            p->posX += TILE_SIZE;
+    }
+    else if (ascii_codes[get_ascii_code_index(p->upKey)] == ascii) {
+        p->posY -= TILE_SIZE;
+        if (checkCollision(p, map))
+            p->posY += TILE_SIZE;
+    }
+    else if (ascii_codes[get_ascii_code_index(p->downKey)] == ascii) {
+        p->posY += TILE_SIZE;
+        if (checkCollision(p, map))
+            p->posY -= TILE_SIZE;
+    }
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)

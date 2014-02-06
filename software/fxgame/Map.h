@@ -41,6 +41,8 @@ typedef struct mapTile {
     char db;
 } mapTile;
 
+extern mapTile** map;
+
 mapTile** initMap ();
 
 void destroyMap (mapTile** d);

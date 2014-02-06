@@ -3,6 +3,8 @@
 
 #include "Map.h"
 
+mapTile** map;
+
 mapTile** initMap ()
 {
     mapTile** d = (mapTile**)malloc(NTILEY*sizeof(mapTile*));

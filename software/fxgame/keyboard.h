@@ -25,6 +25,7 @@ typedef struct keys {
 }keys;
 
 extern keys keyboard[SCAN_CODE_NUM];
+extern char ascii_codes[SCAN_CODE_NUM];
 int get_ascii_code_index(char code);
 
 char kbd_input();
