@@ -1,7 +1,7 @@
 // ONLY READFILEBYTES WORKS RIGHT NOW
 // CHECK readbmp.c TO SEE HOW SDCARD API WORKS
-#ifndef SDCARD_H_
-#define SDCARD_H_
+#ifndef BMP_H_
+#define BMP_H_
 
 #include <stdio.h>
 #include <stdlib.h>
