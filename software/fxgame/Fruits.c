@@ -11,7 +11,7 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d) {
     while (i < NUM_PLAYERS) {
         fruitCtrl->startIndex[i] = i*FRUITS_PER_PLAYER;
         fruitCtrl->numFruits[i] = 0;
-        fruitCtrl->maxFruits[i] = 2;
+        fruitCtrl->maxFruits[i] = INIT_FRUITS;
         int j;
         for (j = i*FRUITS_PER_PLAYER; j < (i+1)*FRUITS_PER_PLAYER; j++) {
             fruitCtrl->fruits[j].owner = i;
@@ -26,6 +26,13 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d) {
             fruitCtrl->fruits[j].tileOn = GRASS;
         }
         i++;
+    }
+}
+
+void increaseFruitRadius(FruitCtrl *fruitCtrl, int owner) {
+    int i;
+    for (i = owner*FRUITS_PER_PLAYER; i < (owner+1)*FRUITS_PER_PLAYER; i++) {
+        fruitCtrl->fruits[i].radius++;
     }
 }
 
@@ -86,6 +93,23 @@ tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
         return GRASS;
     }
 }
+
+
+char explodeTile(mapTile** map, int x, int y, tile_t tile) {
+    if (tile == BLOCK) {
+        return 0;
+    } else if (tile == CRATE) {
+        changeTile(map, x, y, EXPLOSION);
+        return 0;
+    } else if (tile == FRUIT) {
+        changeTile(map, x, y, EXPLOSION);
+        return 0;
+    } else {
+        changeTile(map, x, y, EXPLOSION);
+        return 1;
+    }
+}
+
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
 
     if(fruit.tileOn != BLOCK)
@@ -125,86 +149,44 @@ void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
     }
 }
 
-char explodeTile(mapTile** map, int x, int y, tile_t tile) {
-        if (tile == BLOCK)
-            return 0;
-        else if (tile == CRATE) {
-            changeTile(map, x, y, EXPLOSION);
-            return 0;
-        }
-        else if (tile == FRUIT) {
-            changeTile(map, x, y, EXPLOSION);
-            return 0;
-        }
-        else {
-            changeTile(map, x, y, EXPLOSION);
-            return 1;
-        }
-}
-
-
-
 void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit) {
     checkExplosion(fruitCtrl, fruit.posX, fruit.posY);
     if (checkType(fruitCtrl->map, fruit.posX, fruit.posY) == EXPLOSION)
         changeTile(fruitCtrl->map, fruit.posX, fruit.posY, GRASS);
 
     //Check left
-    int i;
+    int i, x, y;
+    tile_t currentTile;
+    y = fruit.posY;
     for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
-        if (checkExplosion(fruitCtrl, fruit.posX - i, fruit.posY) == 1)
+        x = fruit.posX - i;
+        if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
+            changeTile(fruitCtrl->map, x, y, GRASS);
+        else
             break;
-        else if (checkExplosion(fruitCtrl, fruit.posX - i, fruit.posY)== 2) {
-            if (checkType(fruitCtrl->map, fruit.posX - i, fruit.posY) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX - i, fruit.posY, GRASS);
-            break;
-        }
-        else {
-            if (checkType(fruitCtrl->map, fruit.posX - i, fruit.posY) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX - i, fruit.posY, GRASS);
-        }
     }
     for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
-        if (checkExplosion(fruitCtrl, fruit.posX + i, fruit.posY) == 1)
+        x = fruit.posX + i;
+        if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
+            changeTile(fruitCtrl->map, x, y, GRASS);
+        else
             break;
-        else if (checkExplosion(fruitCtrl, fruit.posX + i, fruit.posY)== 2) {
-            if (checkType(fruitCtrl->map, fruit.posX + i, fruit.posY) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX + i, fruit.posY, GRASS);
+    }
+    x = fruit.posX;
+    for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+        y = fruit.posY - i;
+        if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
+            changeTile(fruitCtrl->map, x, y, GRASS);
+        else
             break;
-        }
-        else {
-            if (checkType(fruitCtrl->map, fruit.posX + i, fruit.posY) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX + i, fruit.posY, GRASS);
-        }
     }
     for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
-        if (checkExplosion(fruitCtrl, fruit.posX, fruit.posY - i) == 1)
+        y = fruit.posY + i;
+        if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
+            changeTile(fruitCtrl->map, x, y, GRASS);
+        else
             break;
-        else if (checkExplosion(fruitCtrl, fruit.posX, fruit.posY - i)== 2) {
-            if (checkType(fruitCtrl->map, fruit.posX, fruit.posY - i) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX, fruit.posY - i, GRASS);
-            break;
-        }
-        else {
-            if (checkType(fruitCtrl->map, fruit.posX, fruit.posY - i) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX, fruit.posY - i, GRASS);
-        }
     }
-
-    for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
-        if (checkExplosion(fruitCtrl, fruit.posX, fruit.posY + i) == 1)
-            break;
-        else if (checkExplosion(fruitCtrl, fruit.posX, fruit.posY + i)== 2) {
-            if (checkType(fruitCtrl->map, fruit.posX, fruit.posY + i) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX, fruit.posY + i, GRASS);
-            break;
-        }
-        else {
-            if (checkType(fruitCtrl->map, fruit.posX, fruit.posY + i) == EXPLOSION)
-                changeTile(fruitCtrl->map, fruit.posX, fruit.posY + i, GRASS);
-        }
-    }
-
 }
 
 char dropFruit(FruitCtrl *fruitCtrl, int owner, char toss, direction dir, int x, int y){
@@ -295,7 +277,7 @@ char checkFruitCollision (Fruit* f)
     tile_t tile = checkType(map, f->posX, f->posY);
     if (f->posX < 0 || f->posY < 0 || (f->posX+TILE_SIZE) >= SCREEN_WIDTH || (f->posY+TILE_SIZE) >= SCREEN_HEIGHT)
         return 1;
-    else if (tile == BLOCK || tile == CRATE || tile == FRUIT || map[f->posY][f->posX].playerOn == 1 || tile == END)
+    else if ((tile != FRUIT && tile != EXPLOSION) || map[f->posY][f->posX].playerOn == 1)
         return 1;
     return 0;
 }

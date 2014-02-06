@@ -5,7 +5,7 @@ Player* p2;
 
 void handleEvents (Player* p)
 {
-	checkCollision(p, map, none);
+    checkCollision(p, map, none);
 }
 
 void move (Player* p)
@@ -26,11 +26,11 @@ void move (Player* p)
 
 void movePress (Player* p, char ascii) {
 
-	set_db(map, p->posX, p->posY);
-	map[p->posY][p->posX].playerOn = 0;
+    set_db(map, p->posX, p->posY);
+    map[p->posY][p->posX].playerOn = 0;
     if (ascii_codes[get_ascii_code_index(p->fruitKey)] == ascii) {
-    	printf("dropping bomb!\n");
-        dropFruit(p->fruitCtrl, p->id, 1/*checkPowerUps(p, toss)*/, p->dir, p->posX, p->posY);
+        printf("dropping bomb!\n");
+        dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
         return;
     }
     else if (ascii_codes[get_ascii_code_index(p->rightKey)] == ascii) {
@@ -99,41 +99,60 @@ void updatePlayer(Player* p)
         p->respawnTime--;
 }
 
-char checkCollision (Player* p, mapTile** map, direction dir)
+char checkCollision (Player* p, tile** map, direction dir)
 {
-	tile_t mapTile = checkType(map, p->posX, p->posY);
+    tile_t tile = checkType(map, p->posX, p->posY);
     if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
         return 1;
-    } else if (mapTile == EXPLOSION && p->respawnTime == 0) {
+    } else if (tile == EXPLOSION && p->respawnTime == 0) {
         p->respawnTime = RESPAWN_TIME;
         p->lives--;
         return 0;
-    } else if (mapTile == EXPLOSION) {
+    } else if (tile == EXPLOSION) {
         return 0;
-    } else if (mapTile == FRUIT /*&& checkPowerUps(p,kick)*/) {
-    	Fruit* fruit = checkForFruitAtPosition(p->posX, p->posY);
-    	if(dir == right)
-    		fruit->velX = 1;
-    	else if(dir == left)
-    		fruit->velX = -1;
-    	else if(dir == up)
-    		fruit->velY = -1;
-    	else if(dir == down)
-    		fruit->velY = 1;
-    	return 1;
-    } else if (mapTile == BLOCK || mapTile == CRATE || mapTile == FRUIT || mapTile == END) {
+    } else if (tile == FRUIT && checkPowerUps(p,kick)) {
+        Fruit* fruit = checkForFruitAtPosition(p->posX, p->posY);
+        if(dir == right)
+            fruit->velX = 1;
+        else if(dir == left)
+            fruit->velX = -1;
+        else if(dir == up)
+            fruit->velY = -1;
+        else if(dir == down)
+            fruit->velY = 1;
+        return 1;
+    } else if (tile == POWERUP_FRUITS) {
+        if(p->fruitCtrl->maxFruits[p->id] < FRUITS_PER_PLAYER)
+            p->fruitCtrl->maxFruits[p->id]++;
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_RADIUS) {
+        increaseFruitRadius(p->fruitCtrl, p->id);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_KICK) {
+        setPowerUps(p, kick);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_TOSS) {
+        setPowerUps(p, toss);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_INVINCIBLE) {
+        setPowerUps(p, invincible);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_BULLDOZER) {
+        setPowerUps(p, bulldozer);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == BLOCK || tile == CRATE || tile == FRUIT || tile == END) {
         return 1;
     }
     return 0;
 }
 
 char checkPowerUps(Player *p, powerUps pwrUp) {
-	if (!(p->pwrUps & pwrUp))
-		return 0;
-	return 1;
+    if (!(p->pwrUps & pwrUp))
+        return 0;
+    return 1;
 }
 
 void setPowerUps(Player *p, powerUps pwrUp) {
-	p->pwrUps = p->pwrUps | pwrUp;
+    p->pwrUps = p->pwrUps | pwrUp;
 }
 
