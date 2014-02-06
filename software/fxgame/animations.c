@@ -1,4 +1,3 @@
-#include <string.h>
 #include "animations.h"
 #include "readbmp.h"
 #include "sdcard.h"
