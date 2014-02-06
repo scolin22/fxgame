@@ -77,11 +77,10 @@ char checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
                     fruitCtrl->fruits[i].status = exploding;
                     fruitCtrl->fruits[i].timeLeft = EXPLOSION_TIMEOUT;
                     explodeFruit(fruitCtrl, fruitCtrl->fruits[i]);
+                    return 2;
                 }
-                break;
             }
         }
-        return 2;
     } else {
         return 0;
     }
