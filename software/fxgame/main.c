@@ -10,6 +10,7 @@
 #include "Fruits.h"
 #include "Score.h"
 #include "animations.h"
+#include "sdcard.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420

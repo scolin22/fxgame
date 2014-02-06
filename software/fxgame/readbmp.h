@@ -38,4 +38,6 @@ unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh);
 
 Pixel* convert_24_to_16(Pixel* pixel_map_24);
 
+void assign_header_data(char* result, BitmapFileHeader* bmfh);
+
 #endif
