@@ -2,7 +2,7 @@
 #define FRUITS_H
 
 #include "Map.h"
-
+#include "Types.h"
 #define FRUITS_PER_PLAYER 2
 #define NUM_PLAYERS 2
 #define FRUIT_TIMEOUT 30
@@ -20,8 +20,12 @@ typedef struct Fruit {
     fruitStatus status;
     int radius;
     int owner;
-    int x_pos;
-    int y_pos;
+    int posX;
+    int posY;
+    int velX;
+    int velY;
+    int tossed;
+    tile_t tileOn;
 } Fruit;
 
 typedef struct FruitCtrl {
@@ -32,12 +36,18 @@ typedef struct FruitCtrl {
     mapTile** map;
 } FruitCtrl;
 
+extern FruitCtrl* fruitCtrl;
+
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d);
 void printFruits(FruitCtrl *fruitCtrl);
 void updateFruits(FruitCtrl *fruitCtrl);
 char checkExplosion(FruitCtrl *fruitCtrl, int x, int y);
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit);
 void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit);
-char dropFruit(FruitCtrl *fruitCtrl, int owner, int x, int y);
+char dropFruit(FruitCtrl *fruitCtrl, int owner, char toss, direction dir,int x, int y);
+void moveFruit(Fruit* fruit);
+char checkFruitCollision (Fruit* f);
+char checkThrowCollision (Fruit* f);
+Fruit* checkForFruitAtPosition(int x, int y);
 
 #endif //FruitCtrl.h

@@ -25,7 +25,7 @@ int main() {
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
 
-    FruitCtrl* fruitCtrl = malloc(sizeof(FruitCtrl));
+    fruitCtrl = malloc(sizeof(FruitCtrl));
     initFruits(fruitCtrl,map);
 
     p1 = (Player*)malloc(sizeof(Player));
@@ -44,6 +44,10 @@ int main() {
     p1->fruitKey = 'Q';
     p1->lives = 10;
     p1->fruitCtrl = fruitCtrl;
+    p1->velX = 0;
+    p1->velY = 0;
+    p1->dir = left;
+    p1->pwrUps = 0;
 
     p2 = (Player*)malloc(sizeof(Player));
 
@@ -61,6 +65,10 @@ int main() {
     p2->fruitKey = 'b';
     p2->lives = 10;
     p2->fruitCtrl = fruitCtrl;
+    p2->velX = 0;
+    p2->velY = 0;
+    p2->dir = left;
+    p2->pwrUps = 0;
 
     Score* score = (Score*)malloc(sizeof(Score));
 
@@ -71,14 +79,14 @@ int main() {
     printf("Ready for key press: \n");
 
     //Keep this here -Colin
-   int connected = 0;
-   while (connected == 0) {
-       initSD(&connected);
-   }
-
-   //This is booting bmps -Colin
-    booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
-    booted_bmps = boot_bmps(booted_bmps);
+//   int connected = 0;
+//   while (connected == 0) {
+//       initSD(&connected);
+//   }
+//
+//   //This is booting bmps -Colin
+//    booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
+//    booted_bmps = boot_bmps(booted_bmps);
 
     printf("BOOTED IMAGES\n");
 

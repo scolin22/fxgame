@@ -75,50 +75,46 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
             if (d[j][i].db > 0) {
                 switch(d[j][i].t){
                     case GRASS:
-                        //TODO COLIN: green box
-                        //draw a grass at ,
-                        //GRASS == 0
-                        //TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite
-                        //draw this pixel_map_16 at x,y
-                        //draw_bmp()
-                        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0007c0,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, x, y);
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x07c0,1);
+                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, x, y);
                     break;
                     case FRUIT:
-                        //TODO COLIN: red box
-                        //draw a FRUIT at x = i*TILE_SIZE, y = j*TILE_SIZE
-                        //FRUIT == 1
-                        //TODO COLIN: create a function that retrieves the pixel_map_16 for FRUIT sprite
-                        //draw this pixel_map_16 at x,y
-                        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x1F0000,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, x, y);
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
+                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, x, y);
                     break;
                     case EXPLOSION:
-                        //TODO COLIN: orange box
-                        //draw a EXPLOSION at x = i*TILE_SIZE, y = j*TILE_SIZE
-                        //EXPLOSION == 2
-                        //TODO COLIN: create a function that retrieves the pixel_map_16 for EXPLOSION sprite
-                        //draw this pixel_map_16 at x,y
-                        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x1F2900,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 6, x, y);
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2900,1);
+                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 6, x, y);
                     break;
                     case CRATE:
-                        //TODO COLIN: brown box
-                        //draw a CRATE at x = i*TILE_SIZE, y = j*TILE_SIZE
-                        //CRATE == 3
-                        //TODO COLIN: create a function that retrieves the pixel_map_16 for CRATE sprite
-                        //draw this pixel_map_16 at x,y
-                        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0A0502,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, x, y);
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0502,1);
+                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, x, y);
                     break;
                     case BLOCK:
-                        //TODO COLIN: grey box
-                        //draw a BLOCK at x = i*TILE_SIZE, y = j*TILE_SIZE
-                        //BLOCK == 4
-                        //TODO COLIN: create a function that retrieves the pixel_map_16 for BLOCK sprite
-                        //draw this pixel_map_16 at x,y
-                        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x102010,1);
+                    // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2010,1);
                     draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, x, y);
+                    break;
+                    case END:
+                    // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2010,1);
+                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, x, y);
+                    break;
+                    case POWERUP_FRUITS:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF000,1);
+                    break;
+                    case POWERUP_RADIUS:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
+                    break;
+                    case POWERUP_KICK:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFF00,1);
+                    break;
+                    case POWERUP_THROW:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0FF0,1);
+                    break;
+                    case POWERUP_INVINCIBLE:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x00FF,1);
+                    break;
+                    case POWERUP_BULLDOZER:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x000F,1);
                     break;
                 }
                 d[j][i].db--;
