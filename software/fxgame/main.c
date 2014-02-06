@@ -96,20 +96,29 @@ int main() {
     refresh(pixel_buffer);
     while (1) {
 
+    	printf("1\n");
     	handleEvents(p1);
+    	printf("2\n");
     	handleEvents(p2);
+    	printf("3\n");
         updateFruits(fruitCtrl);
-
+    	printf("4\n");
         updatePlayer(p1);
+    	printf("5\n");
         updatePlayer(p2);
-
+    	printf("6\n");
         score->scores[0] = p1->lives;
+    	printf("7\n");
         score->scores[1] = p2->lives;
-
+    	printf("8\n");
         renderMap(map, pixel_buffer);
+    	printf("9\n");
         renderPlayer (p1, pixel_buffer);
+    	printf("10\n");
         renderPlayer (p2, pixel_buffer);
+    	printf("11\n");
         renderScore (score, char_buffer);
+    	printf("12\n");
         refresh(pixel_buffer);
     }
     destroyMap(map);

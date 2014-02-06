@@ -72,7 +72,7 @@ void updateFruits(FruitCtrl *fruitCtrl) {
 
 
 tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
-    tile_t tile = checkType(fruitCtrl->map, x, y)
+    tile_t tile = checkType(fruitCtrl->map, x, y);
     if (tile == BLOCK || tile == END) {
         return BLOCK;
     } else if (tile == CRATE) {
@@ -162,30 +162,22 @@ void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit) {
         x = fruit.posX - i;
         if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
             changeTile(fruitCtrl->map, x, y, GRASS);
-        else
-            break;
     }
     for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
         x = fruit.posX + i;
         if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
             changeTile(fruitCtrl->map, x, y, GRASS);
-        else
-            break;
     }
     x = fruit.posX;
     for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
         y = fruit.posY - i;
         if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
             changeTile(fruitCtrl->map, x, y, GRASS);
-        else
-            break;
     }
     for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
         y = fruit.posY + i;
         if (checkType(fruitCtrl->map, x, y) == EXPLOSION)
             changeTile(fruitCtrl->map, x, y, GRASS);
-        else
-            break;
     }
 }
 
@@ -239,6 +231,7 @@ void moveFruit(Fruit* fruit){
         fruit->velX = 0;
         fruit->velY = 0;
         fruit->tossed = 0;
+        changeTile(map, fruit->posX, fruit->posY, FRUIT);
         return;
     }
     if (fruit->velX > 0)
@@ -268,6 +261,9 @@ void moveFruit(Fruit* fruit){
         fruit->velX = 0;
         fruit->velY = 0;
         fruit->tossed = 0;
+        printf("didn't kick\n");
+    } else {
+    	printf("did kick\n");
     }
     changeTile(map, fruit->posX, fruit->posY, FRUIT);
 }
@@ -277,8 +273,10 @@ char checkFruitCollision (Fruit* f)
     tile_t tile = checkType(map, f->posX, f->posY);
     if (f->posX < 0 || f->posY < 0 || (f->posX+TILE_SIZE) >= SCREEN_WIDTH || (f->posY+TILE_SIZE) >= SCREEN_HEIGHT)
         return 1;
-    else if ((tile != FRUIT && tile != EXPLOSION) || map[f->posY][f->posX].playerOn == 1)
+    else if ((tile != GRASS && tile != EXPLOSION) || map[f->posY][f->posX].playerOn == 1) {
+    	printf("the tile is %d\n", tile);
         return 1;
+    }
     return 0;
 }
 char checkThrowCollision (Fruit* f)

@@ -12,7 +12,7 @@ static const int NTILEX = 20; //SCREEN_WIDTH / TILE_SIZE
 static const int NTILEY = 15; //SCREEN_HEIGHT / TILE_SIZE
 
 static const char maplayout[] = "55555555555555555555"
-                                "5000006789:;<0000005"
+                                "5000006789:;00000005"
                                 "50404343403434343435"
                                 "50030333330030330335"
                                 "50404343430434343405"

@@ -8,7 +8,7 @@
 #define NUM_PLAYERS 2
 #define FRUIT_TIMEOUT 30
 #define EXPLOSION_TIMEOUT 15
-#define DEFAULT_RADIUS 1
+#define DEFAULT_RADIUS 3
 
 typedef enum fruitStatus {
     hidden,
@@ -42,7 +42,7 @@ extern FruitCtrl* fruitCtrl;
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d);
 void printFruits(FruitCtrl *fruitCtrl);
 void updateFruits(FruitCtrl *fruitCtrl);
-char checkExplosion(FruitCtrl *fruitCtrl, int x, int y);
+tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y);
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit);
 void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit);
 void increaseFruitRadius(FruitCtrl *fruitCtrl, int owner);

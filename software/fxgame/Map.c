@@ -107,7 +107,7 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
                     case POWERUP_KICK:
                     alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFF00,1);
                     break;
-                    case POWERUP_THROW:
+                    case POWERUP_TOSS:
                     alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0FF0,1);
                     break;
                     case POWERUP_INVINCIBLE:

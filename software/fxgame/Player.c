@@ -10,18 +10,38 @@ void handleEvents (Player* p)
 
 void move (Player* p)
 {
-    int tempx = p->posX;
-    int tempy = p->posY;
-    p->posX += p->velX;
-    if (checkCollision(p, map, none)) {
-        p->posX -= p->velX;
+    set_db(map, p->posX, p->posY);
+    map[p->posY][p->posX].playerOn = 0;
+    if (keyboard[get_ascii_code_index(p->fruitKey)].pressed == 1) {
+        printf("dropping bomb!\n");
+        dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
+        return;
     }
-
-    p->posY += p->velY;
-    if (checkCollision(p, map, none)) {
-        p->posY -= p->velY;
+    else if (keyboard[get_ascii_code_index(p->rightKey)].pressed == 1) {
+        p->posX += TILE_SIZE;
+        p->dir = right;
+        if (checkCollision(p, map, right))
+            p->posX -= TILE_SIZE;
     }
-    set_db(map, tempx, tempy);
+    else if (keyboard[get_ascii_code_index(p->leftKey)].pressed == 1) {
+        p->posX -= TILE_SIZE;
+        p->dir = left;
+        if (checkCollision(p, map, left))
+            p->posX += TILE_SIZE;
+    }
+    else if (keyboard[get_ascii_code_index(p->upKey)].pressed == 1) {
+        p->posY -= TILE_SIZE;
+        p->dir = up;
+        if (checkCollision(p, map, up))
+            p->posY += TILE_SIZE;
+    }
+    else if (keyboard[get_ascii_code_index(p->downKey)].pressed == 1) {
+        p->posY += TILE_SIZE;
+        p->dir = down;
+        if (checkCollision(p, map, down))
+            p->posY -= TILE_SIZE;
+    }
+    map[p->posY][p->posX].playerOn = 1;
 }
 
 void movePress (Player* p, char ascii) {
@@ -99,7 +119,7 @@ void updatePlayer(Player* p)
         p->respawnTime--;
 }
 
-char checkCollision (Player* p, tile** map, direction dir)
+char checkCollision (Player* p, mapTile** map, direction dir)
 {
     tile_t tile = checkType(map, p->posX, p->posY);
     if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {

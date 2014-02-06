@@ -1,12 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Types.h"
 #include "animations.h"
 #include "Fruits.h"
 #include "keyboard.h"
 #include "Map.h"
 #include "PowerUps.h"
-#include "Types.h"
 
 #define RESPAWN_TIME 30
 static const int VELOCITY = 5;
@@ -21,7 +21,7 @@ typedef struct Player {
     char velX; // velocity of the player
     char velY;
     char dropBomb;
-    char id;
+    int id;
     char leftKey;
     char rightKey;
     char upKey;
