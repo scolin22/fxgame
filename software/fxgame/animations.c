@@ -1,6 +1,5 @@
 #include <string.h>
 #include "animations.h"
-#include "readbmp.h"
 
 Pixel_Map* booted_bmps;
 

@@ -1,13 +1,4 @@
-// ONLY READFILEBYTES WORKS RIGHT NOW
-// CHECK readbmp.c TO SEE HOW SDCARD API WORKS
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <altera_up_sd_card_avalon_interface.h>
-
-#define DEBUG 0
+#include "sdcard.h"
 
 int initSD(int *connected) {
     alt_up_sd_card_dev *device_reference = NULL;
@@ -105,8 +96,8 @@ int readFile(char *file, bool create, char *result) {
 int readFileBytes(char *file, int bytes, char *result, FILE *fp) {
     if (DEBUG) printf("File %s opened %d\n", file, fp);
     if (fp == -2) {
-    	if (DEBUG) printf("FILE ALREADY OPEN\n");
-    	return -1;
+        if (DEBUG) printf("FILE ALREADY OPEN\n");
+        return -1;
     }
 
     int index = 0;
