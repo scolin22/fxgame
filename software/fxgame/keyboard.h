@@ -16,6 +16,7 @@
 #include "sys/alt_timestamp.h"
 #include <system.h>
 #include "io.h"
+#include "Player.h"
 
 #define SCAN_CODE_NUM  102
 
@@ -24,12 +25,10 @@ typedef struct keys {
     int elapsedTime;
 }keys;
 
-extern keys keyboard[SCAN_CODE_NUM];
-extern char ascii_codes[SCAN_CODE_NUM];
 int get_ascii_code_index(char code);
 
 char kbd_input();
-void kbd_init(void);
+void kbd_init(void* arg);
 void kbd_clear(void);
 
 #endif

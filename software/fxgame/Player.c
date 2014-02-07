@@ -1,83 +1,79 @@
 #include "Player.h"
 
-Player* p1;
-Player* p2;
-
 void handleEvents (Player* p)
 {
-    checkCollision(p, map, none);
+    checkCollision(p, none);
 }
 
-void move (Player* p)
-{
-    set_db(map, p->posX, p->posY);
-    map[p->posY][p->posX].playerOn = 0;
-    if (keyboard[get_ascii_code_index(p->fruitKey)].pressed == 1) {
-        printf("dropping bomb!\n");
-        dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
-        return;
-    }
-    else if (keyboard[get_ascii_code_index(p->rightKey)].pressed == 1) {
-        p->posX += TILE_SIZE;
-        p->dir = right;
-        if (checkCollision(p, map, right))
-            p->posX -= TILE_SIZE;
-    }
-    else if (keyboard[get_ascii_code_index(p->leftKey)].pressed == 1) {
-        p->posX -= TILE_SIZE;
-        p->dir = left;
-        if (checkCollision(p, map, left))
-            p->posX += TILE_SIZE;
-    }
-    else if (keyboard[get_ascii_code_index(p->upKey)].pressed == 1) {
-        p->posY -= TILE_SIZE;
-        p->dir = up;
-        if (checkCollision(p, map, up))
-            p->posY += TILE_SIZE;
-    }
-    else if (keyboard[get_ascii_code_index(p->downKey)].pressed == 1) {
-        p->posY += TILE_SIZE;
-        p->dir = down;
-        if (checkCollision(p, map, down))
-            p->posY -= TILE_SIZE;
-    }
-    map[p->posY][p->posX].playerOn = 1;
-}
+//void move (Player* p)
+//{
+//    set_db(map, p->posX, p->posY);
+//    map[p->posY][p->posX].playerOn = 0;
+//    if (keyboard[get_ascii_code_index(p->fruitKey)].pressed == 1) {
+//        printf("dropping bomb!\n");
+//        dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
+//        return;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->rightKey)].pressed == 1) {
+//        p->posX += TILE_SIZE;
+//        p->dir = right;
+//        if (checkCollision(p, map, right))
+//            p->posX -= TILE_SIZE;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->leftKey)].pressed == 1) {
+//        p->posX -= TILE_SIZE;
+//        p->dir = left;
+//        if (checkCollision(p, map, left))
+//            p->posX += TILE_SIZE;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->upKey)].pressed == 1) {
+//        p->posY -= TILE_SIZE;
+//        p->dir = up;
+//        if (checkCollision(p, map, up))
+//            p->posY += TILE_SIZE;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->downKey)].pressed == 1) {
+//        p->posY += TILE_SIZE;
+//        p->dir = down;
+//        if (checkCollision(p, map, down))
+//            p->posY -= TILE_SIZE;
+//    }
+//    map[p->posY][p->posX].playerOn = 1;
+//}
 
 void movePress (Player* p, char ascii) {
 
-    set_db(map, p->posX, p->posY);
-    map[p->posY][p->posX].playerOn = 0;
-    if (ascii_codes[get_ascii_code_index(p->fruitKey)] == ascii) {
-        printf("dropping bomb!\n");
+    set_db(p->map, p->posX, p->posY);
+    p->map[p->posY][p->posX].playerOn = 0;
+    if (p->fruitKey == ascii) {
         dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
         return;
     }
-    else if (ascii_codes[get_ascii_code_index(p->rightKey)] == ascii) {
+    else if (p->rightKey == ascii) {
         p->posX += TILE_SIZE;
         p->dir = right;
-        if (checkCollision(p, map, right))
+        if (checkCollision(p, right))
             p->posX -= TILE_SIZE;
     }
-    else if (ascii_codes[get_ascii_code_index(p->leftKey)] == ascii) {
+    else if (p->leftKey == ascii) {
         p->posX -= TILE_SIZE;
         p->dir = left;
-        if (checkCollision(p, map, left))
+        if (checkCollision(p, left))
             p->posX += TILE_SIZE;
     }
-    else if (ascii_codes[get_ascii_code_index(p->upKey)] == ascii) {
+    else if (p->upKey == ascii) {
         p->posY -= TILE_SIZE;
         p->dir = up;
-        if (checkCollision(p, map, up))
+        if (checkCollision(p, up))
             p->posY += TILE_SIZE;
     }
-    else if (ascii_codes[get_ascii_code_index(p->downKey)] == ascii) {
+    else if (p->downKey == ascii) {
         p->posY += TILE_SIZE;
         p->dir = down;
-        if (checkCollision(p, map, down))
+        if (checkCollision(p, down))
             p->posY -= TILE_SIZE;
     }
-    map[p->posY][p->posX].playerOn = 1;
+    p->map[p->posY][p->posX].playerOn = 1;
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
@@ -91,24 +87,24 @@ void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
     //draw this pixel_map_16 at x,y
     if(!p->respawnTime)
         if(p->id == 0) {
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
-            //draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
         }
         else {
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
-            //draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
         }
     else if (p->respawnTime % 2 == 1){
-        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
+        	// alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
     }
     else if (p->respawnTime % 2 == 0){
         if(p->id == 0) {
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
-            //draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
         }
         else {
-            alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
-            //draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
+            draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
         }
     }
 }
@@ -119,8 +115,9 @@ void updatePlayer(Player* p)
         p->respawnTime--;
 }
 
-char checkCollision (Player* p, mapTile** map, direction dir)
+char checkCollision (Player* p, direction dir)
 {
+	mapTile** map = p->map;
     tile_t tile = checkType(map, p->posX, p->posY);
     if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
         return 1;
@@ -131,7 +128,7 @@ char checkCollision (Player* p, mapTile** map, direction dir)
     } else if (tile == EXPLOSION) {
         return 0;
     } else if (tile == FRUIT && checkPowerUps(p,kick)) {
-        Fruit* fruit = checkForFruitAtPosition(p->posX, p->posY);
+        Fruit* fruit = checkForFruitAtPosition(p->fruitCtrl, p->posX, p->posY);
         if(dir == right)
             fruit->velX = 1;
         else if(dir == left)

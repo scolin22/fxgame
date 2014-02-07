@@ -3,8 +3,6 @@
 
 #include "Map.h"
 
-mapTile** map;
-
 mapTile** initMap ()
 {
     mapTile** d = (mapTile**)malloc(NTILEY*sizeof(mapTile*));
@@ -75,27 +73,27 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
             if (d[j][i].db > 0) {
                 switch(d[j][i].t){
                     case GRASS:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x07c0,1);
-                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, x, y);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x07c0,1);
+                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, x, y);
                     break;
                     case FRUIT:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
-                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, x, y);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
+                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, x, y);
                     break;
                     case EXPLOSION:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2900,1);
-                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 6, x, y);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2900,1);
+                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 6, x, y);
                     break;
                     case CRATE:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0502,1);
-                    //draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, x, y);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0502,1);
+                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 0, x, y);
                     break;
                     case BLOCK:
-                    // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2010,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2010,1);
                     draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, x, y);
                     break;
                     case END:
-                    // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2010,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2010,1);
                     draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, x, y);
                     break;
                     case POWERUP_FRUITS:

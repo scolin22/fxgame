@@ -30,17 +30,19 @@ typedef struct Player {
     direction dir;
     FruitCtrl *fruitCtrl;
     powerUps pwrUps;
+    mapTile** map;
 } Player;
 
-extern Player* p1;
-extern Player* p2;
+typedef struct Players {
+	Player* list[NUM_PLAYERS];
+} Players;
 
 void handleEvents (Player* p);
 void move (Player* p);
 void movePress (Player* p, char ascii);
 void render (Player* p);
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
-char checkCollision (Player* p, mapTile** map, direction dir);
+char checkCollision (Player* p, direction dir);
 char checkPowerUps(Player *p, powerUps pwrUp);
 void setPowerUps(Player *p, powerUps pwrUp);
 
