@@ -1,5 +1,4 @@
 #include "readbmp.h"
-#include "sdcard.h"
 
 Pixel* init_pixel_map_16_from_bmp(char* filename) {
     BitmapFileHeader* bmfh = (BitmapFileHeader*)malloc(8*sizeof(BitmapFileHeader));

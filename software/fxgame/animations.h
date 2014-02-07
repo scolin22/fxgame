@@ -6,9 +6,12 @@
 #include <system.h>
 #include <string.h>
 
+#include "readbmp.h"
+#include "sdcard.h"
 #include "queue_type.h"
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
+#include "io.h"
 
 #define HEIGHT 240
 #define WIDTH 320
@@ -43,5 +46,8 @@ int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pix
 int draw_screen_from_bmp(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel_Map* booted_bmps, int filename, int x, int y);
 
 int boot_bmps(Pixel_Map* booted_bmps);
+
+int draw_pixel_fast(alt_up_pixel_buffer_dma_dev *pixel_buffer,
+        unsigned int color, unsigned int x, unsigned int y);
 
 #endif

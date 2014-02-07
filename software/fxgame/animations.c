@@ -1,6 +1,4 @@
 #include "animations.h"
-#include "readbmp.h"
-#include "sdcard.h"
 
 Pixel_Map* booted_bmps;
 
@@ -53,7 +51,7 @@ int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
 }
 
 int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pixel* pixel_map_16, int x0, int y0) {
-    int i, j = 0, x, y;
+    unsigned int i, j = 0, x, y;
     uint16_t color;
     for (i = 0; i < PS; i++) {
         x = i % 16;
@@ -65,7 +63,8 @@ int draw_screen_from_pixel_map_16(alt_up_pixel_buffer_dma_dev *pixel_buffer, Pix
 
         color = pixel_map_16[i].red << 11 | pixel_map_16[i].green << 5 | pixel_map_16[i].blue;
         if (color != 0x7C0) {
-            alt_up_pixel_buffer_dma_draw_rectangle(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 1);
+            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x + x0, y + y0, x + x0, y + y0, color, 1);
+            draw_pixel_fast(pixel_buffer, color, x + x0, y + y0);
         }
     }
     return 1;
@@ -108,4 +107,16 @@ int boot_bmps(Pixel_Map* booted_bmps) {
     booted_bmps->CRATE_pixel_map = init_pixel_map_16_from_bmp("CRATE.BMP");
 
     return booted_bmps;
+}
+
+int draw_pixel_fast(alt_up_pixel_buffer_dma_dev *pixel_buffer,
+        unsigned int color, unsigned int x, unsigned int y) {
+    unsigned int addr = 0;
+
+    addr |= ((x & pixel_buffer->x_coord_mask) << pixel_buffer->x_coord_offset);
+    addr |= ((y & pixel_buffer->y_coord_mask) << pixel_buffer->y_coord_offset);
+
+    IOWR_16DIRECT(pixel_buffer->back_buffer_start_address, addr, color);
+
+    return 0;
 }
