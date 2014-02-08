@@ -20,8 +20,8 @@ typedef struct Fruit {
     fruitStatus status;
     int radius;
     int owner;
-    int x_pos;
-    int y_pos;
+    int posX;
+    int posY;
 } Fruit;
 
 typedef struct FruitCtrl {
@@ -35,7 +35,8 @@ typedef struct FruitCtrl {
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d);
 void printFruits(FruitCtrl *fruitCtrl);
 void updateFruits(FruitCtrl *fruitCtrl);
-char checkExplosion(FruitCtrl *fruitCtrl, int x, int y);
+tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y);
+char explodeTile(mapTile** map, int x, int y, tile_t tile);
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit);
 void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit);
 char dropFruit(FruitCtrl *fruitCtrl, int owner, int x, int y);
