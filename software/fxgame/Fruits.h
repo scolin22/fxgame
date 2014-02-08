@@ -3,7 +3,7 @@
 
 #include "Map.h"
 
-#define FRUITS_PER_PLAYER 2
+#define FRUITS_PER_PLAYER 10
 #define NUM_PLAYERS 2
 #define FRUIT_TIMEOUT 30
 #define EXPLOSION_TIMEOUT 15

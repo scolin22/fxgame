@@ -25,10 +25,12 @@ typedef struct Player {
     char downKey;
     char fruitKey;
     FruitCtrl *fruitCtrl;
+    mapTile **map;
 } Player;
 
-extern Player* p1;
-extern Player* p2;
+typedef struct Players {
+	Player* list[NUM_PLAYERS];
+} Players;
 
 void handleEvents (Player* p);
 void move (Player* p);

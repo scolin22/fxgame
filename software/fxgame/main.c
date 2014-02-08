@@ -20,7 +20,7 @@
 #define PS 256
 
 int main() {
-    map = initMap();
+    mapTile** map = initMap();
     //initialize other stuff such as vga, sd card, etc.
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
@@ -28,7 +28,7 @@ int main() {
     FruitCtrl* fruitCtrl = malloc(sizeof(FruitCtrl));
     initFruits(fruitCtrl,map);
 
-    p1 = (Player*)malloc(sizeof(Player));
+    Player* p1 = (Player*)malloc(sizeof(Player));
 
     p1->posX = 16;
     p1->posY = 16;
@@ -44,8 +44,9 @@ int main() {
     p1->fruitKey = 'Q';
     p1->lives = 10;
     p1->fruitCtrl = fruitCtrl;
+    p1->map = map;
 
-    p2 = (Player*)malloc(sizeof(Player));
+    Player* p2 = (Player*)malloc(sizeof(Player));
 
     p2->posX = 16+TILE_SIZE*17;
     p2->posY = 16+TILE_SIZE*12;
@@ -61,13 +62,18 @@ int main() {
     p2->fruitKey = 'b';
     p2->lives = 10;
     p2->fruitCtrl = fruitCtrl;
+    p2->map = map;
+
+    Players* players;
+    players->list[p1->id] = p1;
+    players->list[p2->id] = p2;
 
     Score* score = (Score*)malloc(sizeof(Score));
 
     char key;
 
     printf("Initializing Setup \n");
-    kbd_init();
+    kbd_init(players);
     printf("Ready for key press: \n");
 
     //Keep this here -Colin

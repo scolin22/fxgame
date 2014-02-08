@@ -7,7 +7,7 @@ Player* p2;
 
 void handleEvents (Player* p)
 {
-	checkCollision(p, map);
+	checkCollision(p, p->map);
 }
 
 void move (Player* p)
@@ -15,42 +15,42 @@ void move (Player* p)
     int tempx = p->posX;
     int tempy = p->posY;
     p->posX += p->velX;
-    if (checkCollision(p, map)) {
+    if (checkCollision(p, p->map)) {
         p->posX -= p->velX;
     }
 
     p->posY += p->velY;
-    if (checkCollision(p, map)) {
+    if (checkCollision(p, p->map)) {
         p->posY -= p->velY;
     }
-    set_db(map, tempx, tempy);
+    set_db(p->map, tempx, tempy);
 }
 
 void movePress (Player* p, char ascii) {
 
-	 set_db(map, p->posX, p->posY);
+	 set_db(p->map, p->posX, p->posY);
     if (ascii_codes[get_ascii_code_index(p->fruitKey)] == ascii) {
         dropFruit(p->fruitCtrl, p->id, p->posX, p->posY);
         return;
     }
     else if (ascii_codes[get_ascii_code_index(p->rightKey)] == ascii) {
         p->posX += TILE_SIZE;
-        if (checkCollision(p, map))
+        if (checkCollision(p, p->map))
             p->posX -= TILE_SIZE;
     }
     else if (ascii_codes[get_ascii_code_index(p->leftKey)] == ascii) {
         p->posX -= TILE_SIZE;
-        if (checkCollision(p, map))
+        if (checkCollision(p, p->map))
             p->posX += TILE_SIZE;
     }
     else if (ascii_codes[get_ascii_code_index(p->upKey)] == ascii) {
         p->posY -= TILE_SIZE;
-        if (checkCollision(p, map))
+        if (checkCollision(p, p->map))
             p->posY += TILE_SIZE;
     }
     else if (ascii_codes[get_ascii_code_index(p->downKey)] == ascii) {
         p->posY += TILE_SIZE;
-        if (checkCollision(p, map))
+        if (checkCollision(p, p->map))
             p->posY -= TILE_SIZE;
     }
 }
