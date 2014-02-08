@@ -7,7 +7,7 @@ Player* p2;
 
 void handleEvents (Player* p)
 {
-	checkCollision(p, p->map);
+	checkCollision(p, p->map, none);
 }
 
 void move (Player* p)
@@ -15,12 +15,12 @@ void move (Player* p)
     int tempx = p->posX;
     int tempy = p->posY;
     p->posX += p->velX;
-    if (checkCollision(p, p->map)) {
+    if (checkCollision(p, p->map, none)) {
         p->posX -= p->velX;
     }
 
     p->posY += p->velY;
-    if (checkCollision(p, p->map)) {
+    if (checkCollision(p, p->map, none)) {
         p->posY -= p->velY;
     }
     set_db(p->map, tempx, tempy);
@@ -29,28 +29,28 @@ void move (Player* p)
 void movePress (Player* p, char ascii) {
 
 	 set_db(p->map, p->posX, p->posY);
-    if (ascii_codes[get_ascii_code_index(p->fruitKey)] == ascii) {
+    if (p->fruitKey == ascii) {
         dropFruit(p->fruitCtrl, p->id, p->posX, p->posY);
         return;
     }
-    else if (ascii_codes[get_ascii_code_index(p->rightKey)] == ascii) {
+    else if (p->rightKey == ascii) {
         p->posX += TILE_SIZE;
-        if (checkCollision(p, p->map))
+        if (checkCollision(p, p->map, right))
             p->posX -= TILE_SIZE;
     }
-    else if (ascii_codes[get_ascii_code_index(p->leftKey)] == ascii) {
+    else if (p->leftKey == ascii) {
         p->posX -= TILE_SIZE;
-        if (checkCollision(p, p->map))
+        if (checkCollision(p, p->map, left))
             p->posX += TILE_SIZE;
     }
-    else if (ascii_codes[get_ascii_code_index(p->upKey)] == ascii) {
+    else if (p->upKey == ascii) {
         p->posY -= TILE_SIZE;
-        if (checkCollision(p, p->map))
+        if (checkCollision(p, p->map, up))
             p->posY += TILE_SIZE;
     }
-    else if (ascii_codes[get_ascii_code_index(p->downKey)] == ascii) {
+    else if (p->downKey == ascii) {
         p->posY += TILE_SIZE;
-        if (checkCollision(p, p->map))
+        if (checkCollision(p, p->map, down))
             p->posY -= TILE_SIZE;
     }
 }
@@ -99,16 +99,37 @@ void updatePlayer(Player* p)
         p->respawnTime--;
 }
 
-char checkCollision (Player* p, mapTile** map)
+char checkCollision (Player* p, mapTile** map, direction dir)
 {
+	tile_t currentTile = checkType(map, p->posX, p->posY);
     if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
         return 1;
-    } else if (checkType(map, p->posX, p->posY) == EXPLOSION && p->respawnTime == 0) {
+    } else if (currentTile == EXPLOSION && p->respawnTime == 0) {
         p->respawnTime = RESPAWN_TIME;
         p->lives--;
         return 0;
-    } else if (checkType(map, p->posX, p->posY) == EXPLOSION) {
+    } else if (currentTile == EXPLOSION) {
         return 0;
+    } else if (currentTile == FRUIT && dir != none) {
+    	Fruit* currentFruit = checkForFruitAtPosition(p->fruitCtrl, p->posX, p->posY);
+    	printf("Address of fruit is %x\n", currentFruit);
+    	switch(dir) {
+    	case left:
+    		currentFruit->velX = -1;
+    		break;
+    	case right:
+    		currentFruit->velX = 1;
+    		break;
+    	case up:
+    		currentFruit->velY = -1;
+    		break;
+    	case down:
+    		currentFruit->velY = 1;
+    		break;
+    	default:
+    		break;
+    	}
+        return 1;
     } else if (checkType(map, p->posX, p->posY) != GRASS) {
         return 1;
     }

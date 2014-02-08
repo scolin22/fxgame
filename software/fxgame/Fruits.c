@@ -11,7 +11,7 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d) {
 	while (i < NUM_PLAYERS) {
 		fruitCtrl->startIndex[i] = i*FRUITS_PER_PLAYER;
 		fruitCtrl->numFruits[i] = 0;
-		fruitCtrl->maxFruits[i] = 2;
+		fruitCtrl->maxFruits[i] = INIT_FRUITS;
 		int j;
 		for (j = i*FRUITS_PER_PLAYER; j < (i+1)*FRUITS_PER_PLAYER; j++) {
 			fruitCtrl->fruits[j].owner = i;
@@ -20,6 +20,8 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d) {
 			fruitCtrl->fruits[j].timeLeft = 0;
 			fruitCtrl->fruits[j].posX = 0;
 			fruitCtrl->fruits[j].posY = 0;
+			fruitCtrl->fruits[j].velX = 0;
+			fruitCtrl->fruits[j].velY = 0;
 		}
 		i++;
 	}
@@ -37,6 +39,8 @@ void updateFruits(FruitCtrl *fruitCtrl) {
 	int i;
 	for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++) {
 		if (fruitCtrl->fruits[i].timeLeft > 0) {
+			if((fruitCtrl->fruits[i].velX != 0 || fruitCtrl->fruits[i].velY != 0) && fruitCtrl->fruits[i].status == active)
+				moveFruit(fruitCtrl, &(fruitCtrl->fruits[i]));
 			fruitCtrl->fruits[i].timeLeft--;
 			if (fruitCtrl->fruits[i].timeLeft <= 0) {
 				if (fruitCtrl->fruits[i].status == active) {
@@ -76,9 +80,8 @@ tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
 				}
 			}
 		}
-	} else {
-		return GRASS;
 	}
+	return GRASS;
 }
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
 
@@ -204,6 +207,7 @@ char dropFruit(FruitCtrl *fruitCtrl, int owner, int x, int y){
 	int i;
 	for (i = fruitCtrl->startIndex[owner]; i < (owner < NUM_PLAYERS - 1 ? fruitCtrl->startIndex[owner + 1] : NUM_PLAYERS*FRUITS_PER_PLAYER); i++) {
 		if (fruitCtrl->fruits[i].status == hidden) {
+			printf("Dropping fruit at %d,%d\n", x, y);
 			fruitCtrl->fruits[i].status = active;
 			fruitCtrl->fruits[i].owner = owner;
 			fruitCtrl->fruits[i].posX = x;
@@ -216,3 +220,58 @@ char dropFruit(FruitCtrl *fruitCtrl, int owner, int x, int y){
 	}
 	return 1;
 }
+
+void moveFruit(FruitCtrl* fruitCtrl, Fruit* fruit){
+	printf("Moving fruit\n");
+	changeTile(fruitCtrl->map, fruit->posX, fruit->posY, GRASS);
+	set_db(fruitCtrl->map, fruit->posX, fruit->posY);
+
+	int initX = fruit->posX;
+	int initY = fruit->posY;
+
+	if (fruit->status != active) {
+		fruit->velX = 0;
+		fruit->velY = 0;
+		return;
+	}
+
+	if (fruit->velX > 0)
+		fruit->posX += TILE_SIZE;
+	else if (fruit->velX < 0)
+		fruit->posX -= TILE_SIZE;
+	else if (fruit->velY > 0)
+		fruit->posY += TILE_SIZE;
+	else if (fruit->velY < 0)
+		fruit->posY -= TILE_SIZE;
+
+	if (checkFruitCollision(fruitCtrl, fruit)) {
+		fruit->posX = initX;
+		fruit->posY = initY;
+		fruit->velX = 0;
+		fruit->velY = 0;
+	}
+	changeTile(fruitCtrl->map, fruit->posX, fruit->posY, FRUIT);
+}
+
+char checkFruitCollision (FruitCtrl* fruitCtrl, Fruit* f)
+{
+	tile_t tile = checkType(fruitCtrl->map, f->posX, f->posY);
+	if (f->posX < 0 || f->posY < 0 || (f->posX+TILE_SIZE) >= SCREEN_WIDTH || (f->posY+TILE_SIZE) >= SCREEN_HEIGHT)
+		return 1;
+	else if (tile == BLOCK || tile == CRATE || tile == FRUIT || tile == END)
+		return 1;
+	return 0;
+}
+
+Fruit* checkForFruitAtPosition(FruitCtrl* fruitCtrl, int x, int y) {
+	int i;
+	for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++) {
+		if (x_to_tx(fruitCtrl->fruits[i].posX) == x_to_tx(x) && y_to_ty(fruitCtrl->fruits[i].posY) == y_to_ty(y)) {
+			printf("Colliding with fruit at %d, %d\n", x, y);
+			return &(fruitCtrl->fruits[i]);
+		}
+	}
+	printf("No fruit found!\n");
+	return NULL;
+}
+

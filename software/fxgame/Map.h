@@ -48,6 +48,7 @@ tile_t changeTile(mapTile** d, int x, int y, tile_t tile);
 tile_t checkType (mapTile** d, int x, int y);
 void debugPrint (mapTile** d);
 void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer);
+void set_db(mapTile** d, int x, int y);
 
 char x_to_tx (int x);
 char y_to_ty (int y);

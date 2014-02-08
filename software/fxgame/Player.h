@@ -4,6 +4,7 @@
 #include "animations.h"
 #include "Fruits.h"
 #include "keyboard.h"
+#include "Types.h"
 
 #define RESPAWN_TIME 30
 static const int VELOCITY = 5;
@@ -37,6 +38,6 @@ void move (Player* p);
 void movePress (Player* p, char ascii);
 void render (Player* p);
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
-char checkCollision (Player* p, mapTile** map);
+char checkCollision (Player* p, mapTile** map, direction dir);
 
 #endif //PLAYER_H

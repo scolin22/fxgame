@@ -4,6 +4,7 @@
 #include "Map.h"
 
 #define FRUITS_PER_PLAYER 10
+#define INIT_FRUITS 10
 #define NUM_PLAYERS 2
 #define FRUIT_TIMEOUT 30
 #define EXPLOSION_TIMEOUT 15
@@ -22,6 +23,8 @@ typedef struct Fruit {
     int owner;
     int posX;
     int posY;
+    int velX;
+    int velY;
 } Fruit;
 
 typedef struct FruitCtrl {
@@ -40,5 +43,8 @@ char explodeTile(mapTile** map, int x, int y, tile_t tile);
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit);
 void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit);
 char dropFruit(FruitCtrl *fruitCtrl, int owner, int x, int y);
+char checkFruitCollision (FruitCtrl* fruitCtrl, Fruit* f);
+Fruit* checkForFruitAtPosition(FruitCtrl* fruitCtrl, int x, int y);
+void moveFruit(FruitCtrl* fruitCtrl, Fruit* fruit);
 
 #endif //FruitCtrl.h
