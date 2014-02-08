@@ -44,7 +44,7 @@ void handleEvents (Player* p)
 void movePress (Player* p, char ascii) {
 
     set_db(p->map, p->posX, p->posY);
-    p->map[p->posY][p->posX].playerOn = 0;
+    p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 0;
     if (p->fruitKey == ascii) {
         dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
         return;
@@ -73,7 +73,7 @@ void movePress (Player* p, char ascii) {
         if (checkCollision(p, down))
             p->posY -= TILE_SIZE;
     }
-    p->map[p->posY][p->posX].playerOn = 1;
+    p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 1;
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)

@@ -269,7 +269,7 @@ char checkFruitCollision (mapTile** map, Fruit* f)
     tile_t tile = checkType(map, f->posX, f->posY);
     if (f->posX < 0 || f->posY < 0 || (f->posX+TILE_SIZE) >= SCREEN_WIDTH || (f->posY+TILE_SIZE) >= SCREEN_HEIGHT)
         return 1;
-    else if ((tile != GRASS && tile != EXPLOSION) || map[f->posY][f->posX].playerOn == 1) {
+    else if ((tile != GRASS && tile != EXPLOSION) || map[y_to_ty(f->posY)][x_to_tx(f->posX)].playerOn == 1) {
     	printf("the tile is %d\n", tile);
         return 1;
     }
