@@ -45,7 +45,7 @@ void movePress (Player* p, char ascii) {
 
     set_db(p->map, p->posX, p->posY);
     p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 0;
-    if (p->fruitKey == ascii) {
+    if (p->fruitKey == ascii && (p->respawnTime <= 0 || checkPowerUps(p, invincible))) {
         dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
         return;
     }
