@@ -80,6 +80,7 @@ int main() {
     char key;
 
     printf("Initializing Setup \n");
+
     kbd_init(players);
     printf("Ready for key press: \n");
 
@@ -99,6 +100,13 @@ int main() {
     refresh(pixel_buffer);
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
+
+    //init timer//
+    printf("Initializing Timer \n");
+    initTimer(score);
+    score->timeLeft = 180;
+    printf("Done timer: \n");
+
     while (1) {
     	handleEvents(p1);
     	handleEvents(p2);

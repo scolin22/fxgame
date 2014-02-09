@@ -15,7 +15,6 @@
 #include "io.h"
 #include "sys/alt_timestamp.h"
 #include <system.h>
-#include "io.h"
 #include "Player.h"
 
 #define SCAN_CODE_NUM  102
