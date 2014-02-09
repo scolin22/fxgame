@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "animations.h"
 #include "sdcard.h"
+#include "Sound.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -69,12 +70,12 @@ int main() {
     printf("Ready for key press: \n");
 
     //Keep this here -Colin
-   int connected = 0;
-   while (connected == 0) {
-       initSD(&connected);
-   }
+    int connected = 0;
+    while (connected == 0) {
+        initSD(&connected);
+    }
 
-   //This is booting bmps -Colin
+    //This is booting bmps -Colin
     booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
     booted_bmps = boot_bmps(booted_bmps);
 
@@ -84,7 +85,21 @@ int main() {
     refresh(pixel_buffer);
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
+
+    SoundBuffer *sb;
+    //Init sound
+    initSound(sb);
+
+    //Init fx sounds
+    initSoundFX();
+
+    //Init bg sound
+    initSoundBG();
+
     while (1) {
+        //Refresh bg sound
+        refreshSoundBG();
+
         handleEvents(p1, IORD(switches, 0));
 
         move(p1, map, fruitCtrl);
