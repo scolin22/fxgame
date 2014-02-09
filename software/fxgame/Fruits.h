@@ -3,7 +3,7 @@
 
 #include "Map.h"
 #include "Types.h"
-#define FRUITS_PER_PLAYER 1
+#define FRUITS_PER_PLAYER 10
 #define INIT_FRUITS 1
 #define NUM_PLAYERS 2
 #define FRUIT_TIMEOUT 30

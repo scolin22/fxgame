@@ -3,6 +3,8 @@
 
 #include "Fruits.h"
 
+int counter = 0;
+
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d) {
     int i = 0;
     fruitCtrl->map = d;
@@ -96,7 +98,8 @@ char explodeTile(mapTile** map, int x, int y, tile_t tile) {
     if (tile == BLOCK) {
         return 0;
     } else if (tile == CRATE) {
-        changeTile(map, x, y, 7);
+        changeTile(map, x, y, 6 + counter++);
+        if (counter == 6) counter = 0;
         return 0;
     } else if (tile == FRUIT) {
         changeTile(map, x, y, EXPLOSION);
@@ -109,10 +112,14 @@ char explodeTile(mapTile** map, int x, int y, tile_t tile) {
 
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
 
-    if(fruit.tileOn != BLOCK)
-        changeTile(fruitCtrl->map, fruit.posX, fruit.posY, EXPLOSION);
+    if(fruit.tileOn == BLOCK)
+    	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
+    else if (fruit.tileOn = FRUIT && (checkForFruitAtPosition(fruitCtrl, fruit.posX, fruit.posY)->tileOn == BLOCK)) {
+    	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
+    }
     else
-        changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
+        changeTile(fruitCtrl->map, fruit.posX, fruit.posY, EXPLOSION);
+
 
     tile_t currentTile;
     int x, y;

@@ -113,6 +113,8 @@ void updatePlayer(Player* p)
 {
     if(p->respawnTime > 0)
         p->respawnTime--;
+    else if (checkPowerUps(p, invincible))
+    	togglePowerUp(p, invincible);
 }
 
 char checkCollision (Player* p, direction dir)
@@ -153,10 +155,15 @@ char checkCollision (Player* p, direction dir)
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_INVINCIBLE) {
         setPowerUps(p, invincible);
+        p->respawnTime = RESPAWN_TIME*5;
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_BULLDOZER) {
         setPowerUps(p, bulldozer);
         changeTile(map, p->posX, p->posY, GRASS);
+    } else if ((tile == BLOCK || tile == CRATE ) && checkPowerUps(p,bulldozer)) {
+    	togglePowerUp(p, bulldozer);
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
     } else if (tile == BLOCK || tile == CRATE || tile == FRUIT || tile == END) {
         return 1;
     }
@@ -171,5 +178,9 @@ char checkPowerUps(Player *p, powerUps pwrUp) {
 
 void setPowerUps(Player *p, powerUps pwrUp) {
     p->pwrUps = p->pwrUps | pwrUp;
+}
+
+void togglePowerUp(Player *p, powerUps pwrUp) {
+    p->pwrUps = p->pwrUps ^ pwrUp;
 }
 
