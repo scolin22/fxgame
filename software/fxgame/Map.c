@@ -17,6 +17,8 @@ mapTile** initMap ()
         for (x = 0; x < NTILEX; x++) {
             d[y][x].t = maplayout[y*NTILEX+x] - '0';
             d[y][x].db = 2;
+            d[y][x].playerOn = 0;
+            d[y][x].owner = 0;
         }
     }
 
@@ -43,13 +45,19 @@ tile_t checkType (mapTile** d, int x, int y)
     }
 }
 
-tile_t changeTile(mapTile** d, int x, int y, tile_t tile) {
-    x = x_to_tx(x);
+tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner) {
+	set_db(d, x, y);
+	x = x_to_tx(x);
     y = y_to_ty(y);
     tile_t temp = d[y][x].t;
     d[y][x].t = tile;
     d[y][x].db = 2;
+    d[y][x].owner = owner;
     return temp;
+}
+
+tile_t changeTile(mapTile** d, int x, int y, tile_t tile) {
+    return changeTileWithOwner(d, x, y, tile, -1);
 }
 
 char x_to_tx (int x)

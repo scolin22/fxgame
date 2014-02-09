@@ -47,11 +47,13 @@ typedef struct mapTile {
     char t;
     char db;
     char playerOn;
+    char owner;
 } mapTile;
 
 mapTile** initMap ();
 
 void destroyMap (mapTile** d);
+tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner);
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile);
 tile_t checkType (mapTile** d, int x, int y);
 void debugPrint (mapTile** d);

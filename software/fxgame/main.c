@@ -42,7 +42,7 @@ int main() {
     p1->upKey = 'W';
     p1->downKey = 'S';
     p1->fruitKey = 'Q';
-    p1->lives = 10;
+    p1->score = 0;
     p1->fruitCtrl = fruitCtrl;
     p1->velX = 0;
     p1->velY = 0;
@@ -64,7 +64,7 @@ int main() {
     p2->upKey = '8';
     p2->downKey = '5';
     p2->fruitKey = '7';
-    p2->lives = 10;
+    p2->score = 0;
     p2->fruitCtrl = fruitCtrl;
     p2->velX = 0;
     p2->velY = 0;
@@ -74,7 +74,6 @@ int main() {
 
     Score* score = (Score*)malloc(sizeof(Score));
 
-    Players* players;
     players->list[p1->id] = p1;
     players->list[p2->id] = p2;
 
@@ -106,8 +105,8 @@ int main() {
         updateFruits(fruitCtrl);
         updatePlayer(p1);
         updatePlayer(p2);
-        score->scores[0] = p1->lives;
-        score->scores[1] = p2->lives;
+        score->scores[0] = p1->score;
+        score->scores[1] = p2->score;
         renderMap(map, pixel_buffer);
         renderPlayer (p1, pixel_buffer);
         renderPlayer (p2, pixel_buffer);

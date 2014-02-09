@@ -15,7 +15,7 @@ typedef struct Player {
     int posX; // x coordinate of the player (NOT the tile coordinate)
     int posY; // y coordinate of the player (NOT the tile coordinate)
     int respawnTime;
-    int lives;
+    int score;
     char width; // width of player (required for collision detection).. this should be the width of the player sprite
     char height; // height of player (required for collision detection
     char velX; // velocity of the player
@@ -36,6 +36,8 @@ typedef struct Player {
 typedef struct Players {
 	Player* list[NUM_PLAYERS];
 } Players;
+
+extern Players *players;
 
 void handleEvents (Player* p);
 void move (Player* p);

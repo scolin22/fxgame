@@ -1,5 +1,7 @@
 #include "Player.h"
 
+Players *players;
+
 void handleEvents (Player* p)
 {
     checkCollision(p, none);
@@ -125,7 +127,9 @@ char checkCollision (Player* p, direction dir)
         return 1;
     } else if (tile == EXPLOSION && p->respawnTime == 0) {
         p->respawnTime = RESPAWN_TIME;
-        p->lives--;
+        if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id)
+        	players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score += 100;
+        p->score -= 100;
         return 0;
     } else if (tile == EXPLOSION) {
         return 0;
