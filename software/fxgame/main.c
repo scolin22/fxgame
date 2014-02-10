@@ -104,7 +104,7 @@ int main() {
     //init timer//
     printf("Initializing Timer \n");
     initTimer(score, char_buffer);
-    score->timeLeft = 30;
+    score->timeLeft = 120;
     printf("Done timer: \n");
     while (1) {
     	handleEvents(p1);

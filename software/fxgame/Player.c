@@ -133,6 +133,18 @@ char checkCollision (Player* p, direction dir)
         return 0;
     } else if (tile == EXPLOSION) {
         return 0;
+    } else if (tile == COLLECTABLE_1) {
+    	*(p->score) += 100;
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
+    } else if (tile == COLLECTABLE_2) {
+    	*(p->score) += 500;
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
+    } else if (tile == COLLECTABLE_3) {
+    	*(p->score) += 1000;
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
     } else if (tile == FRUIT && checkPowerUps(p,kick)) {
         Fruit* fruit = checkForFruitAtPosition(p->fruitCtrl, p->posX, p->posY);
         if(dir == right)

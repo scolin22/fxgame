@@ -102,7 +102,7 @@ char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
     	printf("blowing up crate with %d who has score %d\n", owner, fruitCtrl->score->scores[owner]);
         changeTile(fruitCtrl->map, x, y, 6 + counter++);
         fruitCtrl->score->scores[owner] += 10;
-        if (counter == 6) counter = 0;
+        if (counter == 9) counter = 0;
         return 0;
     } else if (tile == FRUIT) {
         changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner);

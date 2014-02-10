@@ -122,6 +122,15 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
                     case POWERUP_BULLDOZER:
                     alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x000F,1);
                     break;
+                    case COLLECTABLE_1:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0000,1);
+                    break;
+                    case COLLECTABLE_2:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF0F0,1);
+                    break;
+                    case COLLECTABLE_3:
+                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFFFF,1);
+                    break;
                 }
                 d[j][i].db--;
             }

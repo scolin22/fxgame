@@ -40,7 +40,10 @@ typedef enum {
     POWERUP_KICK,
     POWERUP_TOSS,
     POWERUP_INVINCIBLE,
-    POWERUP_BULLDOZER
+    POWERUP_BULLDOZER,
+    COLLECTABLE_1,
+    COLLECTABLE_2,
+    COLLECTABLE_3
 } tile_t;
 
 typedef struct mapTile {
