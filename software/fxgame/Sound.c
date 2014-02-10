@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <altera_up_sd_card_avalon_interface.h>
 #include "Sound.h"
 
@@ -85,17 +86,6 @@ void initFX(char *filename, short int *storage) {
     printf("%s storage filled\n\n", filename);
 }
 
-//Init fx sounds
-void initSoundFX(SoundBuffer *sb) {
-    initFX("alive.wav", sb->alive);
-    initFX("death.wav", sb->death);
-    initFX("drop.wav", sb->drop);
-    initFX("end.wav", sb->end);
-    initFX("explode.wav", sb->explode);
-    initFX("powerup.wav", sb->powerup);
-    initFX("start.wav", sb->start);
-}
-
 //Init bg sound
 void initSoundBG(SoundBuffer *sb) {
     //open bg.wav forever
@@ -141,4 +131,42 @@ void refreshSoundBG(SoundBuffer *sb) {
         sb->mix[sb->write] = res / 2;
         sb->write = (sb->write + 1) % SIZE;
     }
+}
+
+void addSound(SoundBuffer *sb, char *action) {
+    char *filename;
+
+    if (strcmp(action, "ALIVE") == 0) {
+        filename = "alive.wav";
+    } else if (strcmp(action, "DEATH") == 0) {
+        filename = "death.wav";
+    } else if (strcmp(action, "DROP") == 0) {
+        filename = "drop.wav";
+    } else if (strcmp(action, "END") == 0) {
+        filename = "end.wav";
+    } else if (strcmp(action, "EXPLODE") == 0) {
+        filename = "explode.wav";
+    } else if (strcmp(action, "POWERUP") == 0) {
+        filename = "powerup.wav";
+    } else if (strcmp(action, "START") == 0) {
+        filename = "start.wav";
+    } else {
+        printf("No action associated with this sound\n" );
+        return;
+    }
+
+    int size = sizeWav(filename);
+    wav fp = openWav(filename);
+    int i;
+    short int data1, data2;
+    int write = sb->read;   //write to where are we about to read
+
+    for(i = 0; i < size; i++) {
+        data1 = alt_up_sd_card_read(fp);
+        data2 = alt_up_sd_card_read(fp);
+        short int res = (data2 << 8) | data1;
+        sb->mix[write] += res / 2;
+        write = (write + 1) % SIZE;
+    }
+    alt_up_sd_card_fclose(fp);
 }

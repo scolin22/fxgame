@@ -19,21 +19,13 @@ typedef struct {
     int write;  //index where data can be written
     alt_up_audio_dev *audio;
     short int *mix;     //output sound data
-    short int *alive;
-    short int *death;
-    short int *drop;
-    short int *end;
-    short int *explode;
-    short int *powerup;
-    short int *start;
-    short int *bg;
     wav fp;
 } SoundBuffer;
 
 void initSound(SoundBuffer *sb);
-void initSoundFX(SoundBuffer *sb);
 void initSoundBG(SoundBuffer *sb);
 void initSoundFinal(SoundBuffer *sb);
 void refreshSoundBG(SoundBuffer *sb);
+void addSound(SoundBuffer *sb, char *action);
 
 #endif

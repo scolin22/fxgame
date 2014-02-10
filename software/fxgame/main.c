@@ -88,17 +88,42 @@ int main() {
     //Init sound
     initSound(sb);
 
-    //Init fx sounds
-    initSoundFX(sb);
-
     //Init bg sound
     initSoundBG(sb);
 
+    //Init sound interrupt
     initSoundFinal(sb);
 
+    int in = 0;
     while (1) {
         //Refresh bg sound
         refreshSoundBG(sb);
+
+        in++;
+        if (in == 10) {
+            addSound(sb, "ALIVE");
+        }
+        if (in == 30) {
+            addSound(sb, "DEATH");
+        }
+        if (in == 40) {
+            addSound(sb, "DROP");
+        }
+        if (in == 50) {
+            addSound(sb, "END");
+        }
+        if (in == 60) {
+            addSound(sb, "EXPLODE");
+        }
+        if (in == 70) {
+            addSound(sb, "POWERUP");
+        }
+        if (in == 80) {
+            addSound(sb, "START");
+        }
+        if (in > 80) {
+            in = 0;
+        }
 
         handleEvents(p1, IORD(switches, 0));
 
