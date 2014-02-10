@@ -27,48 +27,28 @@ int sizeWav(char *filename) {
     return size;
 }
 
-static void audio_out(SoundBuffer *sb, int length) {
-    volatile int read = sb->read;
-    volatile int max = sb->read + length;
-
-    //printf("isr: sb->write %d, sb->read %d\n", sb->write, sb->read);
+void audio_out(SoundBuffer *sb, int length) {
+    int read = sb->read;
+    int max = sb->read + length;
 
     while (read < max) {
         IOWR_ALT_UP_AUDIO_LEFTDATA(sb->audio->base, sb->mix[read]);
-        IOWR_ALT_UP_AUDIO_LEFTDATA(sb->audio->base, sb->mix[read+1]);
-        IOWR_ALT_UP_AUDIO_LEFTDATA(sb->audio->base, sb->mix[read+2]);
-        IOWR_ALT_UP_AUDIO_LEFTDATA(sb->audio->base, sb->mix[read+3]);
-        IOWR_ALT_UP_AUDIO_LEFTDATA(sb->audio->base, sb->mix[read+4]);
-
         IOWR_ALT_UP_AUDIO_RIGHTDATA(sb->audio->base, sb->mix[read]);
-        IOWR_ALT_UP_AUDIO_RIGHTDATA(sb->audio->base, sb->mix[read+1]);
-        IOWR_ALT_UP_AUDIO_RIGHTDATA(sb->audio->base, sb->mix[read+2]);
-        IOWR_ALT_UP_AUDIO_RIGHTDATA(sb->audio->base, sb->mix[read+3]);
-        IOWR_ALT_UP_AUDIO_RIGHTDATA(sb->audio->base, sb->mix[read+4]);
-
-        read += 5;
+        read++;
     }
 }
 
-static void audio_isr(void *context, alt_u32 id) {
-//    printf("In IRS\n");
-
-//    SoundBuffer *sb;
-//    sb = (SoundBuffer *) context;
-    volatile SoundBuffer *sb2 = (volatile SoundBuffer *) context;
-
-    //printf("sb2->read %d\n", sb2->read);
-    audio_out(sb2, 95);
-    sb2->read = (sb2->read + 95) % SIZE;
-
-    //printf("Out IRS\n");
+void audio_isr(void *context, alt_u32 id) {
+    SoundBuffer *sb = (SoundBuffer *) context;
+    audio_out(sb, 95);
+    sb->read = (sb->read + 95) % SIZE;
 }
 
-
-
-
-
-
+void refreshBGFile(SoundBuffer *sb) {
+    printf("Refresh file\n");
+    alt_up_sd_card_fclose(sb->fp);
+    sb->fp = openWav("bg.wav");
+}
 
 void initSound(SoundBuffer *sb) {
     alt_up_av_config_dev *av_config = NULL;
@@ -107,37 +87,29 @@ void initFX(char *filename, short int *storage) {
 
 //Init fx sounds
 void initSoundFX(SoundBuffer *sb) {
-/*    initFX("alive.wav", sb->alive);
+    initFX("alive.wav", sb->alive);
     initFX("death.wav", sb->death);
     initFX("drop.wav", sb->drop);
     initFX("end.wav", sb->end);
     initFX("explode.wav", sb->explode);
     initFX("powerup.wav", sb->powerup);
-    initFX("start.wav", sb->start);*/
+    initFX("start.wav", sb->start);
 }
 
 //Init bg sound
-int initSoundBG(SoundBuffer *sb) {
+void initSoundBG(SoundBuffer *sb) {
     //open bg.wav forever
     sb->fp = openWav("bg.wav");
-    printf("sb->write %d, sb->read %d\n", sb->write, sb->read);
 
     //read in bg to fill mix
     short int data1, data2;
     while (sb->write != sb->read) {
         data1 = alt_up_sd_card_read(sb->fp);
-        if (data1 < 0) {
-            printf("early break");
-            break; //reached EOF
-        }
         data2 = alt_up_sd_card_read(sb->fp);
-        short int res = (short int) (data2 << 8) | data1;
+        short int res = (data2 << 8) | data1;
         sb->mix[sb->write] = res / 2;
         sb->write = (sb->write + 1) % SIZE;
     }
-
-    printf("out: sb->write %d, sb->read %d\n", sb->write, sb->read);
-    return 1;
 }
 
 void initSoundFinal(SoundBuffer *sb) {
@@ -151,25 +123,22 @@ void initSoundFinal(SoundBuffer *sb) {
     printf("Interrupt enabled\n");
 }
 
-//Refresh bg sound
+//Refresh bg sound if mix can be written to
 void refreshSoundBG(SoundBuffer *sb) {
-    //check if mix can be written
-    //write to mix
-
-    //printf("out: sb->write %d, sb->read %d\n", sb->write, sb->read);
     short int data1, data2;
     while (sb->write != sb->read) {
         data1 = alt_up_sd_card_read(sb->fp);
         if (data1 < 0) {
-            printf("early break\n");
-            alt_up_sd_card_fclose(sb->fp);
-            sb->fp = openWav("bg.wav");
-            break; //reached EOF
+            refreshBGFile(sb);
+            data1 = alt_up_sd_card_read(sb->fp);
         }
         data2 = alt_up_sd_card_read(sb->fp);
-        short int res = (short int) (data2 << 8) | data1;
+        if (data2 < 0) {
+            refreshBGFile(sb);
+            data2 = alt_up_sd_card_read(sb->fp);
+        }
+        short int res = (data2 << 8) | data1;
         sb->mix[sb->write] = res / 2;
         sb->write = (sb->write + 1) % SIZE;
     }
-    //printf("sb->write %d, sb->read %d\n", sb->write, sb->read);
 }

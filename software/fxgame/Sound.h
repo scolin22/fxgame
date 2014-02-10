@@ -9,7 +9,7 @@
 #include <altera_up_avalon_audio_regs.h>
 #include <sys/alt_irq.h>
 
-#define SIZE 10240
+#define SIZE 102400
 
 typedef short int wav;
 
@@ -32,7 +32,7 @@ typedef struct {
 
 void initSound(SoundBuffer *sb);
 void initSoundFX(SoundBuffer *sb);
-int initSoundBG(SoundBuffer *sb);
+void initSoundBG(SoundBuffer *sb);
 void initSoundFinal(SoundBuffer *sb);
 void refreshSoundBG(SoundBuffer *sb);
 
