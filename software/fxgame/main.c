@@ -103,10 +103,9 @@ int main() {
 
     //init timer//
     printf("Initializing Timer \n");
-    initTimer(score);
-    score->timeLeft = 180;
+    initTimer(score, char_buffer);
+    score->timeLeft = 30;
     printf("Done timer: \n");
-
     while (1) {
     	handleEvents(p1);
     	handleEvents(p2);
@@ -118,9 +117,12 @@ int main() {
         renderMap(map, pixel_buffer);
         renderPlayer (p1, pixel_buffer);
         renderPlayer (p2, pixel_buffer);
-        renderScore (score, char_buffer);
+        int ret = renderScore (score, char_buffer);
         refresh(pixel_buffer);
+        if (!ret)
+        	break;
     }
+    gameOver(score, char_buffer);
     destroyMap(map);
     return 0;
 }

@@ -16,7 +16,7 @@ char renderScore (Score* s, alt_up_char_buffer_dev *char_buffer) {
     alt_up_char_buffer_string(char_buffer, "                ", 50, 2);
     alt_up_char_buffer_string(char_buffer, itoa(s->scores[0], s->buffer), 50, 1);
     alt_up_char_buffer_string(char_buffer, itoa(s->scores[1], s->buffer), 50, 2);
-    if (s->timeLeft > 0) {
+    if (s->timeLeft >= 0) {
         alt_up_char_buffer_string(char_buffer, "                ", 20, 1);
         alt_up_char_buffer_string(char_buffer, secondsToTime(s->timeLeft, s->buffer), 20, 1);
         return 1;
@@ -24,7 +24,7 @@ char renderScore (Score* s, alt_up_char_buffer_dev *char_buffer) {
     return 0;
 }
 
-void gameOver(Score* s) {
+void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
     int i;
     int maxScore = s->scores[0];
     int bestPlayer = 0;
@@ -33,8 +33,11 @@ void gameOver(Score* s) {
             maxScore = s->scores[i];
             bestPlayer = i;
         }
-
     }
+
+    alt_up_char_buffer_string(char_buffer, "GAME OVER!", 34, 14);
+    sprintf(s->buffer, "Player %d Won With %d Points", bestPlayer+1, maxScore);
+    alt_up_char_buffer_string(char_buffer, s->buffer, 24, 15);
 
 }
 
@@ -49,13 +52,13 @@ static void timer_ISR( void *arg)
 
 }
 
-void initTimer(void* arg)
+void initTimer(void* score, alt_up_char_buffer_dev *char_buffer)
 {
     int timer_period = 1 * 50000000;
     IOWR_16DIRECT(TIMER_0_BASE, 8, timer_period & 0xFFFF); //writes the period to the hardware timer
     IOWR_16DIRECT(TIMER_0_BASE, 12, timer_period >> 16);
     IOWR_16DIRECT(TIMER_0_BASE, 4, 1 << 3); //stop timer
-    alt_irq_register(TIMER_0_IRQ,arg,(void*)timer_ISR);//registers function to a specific IRQ
+    alt_irq_register(TIMER_0_IRQ,score,(void*)timer_ISR);//registers function to a specific IRQ
     IOWR_16DIRECT(TIMER_0_BASE, 4, 0x5); //start timer
     printf("past interrupt");
     alt_up_char_buffer_string(char_buffer, "Player 1", 40, 1);

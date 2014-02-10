@@ -13,7 +13,7 @@ typedef struct Score {
 } Score;
 
 char renderScore (Score* p, alt_up_char_buffer_dev *char_buffer);
-
-void initTimer(void* arg);
+void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer);
+void initTimer(void* score, alt_up_char_buffer_dev *char_buffer);
 
 #endif //SCORE_H
