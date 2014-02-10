@@ -63,11 +63,9 @@ int main() {
 
     Score* score = (Score*)malloc(sizeof(Score));
 
-    char key;
-
-    printf("Initializing Setup \n");
+    printf("Initializing Setup\n");
     kbd_init();
-    printf("Ready for key press: \n");
+    printf("Ready for key presses\n");
 
     //Keep this here -Colin
     int connected = 0;
@@ -79,7 +77,7 @@ int main() {
     booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
     booted_bmps = boot_bmps(booted_bmps);
 
-    printf("BOOTED IMAGES\n");
+    printf("Booted images\n");
 
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
@@ -91,14 +89,16 @@ int main() {
     initSound(sb);
 
     //Init fx sounds
-    initSoundFX();
+    initSoundFX(sb);
 
     //Init bg sound
-    initSoundBG();
+    initSoundBG(sb);
+
+    initSoundFinal(sb);
 
     while (1) {
         //Refresh bg sound
-        refreshSoundBG();
+        refreshSoundBG(sb);
 
         handleEvents(p1, IORD(switches, 0));
 
