@@ -45,7 +45,7 @@ tile_t checkType (mapTile** d, int x, int y)
     }
 }
 
-tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner) {
+tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner, fruitType type) {
 	set_db(d, x, y);
 	x = x_to_tx(x);
     y = y_to_ty(y);
@@ -53,11 +53,12 @@ tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner) {
     d[y][x].t = tile;
     d[y][x].db = 2;
     d[y][x].owner = owner;
+    d[y][x].type = type;
     return temp;
 }
 
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile) {
-    return changeTileWithOwner(d, x, y, tile, -1);
+    return changeTileWithOwner(d, x, y, tile, -1, noType);
 }
 
 char x_to_tx (int x)

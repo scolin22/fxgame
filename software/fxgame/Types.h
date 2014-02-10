@@ -11,4 +11,13 @@ typedef enum direction {
 	down
 } direction;
 
+typedef enum fruitType {
+    noType,
+    normal,
+    banana,
+    watermelon,
+    grapefruit,
+    cherry
+} fruitType;
+
 #endif /* TYPES_H_ */

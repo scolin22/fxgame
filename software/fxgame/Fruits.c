@@ -131,10 +131,10 @@ char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
         fruitCtrl->score->scores[owner] += 10;
         return 0;
     } else if (tile == FRUIT) {
-        changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner);
+        changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner, fruitCtrl->types[owner]);
         return 0;
     } else {
-    	changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner);
+    	changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner, fruitCtrl->types[owner]);
         return 1;
     }
 }
@@ -143,11 +143,12 @@ void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
 
     if(fruit.tileOn == BLOCK)
     	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
-    else if (fruit.tileOn = FRUIT && ((checkForFruitAtPosition(fruitCtrl, fruit.posX, fruit.posY)->tileOn == BLOCK))) {
+    //might not work because only checks one of the two fruits stacked
+    else if (fruit.tileOn == FRUIT && (checkForFruitAtPosition(fruitCtrl, fruit.posX, fruit.posY)->tileOn == BLOCK)) {
     	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
     }
     else
-    	changeTileWithOwner(fruitCtrl->map, fruit.posX, fruit.posY, EXPLOSION, fruit.owner);
+    	changeTileWithOwner(fruitCtrl->map, fruit.posX, fruit.posY, EXPLOSION, fruit.owner, fruitCtrl->types[fruit.owner]);
 
 
     tile_t currentTile;
@@ -239,7 +240,7 @@ char dropFruit(FruitCtrl *fruitCtrl, int owner, char toss, direction dir, int x,
             fruitCtrl->fruits[i].timeLeft = FRUIT_TIMEOUT;
             fruitCtrl->fruits[i].tileOn = GRASS;
             fruitCtrl->numFruits[owner] += 1;
-            changeTile(fruitCtrl->map, x, y, FRUIT);
+            changeTileWithOwner(fruitCtrl->map, x, y, FRUIT, owner, fruitCtrl->types[owner]);
             break;
         }
     }

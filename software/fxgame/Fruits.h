@@ -16,13 +16,6 @@ typedef enum fruitStatus {
     exploding,
 } fruitStatus;
 
-typedef enum fruitType {
-    normal,
-    banana,
-    watermelon,
-    grapefruit,
-} fruitType;
-
 typedef struct Fruit {
     int timeLeft;
     fruitStatus status;

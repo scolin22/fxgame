@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "animations.h"
+#include "Types.h"
 
 #define NUM_PLAYERS 2
 #define NUM_TILES 15
@@ -54,12 +55,13 @@ typedef struct mapTile {
     char db;
     char playerOn;
     char owner;
+    fruitType type;
 } mapTile;
 
 mapTile** initMap ();
 
 void destroyMap (mapTile** d);
-tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner);
+tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner, fruitType type);
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile);
 tile_t checkType (mapTile** d, int x, int y);
 void debugPrint (mapTile** d);
