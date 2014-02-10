@@ -36,6 +36,8 @@ typedef struct FruitCtrl {
     int numFruits[NUM_PLAYERS];
     mapTile** map;
     Score* score;
+    int counter;
+    int counterMax;
 } FruitCtrl;
 
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score);

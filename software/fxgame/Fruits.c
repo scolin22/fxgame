@@ -3,12 +3,18 @@
 
 #include "Fruits.h"
 
-int counter = 0;
-
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score) {
-    int i = 0;
+    int i;
     fruitCtrl->score = score;
     fruitCtrl->map = d;
+    fruitCtrl->counter = 0;
+    fruitCtrl->counterMax = 0;
+
+    for (i = 0; i < NUM_TILES; i++)
+    	fruitCtrl->counterMax += tileWeight[i];
+
+    printf("The counter max is %d\n", fruitCtrl->counterMax);
+    i= 0;
     while (i < NUM_PLAYERS) {
         fruitCtrl->startIndex[i] = i*FRUITS_PER_PLAYER;
         fruitCtrl->numFruits[i] = 0;
@@ -47,6 +53,9 @@ void printFruits(FruitCtrl *fruitCtrl) {
 
 void updateFruits(FruitCtrl *fruitCtrl) {
     int i;
+    fruitCtrl->counter++;
+    if (fruitCtrl->counter >= fruitCtrl->counterMax)
+    	fruitCtrl->counter = 0;
     for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++) {
         if (fruitCtrl->fruits[i].timeLeft > 0) {
             fruitCtrl->fruits[i].timeLeft--;
@@ -94,15 +103,29 @@ tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
     return GRASS;
 }
 
+tile_t counterToTile(FruitCtrl *fruitCtrl) {
+	int i;
+	int sum = 0;
+	printf("count was %d\n", fruitCtrl->counter);
+	for (i = 0; i < NUM_TILES; i++) {
+		sum += tileWeight[i];
+		if (fruitCtrl->counter < sum) {
+			printf("Choose tile %d, count was %d\n", i, fruitCtrl->counter);
+			srand(fruitCtrl->counter);
+			fruitCtrl->counter = rand()%fruitCtrl->counterMax;
+			return (tile_t)i;
+		}
+	}
+	return GRASS;
+}
 
 char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
     if (tile == BLOCK) {
         return 0;
     } else if (tile == CRATE) {
     	printf("blowing up crate with %d who has score %d\n", owner, fruitCtrl->score->scores[owner]);
-        changeTile(fruitCtrl->map, x, y, 6 + counter++);
+        changeTile(fruitCtrl->map, x, y, counterToTile(fruitCtrl));
         fruitCtrl->score->scores[owner] += 10;
-        if (counter == 9) counter = 0;
         return 0;
     } else if (tile == FRUIT) {
         changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner);

@@ -5,6 +5,7 @@
 #include "sys/alt_irq.h"
 #include "io.h"
 #include "Types.h"
+#include "Map.h"
 
 typedef struct Score {
     int scores[NUM_PLAYERS];

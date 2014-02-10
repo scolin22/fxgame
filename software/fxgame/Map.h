@@ -4,6 +4,7 @@
 #include "animations.h"
 
 #define NUM_PLAYERS 2
+#define NUM_TILES 15
 
 static const int SCREEN_WIDTH = 320;
 static const int SCREEN_HEIGHT = 240;
@@ -27,6 +28,8 @@ static const char maplayout[] = "55555555555555555555"
                                 "50000333333333000005"
                                 "55555555555555555555";
 //6789:
+
+static const int tileWeight[NUM_TILES] = {10,0,0,0,0,0,8,10,5,5,1,5,0,0,0};
 
 typedef enum {
     GRASS,
