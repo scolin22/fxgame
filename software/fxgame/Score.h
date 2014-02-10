@@ -12,7 +12,7 @@ typedef struct Score {
     int timeLeft;
 } Score;
 
-void renderScore (Score* p, alt_up_char_buffer_dev *char_buffer);
+char renderScore (Score* p, alt_up_char_buffer_dev *char_buffer);
 
 void initTimer(void* arg);
 
