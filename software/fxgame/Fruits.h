@@ -16,6 +16,13 @@ typedef enum fruitStatus {
     exploding,
 } fruitStatus;
 
+typedef enum fruitType {
+    normal,
+    banana,
+    watermelon,
+    grapefruit,
+} fruitType;
+
 typedef struct Fruit {
     int timeLeft;
     fruitStatus status;
@@ -34,6 +41,7 @@ typedef struct FruitCtrl {
     int startIndex[NUM_PLAYERS];
     int maxFruits[NUM_PLAYERS];
     int numFruits[NUM_PLAYERS];
+    fruitType types[NUM_PLAYERS];
     mapTile** map;
     Score* score;
     int counter;

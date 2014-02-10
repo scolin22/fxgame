@@ -19,6 +19,7 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score) {
         fruitCtrl->startIndex[i] = i*FRUITS_PER_PLAYER;
         fruitCtrl->numFruits[i] = 0;
         fruitCtrl->maxFruits[i] = INIT_FRUITS;
+        fruitCtrl->types[i] = normal;
         int j;
         for (j = i*FRUITS_PER_PLAYER; j < (i+1)*FRUITS_PER_PLAYER; j++) {
             fruitCtrl->fruits[j].owner = i;
@@ -120,7 +121,9 @@ tile_t counterToTile(FruitCtrl *fruitCtrl) {
 }
 
 char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
-    if (tile == BLOCK) {
+	if (tile == BLOCK && fruitCtrl->types[owner] == watermelon){
+		return 1;
+	} else if (tile == BLOCK) {
         return 0;
     } else if (tile == CRATE) {
     	printf("blowing up crate with %d who has score %d\n", owner, fruitCtrl->score->scores[owner]);
@@ -140,7 +143,7 @@ void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
 
     if(fruit.tileOn == BLOCK)
     	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
-    else if (fruit.tileOn = FRUIT && (checkForFruitAtPosition(fruitCtrl, fruit.posX, fruit.posY)->tileOn == BLOCK)) {
+    else if (fruit.tileOn = FRUIT && ((checkForFruitAtPosition(fruitCtrl, fruit.posX, fruit.posY)->tileOn == BLOCK))) {
     	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
     }
     else
