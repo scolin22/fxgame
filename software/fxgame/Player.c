@@ -128,8 +128,8 @@ char checkCollision (Player* p, direction dir)
     } else if (tile == EXPLOSION && p->respawnTime == 0) {
         p->respawnTime = RESPAWN_TIME;
         if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id)
-        	players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score += 100;
-        p->score -= 100;
+        	*(players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score) += 100;
+        *(p->score) -= 100;
         return 0;
     } else if (tile == EXPLOSION) {
         return 0;

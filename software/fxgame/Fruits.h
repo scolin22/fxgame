@@ -1,11 +1,11 @@
 #ifndef FRUITS_H
 #define FRUITS_H
 
+#include "Score.h"
 #include "Map.h"
 #include "Types.h"
 #define FRUITS_PER_PLAYER 10
 #define INIT_FRUITS 1
-#define NUM_PLAYERS 2
 #define FRUIT_TIMEOUT 30
 #define EXPLOSION_TIMEOUT 15
 #define DEFAULT_RADIUS 1
@@ -35,9 +35,10 @@ typedef struct FruitCtrl {
     int maxFruits[NUM_PLAYERS];
     int numFruits[NUM_PLAYERS];
     mapTile** map;
+    Score* score;
 } FruitCtrl;
 
-void initFruits(FruitCtrl *fruitCtrl, mapTile** d);
+void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score);
 void printFruits(FruitCtrl *fruitCtrl);
 void updateFruits(FruitCtrl *fruitCtrl);
 tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y);

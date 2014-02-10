@@ -2,9 +2,9 @@
 #define SCORE_H
 
 #include "animations.h"
-#include "Fruits.h"
 #include "sys/alt_irq.h"
 #include "io.h"
+#include "Types.h"
 
 typedef struct Score {
     int scores[NUM_PLAYERS];

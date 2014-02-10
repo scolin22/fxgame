@@ -54,6 +54,11 @@ static void timer_ISR( void *arg)
 
 void initTimer(void* score, alt_up_char_buffer_dev *char_buffer)
 {
+	Score* s = (Score*) score;
+	int i;
+    for (i =  0; i < NUM_PLAYERS; i++) {
+        s->scores[i] = 0;
+    }
     int timer_period = 1 * 50000000;
     IOWR_16DIRECT(TIMER_0_BASE, 8, timer_period & 0xFFFF); //writes the period to the hardware timer
     IOWR_16DIRECT(TIMER_0_BASE, 12, timer_period >> 16);

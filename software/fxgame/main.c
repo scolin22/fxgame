@@ -25,8 +25,10 @@ int main() {
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
 
+    Score* score = (Score*)malloc(sizeof(Score));
+
     FruitCtrl** fruitCtrl = malloc(sizeof(FruitCtrl));
-    initFruits(fruitCtrl,map);
+    initFruits(fruitCtrl,map,score);
 
     Player* p1 = (Player*)malloc(sizeof(Player));
 
@@ -42,7 +44,7 @@ int main() {
     p1->upKey = 'W';
     p1->downKey = 'S';
     p1->fruitKey = 'Q';
-    p1->score = 0;
+    p1->score = &(score->scores[p1->id]);
     p1->fruitCtrl = fruitCtrl;
     p1->velX = 0;
     p1->velY = 0;
@@ -64,15 +66,13 @@ int main() {
     p2->upKey = '8';
     p2->downKey = '5';
     p2->fruitKey = '7';
-    p2->score = 0;
+    p2->score = &(score->scores[p2->id]);
     p2->fruitCtrl = fruitCtrl;
     p2->velX = 0;
     p2->velY = 0;
     p2->dir = left;
     p2->pwrUps = 0;
     p2->map = map;
-
-    Score* score = (Score*)malloc(sizeof(Score));
 
     players->list[p1->id] = p1;
     players->list[p2->id] = p2;
@@ -112,8 +112,6 @@ int main() {
         updateFruits(fruitCtrl);
         updatePlayer(p1);
         updatePlayer(p2);
-        score->scores[0] = p1->score;
-        score->scores[1] = p2->score;
         renderMap(map, pixel_buffer);
         renderPlayer (p1, pixel_buffer);
         renderPlayer (p2, pixel_buffer);
