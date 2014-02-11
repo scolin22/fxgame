@@ -117,6 +117,8 @@ void updatePlayer(Player* p)
         p->respawnTime--;
     else if (checkPowerUps(p, invincible))
     	togglePowerUp(p, invincible);
+    if(p->stunnedTime > 0)
+    	p->stunnedTime--;
 }
 
 char checkCollision (Player* p, direction dir)
@@ -129,6 +131,8 @@ char checkCollision (Player* p, direction dir)
     	if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner == p->id && map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == orange)
     		return 0;
         p->respawnTime = RESPAWN_TIME;
+        if( map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == banana)
+            p->stunnedTime = STUNNED_TIME;
         if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id)
         	*(players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score) += 100;
         *(p->score) -= 100;

@@ -37,6 +37,7 @@ int main() {
     p1->height = TILE_SIZE-2;
     p1->width = TILE_SIZE-2;
     p1->respawnTime = 0;
+    p1->stunnedTime = 0;
     p1->dropBomb = 0;
     p1->id = 0;
     p1->leftKey = 'A';
@@ -60,6 +61,7 @@ int main() {
     p2->width = TILE_SIZE-2;
     p2->dropBomb = 0;
     p2->respawnTime = 0;
+    p1->stunnedTime = 0;
     p2->id = 1;
     p2->leftKey = '4';
     p2->rightKey = '6';
@@ -104,11 +106,11 @@ int main() {
     //init timer//
     printf("Initializing Timer \n");
     initTimer(score, char_buffer);
-    score->timeLeft = 120;
+    score->timeLeft = 300;
     printf("Done timer: \n");
 
     chooseFruitForPlayer(fruitCtrl, orange, 0);
-    chooseFruitForPlayer(fruitCtrl, cherry, 1);
+    chooseFruitForPlayer(fruitCtrl, banana, 1);
 
     while (1) {
     	handleEvents(p1);

@@ -9,12 +9,14 @@
 #include "PowerUps.h"
 
 #define RESPAWN_TIME 30
+#define STUNNED_TIME 10
 static const int VELOCITY = 5;
 
 typedef struct Player {
     int posX; // x coordinate of the player (NOT the tile coordinate)
     int posY; // y coordinate of the player (NOT the tile coordinate)
     int respawnTime;
+    int stunnedTime;
     int* score;
     char width; // width of player (required for collision detection).. this should be the width of the player sprite
     char height; // height of player (required for collision detection

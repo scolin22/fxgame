@@ -72,8 +72,10 @@ static void keyboard_ISR( void *arg)
             }else if (!released && keyboard[idx].pressed == 0){
                 printf("Pressed %c!\n", ascii);
                 keyboard[idx].pressed = 1;
-                movePress(players->list[0], ascii);
-                movePress(players->list[1], ascii);
+                if (players->list[0]->stunnedTime < 1)
+                	movePress(players->list[0], ascii);
+                if (players->list[1]->stunnedTime < 1)
+                	movePress(players->list[1], ascii);
             }
         }
         else
