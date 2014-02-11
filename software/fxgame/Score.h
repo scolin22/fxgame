@@ -11,6 +11,8 @@ typedef struct Score {
     int scores[NUM_PLAYERS];
     char buffer [32];
     int timeLeft;
+    int spawnRateTotal;
+    mapTile** map;
 } Score;
 
 char renderScore (Score* p, alt_up_char_buffer_dev *char_buffer);

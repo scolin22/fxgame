@@ -107,10 +107,11 @@ int main() {
     printf("Initializing Timer \n");
     initTimer(score, char_buffer);
     score->timeLeft = 300;
+    score->map = map;
     printf("Done timer: \n");
 
     chooseFruitForPlayer(fruitCtrl, orange, 0);
-    chooseFruitForPlayer(fruitCtrl, banana, 1);
+    chooseFruitForPlayer(fruitCtrl, cherry, 1);
 
     while (1) {
     	handleEvents(p1);

@@ -41,11 +41,32 @@ void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
 
 }
 
+tile_t counterToSpawn(int count) {
+	int i;
+	int sum = 0;
+	printf("count was %d\n", count);
+	for (i = 0; i < NUM_TILES; i++) {
+		sum += spawnRate[i];
+		if (count < sum) {
+			printf("Choose tile %d, count was %d\n", i, count);
+			return (tile_t)i;
+		}
+	}
+	return GRASS;
+}
+
 static void timer_ISR( void *arg)
 {
     Score* score = (Score*)arg;
     score->timeLeft--;
 
+    if(score->timeLeft%3 == 0) {
+		srand(score->timeLeft);
+		int x = rand()%(NTILEX);
+		int y = rand()%(NTILEY);
+		if (score->map[y][x].t == GRASS && score->map[y][x].playerOn == 0)
+			changeTile(score->map, x*TILE_SIZE, y*TILE_SIZE, counterToSpawn(rand()%score->spawnRateTotal));
+    }
     IOWR_16DIRECT(TIMER_0_BASE,0,0); //needed to show that interrupt finished executing
     IOWR_16DIRECT(TIMER_0_BASE,4,0x5); //restarts the hardware timer before exiting the isr
     return;
@@ -59,6 +80,11 @@ void initTimer(void* score, alt_up_char_buffer_dev *char_buffer)
     for (i =  0; i < NUM_PLAYERS; i++) {
         s->scores[i] = 0;
     }
+
+    s->spawnRateTotal = 0;
+    for (i = 0; i < NUM_TILES; i++)
+    	s->spawnRateTotal += spawnRate[i];
+
     int timer_period = 1 * 50000000;
     IOWR_16DIRECT(TIMER_0_BASE, 8, timer_period & 0xFFFF); //writes the period to the hardware timer
     IOWR_16DIRECT(TIMER_0_BASE, 12, timer_period >> 16);

@@ -31,6 +31,7 @@ static const char maplayout[] = "55555555555555555555"
 //6789:
 
 static const int tileWeight[NUM_TILES] = {10,0,0,0,0,0,8,10,5,5,1,5,0,0,0};
+static const int spawnRate[NUM_TILES] = {0,0,0,5,0,0,0,0,0,0,0,0,10,5,1};
 
 typedef enum {
     GRASS,
