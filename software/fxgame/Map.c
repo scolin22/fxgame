@@ -120,31 +120,40 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
                     draw_screen_from_bmp(pixel_buffer, booted_bmps, 5, x, y);
                     break;
                     case POWERUP_FRUITS:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF000,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF000,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->PLUS_pixel_map, x, y);
                     break;
                     case POWERUP_RADIUS:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->RAD_pixel_map, x, y);
                     break;
                     case POWERUP_KICK:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFF00,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFF00,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->KICK_pixel_map, x, y);
                     break;
                     case POWERUP_TOSS:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0FF0,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0FF0,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->GLVE_pixel_map, x, y);
                     break;
                     case POWERUP_INVINCIBLE:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x00FF,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x00FF,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->STAR_pixel_map, x, y);
                     break;
                     case POWERUP_BULLDOZER:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x000F,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x000F,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BULL_pixel_map, x, y);
                     break;
                     case COLLECTABLE_1:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0000,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0000,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BRNZ_pixel_map, x, y);
                     break;
                     case COLLECTABLE_2:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF0F0,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF0F0,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->SILV_pixel_map, x, y);
                     break;
                     case COLLECTABLE_3:
-                    alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFFFF,1);
+                    //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xFFFF,1);
+                    draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->GOLD_pixel_map, x, y);
                     break;
                 }
                 d[j][i].db--;

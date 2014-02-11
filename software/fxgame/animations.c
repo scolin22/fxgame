@@ -111,6 +111,15 @@ int boot_bmps(Pixel_Map* booted_bmps) {
     booted_bmps->BX_pixel_map = init_pixel_map_16_from_bmp("BX.bmp");
     booted_bmps->W_pixel_map = init_pixel_map_16_from_bmp("W.bmp");
     booted_bmps->WX_pixel_map = init_pixel_map_16_from_bmp("WX.bmp");
+    booted_bmps->PLUS_pixel_map = init_pixel_map_16_from_bmp("PLUS.bmp");
+    booted_bmps->KICK_pixel_map = init_pixel_map_16_from_bmp("KICK.bmp");
+    booted_bmps->RAD_pixel_map = init_pixel_map_16_from_bmp("RAD.bmp");
+    booted_bmps->GLVE_pixel_map = init_pixel_map_16_from_bmp("GLVE.bmp");
+    booted_bmps->STAR_pixel_map = init_pixel_map_16_from_bmp("STAR.bmp");
+    booted_bmps->BULL_pixel_map = init_pixel_map_16_from_bmp("BULL.bmp");
+    booted_bmps->BRNZ_pixel_map = init_pixel_map_16_from_bmp("BRNZ.bmp");
+    booted_bmps->SILV_pixel_map = init_pixel_map_16_from_bmp("SILV.bmp");
+    booted_bmps->GOLD_pixel_map = init_pixel_map_16_from_bmp("GOLD.bmp");
     booted_bmps->CRATE_pixel_map = init_pixel_map_16_from_bmp("CRATE.BMP");
 
     return booted_bmps;

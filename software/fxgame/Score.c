@@ -60,7 +60,7 @@ static void timer_ISR( void *arg)
     Score* score = (Score*)arg;
     score->timeLeft--;
 
-    if(score->timeLeft%3 == 0) {
+    if(score->timeLeft%2 == 0) {
 		srand(score->timeLeft);
 		int x = rand()%(NTILEX);
 		int y = rand()%(NTILEY);

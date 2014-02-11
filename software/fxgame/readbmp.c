@@ -5,6 +5,8 @@ Pixel* init_pixel_map_16_from_bmp(char* filename) {
 
     unsigned char* bmp_data = pixel_data(filename, bmfh);
 
+    free(bmfh);
+
     Pixel pixel_map[PS];
 
     int i, k = 0;
