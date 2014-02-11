@@ -1,4 +1,5 @@
 #include "keyboard.h"
+#include "Player.h"
 
 ////////////////////////////////////////////////////////////////////
 // Table of scan code, make code and their corresponding values
@@ -42,8 +43,9 @@ unsigned get_single_byte_make_code_index(alt_u8 code)
     return SCAN_CODE_NUM;
 }
 
-static void keyboard_ISR( void *c, alt_u32 id )
+static void keyboard_ISR( void *arg)
 {//keyboard interrupt handler
+	Players* players = (Players*)arg;
     KB_CODE_TYPE decode_mode;
     alt_u8 buffer;
     alt_u8 byte;
@@ -70,6 +72,10 @@ static void keyboard_ISR( void *c, alt_u32 id )
             }else if (!released && keyboard[idx].pressed == 0){
                 printf("Pressed %c!\n", ascii);
                 keyboard[idx].pressed = 1;
+                if (players->list[0]->stunnedTime < 1)
+                	movePress(players->list[0], ascii);
+                if (players->list[1]->stunnedTime < 1)
+                	movePress(players->list[1], ascii);
             }
         }
         else
@@ -80,13 +86,12 @@ static void keyboard_ISR( void *c, alt_u32 id )
     }
 }
 
-void kbd_init(void)
+void kbd_init(void* arg)
 {
     ps2 = alt_up_ps2_open_dev("/dev/ps2"); //open PS/2 device
     alt_up_ps2_init(ps2);
     alt_up_ps2_clear_fifo(ps2);
-    void* keyboard_control_register_ptr = (void*) (PS2_BASE + 4);
-    alt_irq_register(PS2_IRQ, keyboard_control_register_ptr, keyboard_ISR);
+    alt_irq_register(PS2_IRQ, arg, keyboard_ISR);
     alt_up_ps2_enable_read_interrupt(ps2);
 }
 

@@ -25,8 +25,10 @@ int main() {
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
 
-    FruitCtrl* fruitCtrl = malloc(sizeof(FruitCtrl));
-    initFruits(fruitCtrl,map);
+    Score* score = (Score*)malloc(sizeof(Score));
+
+    FruitCtrl** fruitCtrl = malloc(sizeof(FruitCtrl));
+    initFruits(fruitCtrl,map,score);
 
     Player* p1 = (Player*)malloc(sizeof(Player));
 
@@ -35,6 +37,7 @@ int main() {
     p1->height = TILE_SIZE-2;
     p1->width = TILE_SIZE-2;
     p1->respawnTime = 0;
+    p1->stunnedTime = 0;
     p1->dropBomb = 0;
     p1->id = 0;
     p1->leftKey = 'A';
@@ -42,7 +45,13 @@ int main() {
     p1->upKey = 'W';
     p1->downKey = 'S';
     p1->fruitKey = 'Q';
-    p1->lives = 10;
+    p1->score = &(score->scores[p1->id]);
+    p1->fruitCtrl = fruitCtrl;
+    p1->velX = 0;
+    p1->velY = 0;
+    p1->dir = left;
+    p1->pwrUps = 0;
+    p1->map = map;
 
     Player* p2 = (Player*)malloc(sizeof(Player));
 
@@ -52,20 +61,29 @@ int main() {
     p2->width = TILE_SIZE-2;
     p2->dropBomb = 0;
     p2->respawnTime = 0;
+    p1->stunnedTime = 0;
     p2->id = 1;
-    p2->leftKey = 'J';
-    p2->rightKey = 'L';
-    p2->upKey = 'I';
-    p2->downKey = 'K';
-    p2->fruitKey = 'U';
-    p2->lives = 10;
+    p2->leftKey = '4';
+    p2->rightKey = '6';
+    p2->upKey = '8';
+    p2->downKey = '5';
+    p2->fruitKey = '7';
+    p2->score = &(score->scores[p2->id]);
+    p2->fruitCtrl = fruitCtrl;
+    p2->velX = 0;
+    p2->velY = 0;
+    p2->dir = left;
+    p2->pwrUps = 0;
+    p2->map = map;
 
-    Score* score = (Score*)malloc(sizeof(Score));
+    players->list[p1->id] = p1;
+    players->list[p2->id] = p2;
 
     char key;
 
     printf("Initializing Setup \n");
-    kbd_init();
+
+    kbd_init(players);
     printf("Ready for key press: \n");
 
     //Keep this here -Colin
@@ -84,29 +102,32 @@ int main() {
     refresh(pixel_buffer);
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
+
+    //init timer//
+    printf("Initializing Timer \n");
+    initTimer(score, char_buffer);
+    score->timeLeft = 300;
+    score->map = map;
+    printf("Done timer: \n");
+
+    chooseFruitForPlayer(fruitCtrl, orange, 0);
+    chooseFruitForPlayer(fruitCtrl, cherry, 1);
+
     while (1) {
-        handleEvents(p1, IORD(switches, 0));
-
-        move(p1, map, fruitCtrl);
-
-        handleEvents(p2, IORD(switches, 0));
-
-        move(p2, map, fruitCtrl);
-
+    	handleEvents(p1);
+    	handleEvents(p2);
         updateFruits(fruitCtrl);
-
         updatePlayer(p1);
         updatePlayer(p2);
-
-        score->scores[0] = p1->lives;
-        score->scores[1] = p2->lives;
-
         renderMap(map, pixel_buffer);
         renderPlayer (p1, pixel_buffer);
         renderPlayer (p2, pixel_buffer);
-        renderScore (score, char_buffer);
+        int ret = renderScore (score, char_buffer);
         refresh(pixel_buffer);
+        if (!ret)
+        	break;
     }
+    gameOver(score, char_buffer);
     destroyMap(map);
     return 0;
 }

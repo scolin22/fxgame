@@ -31,6 +31,23 @@ typedef struct Pixel_Map{
     Pixel* BOMB_pixel_map;
     Pixel* EXPL_pixel_map;
     Pixel* CRATE_pixel_map;
+    Pixel* O_pixel_map;
+    Pixel* OX_pixel_map;
+    Pixel* B_pixel_map;
+    Pixel* BX_pixel_map;
+    Pixel* C_pixel_map;
+    Pixel* CX_pixel_map;
+    Pixel* W_pixel_map;
+    Pixel* WX_pixel_map;
+    Pixel* PLUS_pixel_map;
+    Pixel* RAD_pixel_map;
+    Pixel* KICK_pixel_map;
+    Pixel* GLVE_pixel_map;
+    Pixel* STAR_pixel_map;
+    Pixel* BULL_pixel_map;
+    Pixel* BRNZ_pixel_map;
+    Pixel* SILV_pixel_map;
+    Pixel* GOLD_pixel_map;
 } Pixel_Map;
 
 extern Pixel_Map* booted_bmps;

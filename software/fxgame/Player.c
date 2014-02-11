@@ -1,47 +1,81 @@
-
 #include "Player.h"
-#include "Map.h"
 
-void handleEvents (Player* p, char switches)
+Players *players;
+
+void handleEvents (Player* p)
 {
-    p->velX = 0;
-    p->velY = 0;
-    if (keyboard[get_ascii_code_index(p->rightKey)].pressed) {
-        p->velX += TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->leftKey)].pressed) {
-        p->velX -= TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->upKey)].pressed) {
-        p->velY -=TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->downKey)].pressed) {
-        p->velY += TILE_SIZE;
-    }
-    if (keyboard[get_ascii_code_index(p->fruitKey)].pressed) {
-        p->dropBomb = 1;
-    }
+    checkCollision(p, none);
 }
 
-void move (Player* p, mapTile** map, FruitCtrl* fruitCtrl)
-{
-    int tempx = p->posX;
-    int tempy = p->posY;
-    p->posX += p->velX;
-    if (checkCollision(p, map)) {
-        p->posX -= p->velX;
-    }
+//void move (Player* p)
+//{
+//    set_db(map, p->posX, p->posY);
+//    map[p->posY][p->posX].playerOn = 0;
+//    if (keyboard[get_ascii_code_index(p->fruitKey)].pressed == 1) {
+//        printf("dropping bomb!\n");
+//        dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
+//        return;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->rightKey)].pressed == 1) {
+//        p->posX += TILE_SIZE;
+//        p->dir = right;
+//        if (checkCollision(p, map, right))
+//            p->posX -= TILE_SIZE;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->leftKey)].pressed == 1) {
+//        p->posX -= TILE_SIZE;
+//        p->dir = left;
+//        if (checkCollision(p, map, left))
+//            p->posX += TILE_SIZE;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->upKey)].pressed == 1) {
+//        p->posY -= TILE_SIZE;
+//        p->dir = up;
+//        if (checkCollision(p, map, up))
+//            p->posY += TILE_SIZE;
+//    }
+//    else if (keyboard[get_ascii_code_index(p->downKey)].pressed == 1) {
+//        p->posY += TILE_SIZE;
+//        p->dir = down;
+//        if (checkCollision(p, map, down))
+//            p->posY -= TILE_SIZE;
+//    }
+//    map[p->posY][p->posX].playerOn = 1;
+//}
 
-    p->posY += p->velY;
-    if (checkCollision(p, map)) {
-        p->posY -= p->velY;
-    }
+void movePress (Player* p, char ascii) {
 
-    if (p->dropBomb == 1) {
-        dropFruit(fruitCtrl, p->id, p->posX, p->posY);
-        p->dropBomb = 0;
+    set_db(p->map, p->posX, p->posY);
+    p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 0;
+    if (p->fruitKey == ascii && (p->respawnTime <= 0 || checkPowerUps(p, invincible))) {
+        dropFruit(p->fruitCtrl, p->id, checkPowerUps(p, toss), p->dir, p->posX, p->posY);
+        return;
     }
-    set_db(map, tempx, tempy);
+    else if (p->rightKey == ascii) {
+        p->posX += TILE_SIZE;
+        p->dir = right;
+        if (checkCollision(p, right))
+            p->posX -= TILE_SIZE;
+    }
+    else if (p->leftKey == ascii) {
+        p->posX -= TILE_SIZE;
+        p->dir = left;
+        if (checkCollision(p, left))
+            p->posX += TILE_SIZE;
+    }
+    else if (p->upKey == ascii) {
+        p->posY -= TILE_SIZE;
+        p->dir = up;
+        if (checkCollision(p, up))
+            p->posY += TILE_SIZE;
+    }
+    else if (p->downKey == ascii) {
+        p->posY += TILE_SIZE;
+        p->dir = down;
+        if (checkCollision(p, down))
+            p->posY -= TILE_SIZE;
+    }
+    p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 1;
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
@@ -57,27 +91,22 @@ void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
         if(p->id == 0) {
             //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
             draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
-            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
         }
         else {
             //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
             draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
-            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
         }
     else if (p->respawnTime % 2 == 1){
-        // alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
-        // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
+        	// alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
     }
     else if (p->respawnTime % 2 == 0){
         if(p->id == 0) {
             //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
             draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
-            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
         }
         else {
             //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
             draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
-            // draw_screen_from_bmp(pixel_buffer, booted_bmps, 1, oldx, oldy);
         }
     }
 }
@@ -86,20 +115,93 @@ void updatePlayer(Player* p)
 {
     if(p->respawnTime > 0)
         p->respawnTime--;
+    else if (checkPowerUps(p, invincible))
+    	togglePowerUp(p, invincible);
+    if(p->stunnedTime > 0)
+    	p->stunnedTime--;
 }
 
-char checkCollision (Player* p, mapTile** map)
+char checkCollision (Player* p, direction dir)
 {
+	mapTile** map = p->map;
+    tile_t tile = checkType(map, p->posX, p->posY);
     if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
         return 1;
-    } else if (checkType(map, p->posX, p->posY) == EXPLOSION && p->respawnTime == 0) {
+    } else if (tile == EXPLOSION && p->respawnTime == 0) {
+    	if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner == p->id && map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == orange)
+    		return 0;
         p->respawnTime = RESPAWN_TIME;
-        p->lives--;
+        if( map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == banana)
+            p->stunnedTime = STUNNED_TIME;
+        if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id)
+        	*(players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score) += 100;
+        *(p->score) -= 100;
         return 0;
-    } else if (checkType(map, p->posX, p->posY) == EXPLOSION) {
+    } else if (tile == EXPLOSION) {
         return 0;
-    } else if (checkType(map, p->posX, p->posY) != GRASS) {
+    } else if (tile == COLLECTABLE_1) {
+    	*(p->score) += 100;
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
+    } else if (tile == COLLECTABLE_2) {
+    	*(p->score) += 500;
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
+    } else if (tile == COLLECTABLE_3) {
+    	*(p->score) += 1000;
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
+    } else if (tile == FRUIT && checkPowerUps(p,kick)) {
+        Fruit* fruit = checkForFruitAtPosition(p->fruitCtrl, p->posX, p->posY);
+        if(dir == right)
+            fruit->velX = 1;
+        else if(dir == left)
+            fruit->velX = -1;
+        else if(dir == up)
+            fruit->velY = -1;
+        else if(dir == down)
+            fruit->velY = 1;
+        return 1;
+    } else if (tile == POWERUP_FRUITS) {
+    	increaseFruitCount(p->fruitCtrl, p->id);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_RADIUS) {
+        increaseFruitRadius(p->fruitCtrl, p->id);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_KICK) {
+        setPowerUps(p, kick);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_TOSS) {
+        setPowerUps(p, toss);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_INVINCIBLE) {
+        setPowerUps(p, invincible);
+        p->respawnTime = RESPAWN_TIME*5;
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if (tile == POWERUP_BULLDOZER) {
+        setPowerUps(p, bulldozer);
+        changeTile(map, p->posX, p->posY, GRASS);
+    } else if ((tile == BLOCK || tile == CRATE ) && checkPowerUps(p,bulldozer)) {
+    	togglePowerUp(p, bulldozer);
+    	changeTile(map, p->posX, p->posY, GRASS);
+        return 0;
+    } else if (tile == BLOCK || tile == CRATE || tile == FRUIT || tile == END) {
         return 1;
     }
     return 0;
 }
+
+char checkPowerUps(Player *p, powerUps pwrUp) {
+    if (!(p->pwrUps & pwrUp))
+        return 0;
+    return 1;
+}
+
+void setPowerUps(Player *p, powerUps pwrUp) {
+    p->pwrUps = p->pwrUps | pwrUp;
+}
+
+void togglePowerUp(Player *p, powerUps pwrUp) {
+    p->pwrUps = p->pwrUps ^ pwrUp;
+}
+
