@@ -142,6 +142,8 @@ char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
     	tilePowerUp(fruitCtrl->map, x, y, 1);
         fruitCtrl->score->scores[owner] += 10;
         return 0;
+    } else if (tile == FRUIT && (checkForFruitAtPosition(fruitCtrl, x, y)->tileOn == BLOCK)) {
+        return 0;
     } else if (tile == FRUIT) {
         changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner, fruitCtrl->types[owner]);
         return 0;
