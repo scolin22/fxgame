@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/time.h>
 
 #include "Map.h"
 
@@ -11,6 +12,10 @@ mapTile** initMap ()
         d[i] = (mapTile*)malloc(NTILEX*sizeof(mapTile));
     }
 
+    struct timeval tm;
+    gettimeofday(&tm, NULL);
+    srand(tm.tv_sec + tm.tv_usec);
+    
     int y;
     for (y = 0; y < NTILEY; y++) {
         int x;
@@ -19,6 +24,14 @@ mapTile** initMap ()
             d[y][x].db = 2;
             d[y][x].playerOn = 0;
             d[y][x].owner = 0;
+            if (d[y][x].t == 6) {
+                //give it a random value of GRASS or CRATE
+                if (rand() % 2 == 0) {
+                    d[y][x].t = CRATE;
+                } else {
+                    d[y][x].t = GRASS;
+                }
+            }
         }
     }
 

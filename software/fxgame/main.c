@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "animations.h"
 #include "sdcard.h"
+#include "AI.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -27,7 +28,7 @@ int main() {
 
     Score* score = (Score*)malloc(sizeof(Score));
 
-    FruitCtrl** fruitCtrl = malloc(sizeof(FruitCtrl));
+    FruitCtrl* fruitCtrl = malloc(sizeof(FruitCtrl));
     initFruits(fruitCtrl,map,score);
 
     Player* p1 = (Player*)malloc(sizeof(Player));
@@ -75,6 +76,22 @@ int main() {
     p2->dir = left;
     p2->pwrUps = 0;
     p2->map = map;
+    
+    /*AI* ai1 = (AI*)malloc(sizeof(AI));
+    ai1->posX = 16+TILE_SIZE*17;
+    ai1->posY = 16+TILE_SIZE*12;
+    ai1->next = 0;
+    ai1->end = 0;
+    ai1->height = TILE_SIZE-2;
+    ai1->width = TILE_SIZE-2;
+    ai1->dropBomb = 0;
+    ai1->respawnTime = 0;
+    ai1->id = 1;
+    ai1->lives = 10;
+    ai1->velX = 0;
+    ai1->velY = 0;
+    ai1->move = 0;
+    ai1->state = IDLE;*/
 
     players->list[p1->id] = p1;
     players->list[p2->id] = p2;
@@ -87,12 +104,12 @@ int main() {
     printf("Ready for key press: \n");
 
     //Keep this here -Colin
-   int connected = 0;
-   while (connected == 0) {
-       initSD(&connected);
-   }
+    int connected = 0;
+    while (connected == 0) {
+        initSD(&connected);
+    }
 
-   //This is booting bmps -Colin
+    //This is booting bmps -Colin
     booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
     booted_bmps = boot_bmps(booted_bmps);
 
@@ -110,18 +127,21 @@ int main() {
     score->map = map;
     printf("Done timer: \n");
 
-    chooseFruitForPlayer(fruitCtrl, orange, 0);
-    chooseFruitForPlayer(fruitCtrl, cherry, 1);
+    chooseFruitForPlayer(fruitCtrl, watermelon, 0);
+    chooseFruitForPlayer(fruitCtrl, banana, 1);
 
     while (1) {
     	handleEvents(p1);
     	handleEvents(p2);
+        //handleAI(ai1, fruitCtrl, p1);
         updateFruits(fruitCtrl);
         updatePlayer(p1);
         updatePlayer(p2);
+        //updateAI(ai1);
         renderMap(map, pixel_buffer);
         renderPlayer (p1, pixel_buffer);
         renderPlayer (p2, pixel_buffer);
+        //renderAI (ai1, pixel_buffer);
         int ret = renderScore (score, char_buffer);
         refresh(pixel_buffer);
         if (!ret)
