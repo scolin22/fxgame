@@ -76,7 +76,7 @@ void tilePowerUp(mapTile** d, int x, int y, int on) {
 	x = x_to_tx(x);
     y = y_to_ty(y);
     d[y][x].hasPowerUp = on;
-    printf("%d,%d has power up\n", x,y);
+    //printf("%d,%d has power up\n", x,y);
 }
 
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile) {

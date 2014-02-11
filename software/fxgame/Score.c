@@ -44,11 +44,11 @@ void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
 tile_t counterToSpawn(int count) {
 	int i;
 	int sum = 0;
-	printf("count was %d\n", count);
+	//printf("count was %d\n", count);
 	for (i = 0; i < NUM_TILES; i++) {
 		sum += spawnRate[i];
 		if (count < sum) {
-			printf("Choose tile %d, count was %d\n", i, count);
+			//printf("Choose tile %d, count was %d\n", i, count);
 			return (tile_t)i;
 		}
 	}
@@ -91,7 +91,7 @@ void initTimer(void* score, alt_up_char_buffer_dev *char_buffer)
     IOWR_16DIRECT(TIMER_0_BASE, 4, 1 << 3); //stop timer
     alt_irq_register(TIMER_0_IRQ,score,(void*)timer_ISR);//registers function to a specific IRQ
     IOWR_16DIRECT(TIMER_0_BASE, 4, 0x5); //start timer
-    printf("past interrupt\n");
+    //printf("past interrupt\n");
     alt_up_char_buffer_string(char_buffer, "Player 1", 40, 1);
     alt_up_char_buffer_string(char_buffer, "Player 2", 40, 2);
     alt_up_char_buffer_string(char_buffer, "Time Left", 10, 1);

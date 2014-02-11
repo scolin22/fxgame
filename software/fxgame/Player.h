@@ -29,6 +29,7 @@ typedef struct Player {
     char upKey;
     char downKey;
     char fruitKey;
+    char bullCount;
     direction dir;
     FruitCtrl *fruitCtrl;
     powerUps pwrUps;

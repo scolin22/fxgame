@@ -13,7 +13,7 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score) {
     for (i = 0; i < NUM_TILES; i++)
     	fruitCtrl->counterMax += tileWeight[i];
 
-    printf("The counter max is %d\n", fruitCtrl->counterMax);
+    //printf("The counter max is %d\n", fruitCtrl->counterMax);
     i= 0;
     while (i < NUM_PLAYERS) {
         fruitCtrl->startIndex[i] = i*FRUITS_PER_PLAYER;
@@ -118,11 +118,11 @@ tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y) {
 tile_t counterToTile(FruitCtrl *fruitCtrl) {
 	int i;
 	int sum = 0;
-	printf("count was %d\n", fruitCtrl->counter);
+	//printf("count was %d\n", fruitCtrl->counter);
 	for (i = 0; i < NUM_TILES; i++) {
 		sum += tileWeight[i];
 		if (fruitCtrl->counter < sum) {
-			printf("Choose tile %d, count was %d\n", i, fruitCtrl->counter);
+			//printf("Choose tile %d, count was %d\n", i, fruitCtrl->counter);
 			srand(fruitCtrl->counter);
 			fruitCtrl->counter = rand()%fruitCtrl->counterMax;
 			return (tile_t)i;
@@ -137,7 +137,7 @@ char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
 	} else if (tile == BLOCK) {
         return 0;
     } else if (tile == CRATE) {
-    	printf("blowing up crate with %d who has score %d\n", owner, fruitCtrl->score->scores[owner]);
+    	//printf("blowing up crate with %d who has score %d\n", owner, fruitCtrl->score->scores[owner]);
     	changeTileWithOwner(fruitCtrl->map, x, y, EXPLOSION, owner, fruitCtrl->types[owner]);
     	tilePowerUp(fruitCtrl->map, x, y, 1);
         fruitCtrl->score->scores[owner] += 10;
@@ -277,7 +277,7 @@ char dropFruit(FruitCtrl *fruitCtrl, int owner, char toss, direction dir, int x,
 //fix parameters later
 void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl){
 	if (checkType(fruitCtrl->map, fruit->posX, fruit->posY) == EXPLOSION){
-		printf("exploding kicked bomb!");
+		//printf("exploding kicked bomb!");
 		changeTile(map, fruit->posX, fruit->posY, EXPLOSION);
 		fruit->velX = 0;
 		fruit->velY = 0;
@@ -332,9 +332,9 @@ void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl){
         fruit->velX = 0;
         fruit->velY = 0;
         fruit->tossed = 0;
-        printf("didn't kick\n");
+        //printf("didn't kick\n");
     } else {
-    	printf("did kick\n");
+    	//printf("did kick\n");
     }
     changeTileWithOwner(map, fruit->posX, fruit->posY, FRUIT, fruit->owner, fruitCtrl->types[fruit->owner]);
 }
@@ -345,7 +345,7 @@ char checkFruitCollision (mapTile** map, Fruit* f)
     if (f->posX < 0 || f->posY < 0 || (f->posX+TILE_SIZE) >= SCREEN_WIDTH || (f->posY+TILE_SIZE) >= SCREEN_HEIGHT)
         return 1;
     else if ((tile != GRASS && tile != EXPLOSION) || map[(int)y_to_ty(f->posY)][x_to_tx(f->posX)].playerOn == 1) {
-    	printf("the tile is %d\n", tile);
+    	//printf("the tile is %d\n", tile);
         return 1;
     }
     return 0;

@@ -180,9 +180,12 @@ char checkCollision (Player* p, direction dir)
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_BULLDOZER) {
         setPowerUps(p, bulldozer);
+        p->bullCount++;
         changeTile(map, p->posX, p->posY, GRASS);
     } else if ((tile == BLOCK || tile == CRATE ) && checkPowerUps(p,bulldozer)) {
-    	togglePowerUp(p, bulldozer);
+    	p->bullCount--;
+    	if(p->bullCount <= 0)
+    		togglePowerUp(p, bulldozer);
     	changeTile(map, p->posX, p->posY, GRASS);
         return 0;
     } else if (tile == BLOCK || tile == CRATE || tile == FRUIT || tile == END) {

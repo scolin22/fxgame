@@ -53,6 +53,7 @@ int main() {
     p1->dir = left;
     p1->pwrUps = 0;
     p1->map = map;
+    p1->bullCount = 0;
 
     Player* p2 = (Player*)malloc(sizeof(Player));
 
@@ -76,6 +77,7 @@ int main() {
     p2->dir = left;
     p2->pwrUps = 0;
     p2->map = map;
+    p2->bullCount = 0;
     
     /*AI* ai1 = (AI*)malloc(sizeof(AI));
     ai1->posX = 16+TILE_SIZE*17;
