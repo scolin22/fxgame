@@ -57,10 +57,11 @@ typedef struct mapTile {
     char playerOn;
     char owner;
     fruitType type;
+    char hasPowerUp;
 } mapTile;
 
 mapTile** initMap ();
-
+void tilePowerUp(mapTile** d, int x, int y, int on);
 void destroyMap (mapTile** d);
 tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner, fruitType type);
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile);

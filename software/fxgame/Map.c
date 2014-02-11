@@ -32,6 +32,8 @@ mapTile** initMap ()
                     d[y][x].t = GRASS;
                 }
             }
+            d[y][x].type = noType;
+            d[y][x].hasPowerUp = 0;
         }
     }
 
@@ -68,6 +70,13 @@ tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner, f
     d[y][x].owner = owner;
     d[y][x].type = type;
     return temp;
+}
+
+void tilePowerUp(mapTile** d, int x, int y, int on) {
+	x = x_to_tx(x);
+    y = y_to_ty(y);
+    d[y][x].hasPowerUp = on;
+    printf("%d,%d has power up\n", x,y);
 }
 
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile) {
