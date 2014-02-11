@@ -276,7 +276,7 @@ void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl){
         fruit->velX = 0;
         fruit->velY = 0;
         fruit->tossed = 0;
-        changeTile(map, fruit->posX, fruit->posY, FRUIT);
+        changeTileWithOwner(map, fruit->posX, fruit->posY, FRUIT, fruit->owner, fruitCtrl->types[fruit->owner]);
         return;
     }
     if (fruit->velX > 0)
