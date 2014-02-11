@@ -87,11 +87,25 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
                     break;
                     case FRUIT:
                     //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 2, x, y);
+                    if (d[j][i].type == orange)
+                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->O_pixel_map, x, y);
+                    else if (d[j][i].type == watermelon)
+                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->W_pixel_map, x, y);
+                    else if (d[j][i].type == banana)
+                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->B_pixel_map, x, y);
+                    else if (d[j][i].type == cherry)
+                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->C_pixel_map, x, y);
                     break;
                     case EXPLOSION:
                     //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2900,1);
-                    draw_screen_from_bmp(pixel_buffer, booted_bmps, 6, x, y);
+                        if (d[j][i].type == orange)
+                        	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OX_pixel_map, x, y);
+                        else if (d[j][i].type == watermelon)
+                        	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WX_pixel_map, x, y);
+                        else if (d[j][i].type == banana)
+                        	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BX_pixel_map, x, y);
+                        else if (d[j][i].type == cherry)
+                        	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CX_pixel_map, x, y);
                     break;
                     case CRATE:
                     //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x0502,1);

@@ -42,6 +42,7 @@ typedef struct FruitCtrl {
 } FruitCtrl;
 
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score);
+void chooseFruitForPlayer(FruitCtrl* fruitCtrl, fruitType type, int owner);
 void printFruits(FruitCtrl *fruitCtrl);
 void updateFruits(FruitCtrl *fruitCtrl);
 tile_t checkExplosion(FruitCtrl *fruitCtrl, int x, int y);

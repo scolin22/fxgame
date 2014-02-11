@@ -37,6 +37,10 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score) {
     }
 }
 
+void chooseFruitForPlayer(FruitCtrl* fruitCtrl, fruitType type, int owner) {
+	fruitCtrl->types[owner] = type;
+}
+
 void increaseFruitRadius(FruitCtrl *fruitCtrl, int owner) {
     int i;
     for (i = owner*FRUITS_PER_PLAYER; i < (owner+1)*FRUITS_PER_PLAYER; i++) {

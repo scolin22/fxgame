@@ -16,7 +16,7 @@ typedef enum fruitType {
     normal,
     banana,
     watermelon,
-    grapefruit,
+    orange,
     cherry
 } fruitType;
 

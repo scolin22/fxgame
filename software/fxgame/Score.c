@@ -65,7 +65,7 @@ void initTimer(void* score, alt_up_char_buffer_dev *char_buffer)
     IOWR_16DIRECT(TIMER_0_BASE, 4, 1 << 3); //stop timer
     alt_irq_register(TIMER_0_IRQ,score,(void*)timer_ISR);//registers function to a specific IRQ
     IOWR_16DIRECT(TIMER_0_BASE, 4, 0x5); //start timer
-    printf("past interrupt");
+    printf("past interrupt\n");
     alt_up_char_buffer_string(char_buffer, "Player 1", 40, 1);
     alt_up_char_buffer_string(char_buffer, "Player 2", 40, 2);
     alt_up_char_buffer_string(char_buffer, "Time Left", 10, 1);

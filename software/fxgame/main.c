@@ -106,6 +106,9 @@ int main() {
     initTimer(score, char_buffer);
     score->timeLeft = 120;
     printf("Done timer: \n");
+
+    chooseFruitForPlayer(fruitCtrl, watermelon, 0);
+
     while (1) {
     	handleEvents(p1);
     	handleEvents(p2);
