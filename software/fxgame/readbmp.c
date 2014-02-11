@@ -5,8 +5,6 @@ Pixel* init_pixel_map_16_from_bmp(char* filename) {
 
     unsigned char* bmp_data = pixel_data(filename, bmfh);
 
-    free(bmfh);
-
     Pixel pixel_map[PS];
 
     int i, k = 0;
@@ -18,6 +16,9 @@ Pixel* init_pixel_map_16_from_bmp(char* filename) {
     }
 
     Pixel* pixel_map_16 = convert_24_to_16(pixel_map);
+
+    free(bmp_data);
+    free(bmfh);
 
     return pixel_map_16;
 }
@@ -36,6 +37,8 @@ unsigned char* pixel_data(char* filename, BitmapFileHeader* bmfh) {
     readFileBytes(filename, bmfh->bmp_pixel_data_size, bmp_data, fd);
 
     alt_up_sd_card_fclose(fd);
+
+    free(result);
 
     return bmp_data;
 }
