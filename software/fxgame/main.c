@@ -107,7 +107,7 @@ int main() {
     score->timeLeft = 120;
     printf("Done timer: \n");
 
-    chooseFruitForPlayer(fruitCtrl, watermelon, 0);
+    chooseFruitForPlayer(fruitCtrl, orange, 0);
     chooseFruitForPlayer(fruitCtrl, cherry, 1);
 
     while (1) {
