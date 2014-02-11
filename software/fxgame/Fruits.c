@@ -41,6 +41,13 @@ void chooseFruitForPlayer(FruitCtrl* fruitCtrl, fruitType type, int owner) {
 	fruitCtrl->types[owner] = type;
 }
 
+void increaseFruitCount(FruitCtrl *fruitCtrl, int owner) {
+    if(fruitCtrl->maxFruits[owner] < FRUITS_PER_PLAYER)
+        fruitCtrl->maxFruits[owner]++;
+    if(fruitCtrl->maxFruits[owner] < FRUITS_PER_PLAYER && fruitCtrl->types[owner] == cherry)
+        fruitCtrl->maxFruits[owner]++;
+}
+
 void increaseFruitRadius(FruitCtrl *fruitCtrl, int owner) {
     int i;
     for (i = owner*FRUITS_PER_PLAYER; i < (owner+1)*FRUITS_PER_PLAYER; i++) {
@@ -79,7 +86,7 @@ void updateFruits(FruitCtrl *fruitCtrl) {
 //                         explodeFruit(fruitCtrl, fruitCtrl->fruits[i]);
                 }
             } else if (fruitCtrl->fruits[i].velX != 0 || fruitCtrl->fruits[i].velY != 0) {
-                moveFruit(fruitCtrl->map, &(fruitCtrl->fruits[i]));
+                moveFruit(fruitCtrl->map, &(fruitCtrl->fruits[i]), fruitCtrl);
             }
         }
     }
@@ -251,7 +258,8 @@ char dropFruit(FruitCtrl *fruitCtrl, int owner, char toss, direction dir, int x,
     return 1;
 }
 
-void moveFruit(mapTile** map, Fruit* fruit){
+//fix parameters later
+void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl){
     changeTile(map, fruit->posX, fruit->posY, GRASS);
     set_db(map, fruit->posX, fruit->posY);
 
@@ -302,7 +310,7 @@ void moveFruit(mapTile** map, Fruit* fruit){
     } else {
     	printf("did kick\n");
     }
-    changeTile(map, fruit->posX, fruit->posY, FRUIT);
+    changeTileWithOwner(map, fruit->posX, fruit->posY, FRUIT, fruit->owner, fruitCtrl->types[fruit->owner]);
 }
 
 char checkFruitCollision (mapTile** map, Fruit* f)

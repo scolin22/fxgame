@@ -157,8 +157,7 @@ char checkCollision (Player* p, direction dir)
             fruit->velY = 1;
         return 1;
     } else if (tile == POWERUP_FRUITS) {
-        if(p->fruitCtrl->maxFruits[p->id] < FRUITS_PER_PLAYER)
-            p->fruitCtrl->maxFruits[p->id]++;
+    	increaseFruitCount(p->fruitCtrl, p->id);
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_RADIUS) {
         increaseFruitRadius(p->fruitCtrl, p->id);
