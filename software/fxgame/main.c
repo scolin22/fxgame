@@ -61,7 +61,7 @@ int main() {
     p2->width = TILE_SIZE-2;
     p2->dropBomb = 0;
     p2->respawnTime = 0;
-    p1->stunnedTime = 0;
+    p2->stunnedTime = 0;
     p2->id = 1;
     p2->leftKey = '4';
     p2->rightKey = '6';
