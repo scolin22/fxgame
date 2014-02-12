@@ -55,5 +55,6 @@ void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl);
 char checkFruitCollision (mapTile** map, Fruit* f);
 char checkThrowCollision (mapTile** map, Fruit* f);
 Fruit* checkForFruitAtPosition(FruitCtrl *fruitCtrl, int x, int y);
+int getFruitRadius(FruitCtrl* fruitCtrl, int owner);
 
 #endif //FruitCtrl.h

@@ -56,6 +56,10 @@ void increaseFruitRadius(FruitCtrl *fruitCtrl, int owner) {
     }
 }
 
+int getFruitRadius(FruitCtrl* fruitCtrl, int owner) {
+    return fruitCtrl->fruits[owner*FRUITS_PER_PLAYER].radius;
+}
+
 void printFruits(FruitCtrl *fruitCtrl) {
     int i;
     for (i = 0; i < NUM_PLAYERS*FRUITS_PER_PLAYER; i++) {
