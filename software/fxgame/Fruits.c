@@ -38,10 +38,6 @@ void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score) {
     }
 }
 
-void chooseFruitForPlayer(FruitCtrl* fruitCtrl, fruitType type, int owner) {
-	fruitCtrl->types[owner] = type;
-}
-
 fruitType getFruitType(FruitCtrl* fruitCtrl, int owner) {
     return fruitCtrl->types[owner];
 }

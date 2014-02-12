@@ -79,6 +79,14 @@ void movePress (Player* p, char ascii) {
     printf("Player is walking on %d\n", checkType(p->map, p->posX, p->posY));
 }
 
+
+void chooseFruitForPlayer(Player* p, FruitCtrl* fruitCtrl, fruitType type) {
+    p->type = type;
+    fruitCtrl->types[p->id] = type;
+    if (type == cherry)
+        fruitCtrl->maxFruits[p->id]++;
+}
+
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
 {
     ///TODO COLIN: green box

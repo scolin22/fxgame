@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Fruits.h"
 #include "Types.h"
+#include "Player.h"
 
 //TODO: what if player too far, no crates????
 
@@ -550,8 +551,14 @@ char preCheckExplosion (AI* a, int x, int y, int owner)
     return 0;
 }
 
-void handleAI (AI* a, Player* p)
+void handleAI (AI* a, Player* p, char switches)
 {
+    checkCollisionAI(a);
+    if (switches > 0) {
+        a->velX = 0;
+        a->velY = 0;
+        return;
+    }
     if (a->stunnedTime < 1) {
         decide (a, p);
 
@@ -586,7 +593,7 @@ void handleAI (AI* a, Player* p)
                 a->velX = 0;
                 a->velY = 0;
                 a->next++;
-                handleAI (a, p);
+                handleAI (a, p, switches);
                 return;
             }
             a->move = 0;
@@ -600,8 +607,54 @@ void handleAI (AI* a, Player* p)
     }
 }
 
+void checkCollisionAI (AI* a)
+{
+    int x = a->posX;
+    int y = a->posY;
+    tile_t tile = a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].t;
+    if (tile == EXPLOSION && a->respawnTime == 0) {
+        a->respawnTime = RESPAWN_TIME;
+        if(a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].t == banana)
+            a->stunnedTime = STUNNED_TIME;
+        if(a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].owner != a->id)
+            *(players->list[a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].owner]->score) += 100;
+        *(a->score) -= 100;
+    } else if (tile == COLLECTABLE_1) {
+        *(a->score) += 100;
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == COLLECTABLE_2) {
+        *(a->score) += 500;
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == COLLECTABLE_3) {
+        *(a->score) += 1000;
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == POWERUP_FRUITS) {
+        increaseFruitCount(a->fruitCtrl, a->id);
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == POWERUP_RADIUS) {
+        increaseFruitRadius(a->fruitCtrl, a->id);
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == POWERUP_KICK) {
+//        setPowerUps(p, kick);
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == POWERUP_TOSS) {
+//        setPowerUps(p, toss);
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == POWERUP_INVINCIBLE) {
+//        setPowerUps(p, invincible);
+//        p->respawnTime = RESPAWN_TIME*5;
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    } else if (tile == POWERUP_BULLDOZER) {
+//        setPowerUps(p, bulldozer);
+//        p->bullCount++;
+        changeTile(a->fruitCtrl->map, x, y, GRASS);
+    }
+}
+
 void moveAI (AI* a)
 {
+    a->fruitCtrl->map[y_to_ty(a->posY)][x_to_tx(a->posX)].playerOn = 0;
+
     int tempx = a->posX;
     int tempy = a->posY;
     a->posX += a->velX;
@@ -623,6 +676,9 @@ void moveAI (AI* a)
         a->dropBomb = 0;
     }
     set_db(a->fruitCtrl->map, tempx, tempy);
+    checkCollisionAI(a);
+
+    a->fruitCtrl->map[y_to_ty(a->posY)][x_to_tx(a->posX)].playerOn = 1;
 }
 
 void renderAI (AI* a, alt_up_pixel_buffer_dma_dev *pixel_buffer)

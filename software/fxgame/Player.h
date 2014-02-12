@@ -47,6 +47,7 @@ void handleEvents (Player* p);
 void move (Player* p);
 void movePress (Player* p, char ascii);
 void render (Player* p);
+void chooseFruitForPlayer(Player* p, FruitCtrl* fruitCtrl, fruitType type);
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 char checkCollision (Player* p, direction dir);
 char checkPowerUps(Player *p, powerUps pwrUp);
