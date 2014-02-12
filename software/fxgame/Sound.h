@@ -20,9 +20,24 @@ typedef struct {
     alt_up_audio_dev *audio;
     short int *mix;     //output sound data
     wav fp;
+    short int *alive;
+    short int *death;
+    short int *drop;
+    short int *end;
+    short int *explode;
+    short int *powerup;
+    short int *start;
+    int aliveSize;
+    int deathSize;
+    int dropSize;
+    int endSize;
+    int explodeSize;
+    int powerupSize;
+    int startSize;
 } SoundBuffer;
 
 void initSound(SoundBuffer *sb);
+void initSoundFX(SoundBuffer *sb);
 void initSoundBG(SoundBuffer *sb);
 void initSoundFinal(SoundBuffer *sb);
 void refreshSoundBG(SoundBuffer *sb);

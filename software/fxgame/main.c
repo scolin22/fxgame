@@ -126,6 +126,9 @@ int main() {
     //Init sound
     initSound(sb);
 
+    //Init fx sounds
+    initSoundFX(sb);
+
     //Init bg sound
     initSoundBG(sb);
 
@@ -133,35 +136,6 @@ int main() {
     initSoundFinal(sb);
 
     int in = 0;
-//    while (1) {
-        //Refresh bg sound
-
-
-//        in++;
-//        if (in == 10) {
-//            addSound(sb, "ALIVE");
-//        }
-//        if (in == 30) {
-//            addSound(sb, "DEATH");
-//        }
-//        if (in == 40) {
-//            addSound(sb, "DROP");
-//        }
-//        if (in == 50) {
-//            addSound(sb, "END");
-//        }
-//        if (in == 60) {
-//            addSound(sb, "EXPLODE");
-//        }
-//        if (in == 70) {
-//            addSound(sb, "POWERUP");
-//        }
-//        if (in == 80) {
-//            addSound(sb, "START");
-//        }
-//        if (in > 80) {
-//            in = 0;
-//        }
 
     //init timer//
     printf("Initializing Timer \n");
@@ -176,10 +150,37 @@ int main() {
     chooseFruitForPlayer(fruitCtrl, watermelon, 1);
 
     alt_timestamp_start();
+    addSound(sb, "START");
+
     while (1) {
     	while (alt_timestamp() < 1666666);
     	alt_timestamp_start();
+        //Refresh bg sound
         refreshSoundBG(sb);
+
+        in++;
+        if (in == 10) {
+            addSound(sb, "ALIVE");
+        }
+        if (in == 30) {
+            addSound(sb, "DEATH");
+        }
+        if (in == 50) {
+            addSound(sb, "DROP");
+        }
+        if (in == 70) {
+            //addSound(sb, "END");
+        }
+        if (in == 90) {
+            addSound(sb, "EXPLODE");
+        }
+        if (in == 110) {
+            addSound(sb, "POWERUP");
+        }
+        if (in > 110) {
+            in = 0;
+        }
+
     	handleEvents(p1);
     	handleEvents(p2);
         //handleAI(ai1, fruitCtrl, p1);
