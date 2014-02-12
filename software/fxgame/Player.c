@@ -88,27 +88,76 @@ void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
     int w = p->width;
     //TODO COLIN: create a function that retrieves the pixel_map_16 for grass sprite for this p->id;
     //draw this pixel_map_16 at x,y
-    if(!p->respawnTime)
-        if(p->id == 0) {
-            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
-            draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
+    if(p->respawnTime % 2 == 0)
+        if(p->type == banana) {
+        	switch (p->dir) {
+        	case (left):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BLEFT_pixel_map, x, y);
+        		break;
+        	case (right):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BRIGHT_pixel_map, x, y);
+        		break;
+        	case (down):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BDOWN_pixel_map, x, y);
+        		break;
+        	case (up):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BUP_pixel_map, x, y);
+        		break;
+        	}
         }
-        else {
-            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
-            draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
+        else if (p->type == orange){
+        	switch (p->dir) {
+        	case (left):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OLEFT_pixel_map, x, y);
+        		break;
+        	case (right):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->ORIGHT_pixel_map, x, y);
+        		break;
+        	case (down):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->ODOWN_pixel_map, x, y);
+        		break;
+        	case (up):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OUP_pixel_map, x, y);
+        		break;
+        	}
+        }
+        else if (p->type == watermelon){
+        	switch (p->dir) {
+        	case (left):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WLEFT_pixel_map, x, y);
+        		break;
+        	case (right):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WRIGHT_pixel_map, x, y);
+        		break;
+        	case (down):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WDOWN_pixel_map, x, y);
+        		break;
+        	case (up):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WUP_pixel_map, x, y);
+        		break;
+        	}
+        }
+        else if (p->type == cherry){
+        	switch (p->dir) {
+        	case (left):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CLEFT_pixel_map, x, y);
+        		break;
+        	case (right):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CRIGHT_pixel_map, x, y);
+        		break;
+        	case (down):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CDOWN_pixel_map, x, y);
+        		break;
+        	case (up):
+				draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CUP_pixel_map, x, y);
+        		break;
+        	}
         }
     else if (p->respawnTime % 2 == 1){
         	// alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F00,1);
     }
     else if (p->respawnTime % 2 == 0){
-        if(p->id == 0) {
-            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0xFFFF,1);
-            draw_screen_from_bmp(pixel_buffer, booted_bmps, 4, x, y);
-        }
-        else {
-            //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + h - 1, y + w - 1, 0x003F,1);
-            draw_screen_from_bmp(pixel_buffer, booted_bmps, 3, x, y);
-        }
+
     }
 }
 

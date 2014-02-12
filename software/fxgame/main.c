@@ -170,8 +170,10 @@ int main() {
     score->map = map;
     printf("Done timer: \n");
 
-    chooseFruitForPlayer(fruitCtrl, watermelon, 0);
-    chooseFruitForPlayer(fruitCtrl, banana, 1);
+    p1->type = cherry;
+    chooseFruitForPlayer(fruitCtrl, cherry, 0);
+    p2->type = watermelon;
+    chooseFruitForPlayer(fruitCtrl, watermelon, 1);
 
     alt_timestamp_start();
     while (1) {

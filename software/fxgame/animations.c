@@ -121,6 +121,26 @@ int boot_bmps(Pixel_Map* booted_bmps) {
     booted_bmps->GOLD_pixel_map = init_pixel_map_16_from_bmp("GOLD.bmp");
     booted_bmps->CRATE_pixel_map = init_pixel_map_16_from_bmp("CRATE.BMP");
 
+    booted_bmps->BUP_pixel_map = init_pixel_map_16_from_bmp("BUP.bmp");
+    booted_bmps->BDOWN_pixel_map = init_pixel_map_16_from_bmp("BDOWN.bmp");
+    booted_bmps->BLEFT_pixel_map = init_pixel_map_16_from_bmp("BLEFT.bmp");
+    booted_bmps->BRIGHT_pixel_map = init_pixel_map_16_from_bmp("BRIGHT.BMP");
+
+    booted_bmps->CUP_pixel_map = init_pixel_map_16_from_bmp("CUP.bmp");
+    booted_bmps->CDOWN_pixel_map = init_pixel_map_16_from_bmp("CDOWN.bmp");
+    booted_bmps->CLEFT_pixel_map = init_pixel_map_16_from_bmp("CLEFT.bmp");
+    booted_bmps->CRIGHT_pixel_map = init_pixel_map_16_from_bmp("CRIGHT.BMP");
+
+    booted_bmps->WUP_pixel_map = init_pixel_map_16_from_bmp("WUP.bmp");
+    booted_bmps->WDOWN_pixel_map = init_pixel_map_16_from_bmp("WDOWN.bmp");
+    booted_bmps->WLEFT_pixel_map = init_pixel_map_16_from_bmp("WLEFT.bmp");
+    booted_bmps->WRIGHT_pixel_map = init_pixel_map_16_from_bmp("WRIGHT.BMP");
+
+    booted_bmps->OUP_pixel_map = init_pixel_map_16_from_bmp("OUP.bmp");
+    booted_bmps->ODOWN_pixel_map = init_pixel_map_16_from_bmp("ODOWN.bmp");
+    booted_bmps->OLEFT_pixel_map = init_pixel_map_16_from_bmp("OLEFT.bmp");
+    booted_bmps->ORIGHT_pixel_map = init_pixel_map_16_from_bmp("ORIGHT.BMP");
+
     return booted_bmps;
 }
 

@@ -32,6 +32,7 @@ typedef struct Player {
     char bullCount;
     direction dir;
     FruitCtrl *fruitCtrl;
+    fruitType type;
     powerUps pwrUps;
     mapTile** map;
 } Player;
