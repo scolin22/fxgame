@@ -67,11 +67,11 @@ void initSound(SoundBuffer *sb) {
     printf("Init audio: %p\n", sb->audio);
 }
 
-void initFX(char *filename, short int **storage, int *size) {
+short int* initFX(char *filename, int *size) {
     *size = sizeWav(filename);
     printf("Size %d words (16-bit .wav)\n", *size);
 
-    *storage = (short int *) malloc(*size * sizeof(short int));
+    short int *storage = (short int *) malloc(*size * sizeof(short int));
     wav fp = openWav(filename);
     int i = 0;
     short int data1, data2;
@@ -80,22 +80,22 @@ void initFX(char *filename, short int **storage, int *size) {
         data1 = alt_up_sd_card_read(fp);
         data2 = alt_up_sd_card_read(fp);
         short int res = (data2 << 8) | data1;
-        *(storage)[i] = res / 2;
+        (storage)[i] = res / 2;
     }
     alt_up_sd_card_fclose(fp);
-    printf("%s storage filled at %p with %u\n\n", filename, storage, *(storage)[i]);
+    printf("Filled at %p with %d\n\n", storage, (storage)[0]);
+    return storage;
 }
 
 //Init fx sounds
 void initSoundFX(SoundBuffer *sb) {
-    initFX("alive.wav", &(sb->alive), &(sb->aliveSize));
-    initFX("death.wav", sb->death, &(sb->deathSize));
-    initFX("drop.wav", sb->drop, &(sb->dropSize));
-    initFX("end.wav", sb->end, &(sb->endSize));
-    initFX("explode.wav", sb->explode, &(sb->explodeSize));
-    initFX("powerup.wav", sb->powerup, &(sb->powerupSize));
-    initFX("start.wav", sb->start, &(sb->startSize));
-    printf("alive %p\n", sb->alive);
+    sb->alive = initFX("alive.wav", &(sb->aliveSize));
+    sb->death = initFX("death.wav", &(sb->deathSize));
+    sb->drop = initFX("drop.wav", &(sb->dropSize));
+    sb->end = initFX("end.wav", &(sb->endSize));
+    sb->explode = initFX("explode.wav", &(sb->explodeSize));
+    sb->powerup = initFX("powerup.wav", &(sb->powerupSize));
+    sb->start = initFX("start.wav", &(sb->startSize));
 }
 
 //Init bg sound
@@ -112,7 +112,6 @@ void initSoundBG(SoundBuffer *sb) {
         sb->mix[sb->write] = res / 2;
         sb->write = (sb->write + 1) % SIZE;
     }
-    printf("mix %p\n", sb->mix);
 }
 
 void initSoundFinal(SoundBuffer *sb) {
@@ -149,6 +148,7 @@ void refreshSoundBG(SoundBuffer *sb) {
 void addSound(SoundBuffer *sb, char *action) {
     short int *file;
     int size;
+    int offset = 0;
 
     if (strcmp(action, "ALIVE") == 0) {
         file = sb->alive;
@@ -171,17 +171,21 @@ void addSound(SoundBuffer *sb, char *action) {
     } else if (strcmp(action, "START") == 0) {
         file = sb->start;
         size = sb->startSize;
+        offset = 1;
     } else {
         printf("No action associated with this sound\n" );
         return;
     }
 
-    printf("add at %p, %p with value %u\n", sb->alive, sb->death, file[0]);
+    printf("Add at %p with value %X\n", file, file[0]);
 
     int i;
     int write = sb->read;   //write to where are we about to read
     for(i = 0; i < size; i++) {
         sb->mix[write] += (file)[i];
         write = (write + 1) % SIZE;
+    }
+    if (offset == 1) {
+        sb->write = write + size;
     }
 }
