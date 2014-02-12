@@ -28,4 +28,6 @@ void initSoundFinal(SoundBuffer *sb);
 void refreshSoundBG(SoundBuffer *sb);
 void addSound(SoundBuffer *sb, char *action);
 
+SoundBuffer *sb;
+
 #endif

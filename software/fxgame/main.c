@@ -121,7 +121,6 @@ int main() {
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
 
-    SoundBuffer *sb;
     //Init sound
     initSound(sb);
 
