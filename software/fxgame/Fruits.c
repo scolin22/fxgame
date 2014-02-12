@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "Fruits.h"
+#include "Sound.h"
 
 void initFruits(FruitCtrl *fruitCtrl, mapTile** d, Score* score) {
     int i;
@@ -154,6 +155,8 @@ char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
 }
 
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
+    addSound(sb, "EXPLODE");
+    changeTile(fruitCtrl->map, fruit.x_pos, fruit.y_pos, EXPLOSION);
 
     if(fruit.tileOn == BLOCK)
     	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
