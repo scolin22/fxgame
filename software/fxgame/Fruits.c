@@ -42,6 +42,10 @@ void chooseFruitForPlayer(FruitCtrl* fruitCtrl, fruitType type, int owner) {
 	fruitCtrl->types[owner] = type;
 }
 
+fruitType getFruitType(FruitCtrl* fruitCtrl, int owner) {
+    return fruitCtrl->types[owner];
+}
+
 void increaseFruitCount(FruitCtrl *fruitCtrl, int owner) {
     if(fruitCtrl->maxFruits[owner] < FRUITS_PER_PLAYER)
         fruitCtrl->maxFruits[owner]++;
