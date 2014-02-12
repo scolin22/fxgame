@@ -180,8 +180,6 @@ char checkCollision (Player* p, direction dir)
 	} else if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
         return 1;
     } else if (tile == EXPLOSION && p->respawnTime == 0) {
-    	if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner == p->id && map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == orange)
-    		return 0;
         p->respawnTime = RESPAWN_TIME;
         if( map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == banana)
             p->stunnedTime = STUNNED_TIME;

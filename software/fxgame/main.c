@@ -170,8 +170,8 @@ int main() {
     score->map = map;
     printf("Done timer: \n");
 
-    p1->type = cherry;
-    chooseFruitForPlayer(fruitCtrl, cherry, 0);
+    p1->type = orange;
+    chooseFruitForPlayer(fruitCtrl, orange, 0);
     p2->type = watermelon;
     chooseFruitForPlayer(fruitCtrl, watermelon, 1);
 

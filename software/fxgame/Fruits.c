@@ -210,6 +210,36 @@ void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
         if (!explodeTile(fruitCtrl, x, y, currentTile, fruit.owner))
             break;
     }
+    if(fruitCtrl->types[fruit.owner] == orange) {
+        for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+        	x = fruit.posX + i;
+            y = fruit.posY + i;
+            currentTile = checkExplosion(fruitCtrl, x, y);
+            if (!explodeTile(fruitCtrl, x, y, currentTile, fruit.owner))
+                break;
+        }
+        for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+        	x = fruit.posX - i;
+            y = fruit.posY + i;
+            currentTile = checkExplosion(fruitCtrl, x, y);
+            if (!explodeTile(fruitCtrl, x, y, currentTile, fruit.owner))
+                break;
+        }
+        for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+        	x = fruit.posX + i;
+            y = fruit.posY - i;
+            currentTile = checkExplosion(fruitCtrl, x, y);
+            if (!explodeTile(fruitCtrl, x, y, currentTile, fruit.owner))
+                break;
+        }
+        for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+        	x = fruit.posX - i;
+            y = fruit.posY - i;
+            currentTile = checkExplosion(fruitCtrl, x, y);
+            if (!explodeTile(fruitCtrl, x, y, currentTile, fruit.owner))
+                break;
+        }
+    }
 }
 
 void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit) {
@@ -268,6 +298,61 @@ void cleanExplosion(FruitCtrl *fruitCtrl, Fruit fruit) {
         		changeTile(fruitCtrl->map, x, y, GRASS);
         	}
         }
+    }
+
+    if(fruitCtrl->types[fruit.owner] == orange) {
+		for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+			x = fruit.posX + i;
+			y = fruit.posY + i;
+			if (checkType(fruitCtrl->map, x, y) == EXPLOSION) {
+				if (fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp) {
+					fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp = 0;
+					changeTile(fruitCtrl->map, x, y, counterToTile(fruitCtrl));
+				}
+				else {
+					changeTile(fruitCtrl->map, x, y, GRASS);
+				}
+			}
+		}
+		for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+			x = fruit.posX - i;
+			y = fruit.posY + i;
+			if (checkType(fruitCtrl->map, x, y) == EXPLOSION) {
+				if (fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp) {
+					fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp = 0;
+					changeTile(fruitCtrl->map, x, y, counterToTile(fruitCtrl));
+				}
+				else {
+					changeTile(fruitCtrl->map, x, y, GRASS);
+				}
+			}
+		}
+		for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+			x = fruit.posX + i;
+			y = fruit.posY - i;
+			if (checkType(fruitCtrl->map, x, y) == EXPLOSION) {
+				if (fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp) {
+					fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp = 0;
+					changeTile(fruitCtrl->map, x, y, counterToTile(fruitCtrl));
+				}
+				else {
+					changeTile(fruitCtrl->map, x, y, GRASS);
+				}
+			}
+		}
+		for (i = TILE_SIZE; i <= fruit.radius*TILE_SIZE; i += TILE_SIZE) {
+			x = fruit.posX - i;
+			y = fruit.posY - i;
+			if (checkType(fruitCtrl->map, x, y) == EXPLOSION) {
+				if (fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp) {
+					fruitCtrl->map[(int)y_to_ty(y)][(int)x_to_tx(x)].hasPowerUp = 0;
+					changeTile(fruitCtrl->map, x, y, counterToTile(fruitCtrl));
+				}
+				else {
+					changeTile(fruitCtrl->map, x, y, GRASS);
+				}
+			}
+		}
     }
 }
 
