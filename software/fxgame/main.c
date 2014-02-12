@@ -12,6 +12,7 @@
 #include "animations.h"
 #include "sdcard.h"
 #include "AI.h"
+#include "Sound.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -98,12 +99,10 @@ int main() {
     players->list[p1->id] = p1;
     players->list[p2->id] = p2;
 
-    char key;
-
     printf("Initializing Setup \n");
 
     kbd_init(players);
-    printf("Ready for key press: \n");
+    printf("Ready for key presses\n");
 
     //Keep this here -Colin
     int connected = 0;
@@ -115,12 +114,57 @@ int main() {
     booted_bmps = (Pixel_Map*) malloc(sizeof(Pixel_Map));
     booted_bmps = boot_bmps(booted_bmps);
 
-    printf("BOOTED IMAGES\n");
+    printf("Booted images\n");
 
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
     renderMap(map, pixel_buffer);
     refresh(pixel_buffer);
+
+    SoundBuffer *sb;
+    //Init sound
+    initSound(sb);
+
+    //Init bg sound
+    initSoundBG(sb);
+
+    //Init sound interrupt
+    initSoundFinal(sb);
+
+    int in = 0;
+    while (1) {
+        //Refresh bg sound
+        refreshSoundBG(sb);
+
+        in++;
+        if (in == 10) {
+            addSound(sb, "ALIVE");
+        }
+        if (in == 30) {
+            addSound(sb, "DEATH");
+        }
+        if (in == 40) {
+            addSound(sb, "DROP");
+        }
+        if (in == 50) {
+            addSound(sb, "END");
+        }
+        if (in == 60) {
+            addSound(sb, "EXPLODE");
+        }
+        if (in == 70) {
+            addSound(sb, "POWERUP");
+        }
+        if (in == 80) {
+            addSound(sb, "START");
+        }
+        if (in > 80) {
+            in = 0;
+        }
+
+        handleEvents(p1, IORD(switches, 0));
+
+        move(p1, map, fruitCtrl);
 
     //init timer//
     printf("Initializing Timer \n");
