@@ -46,7 +46,7 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location){
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
     alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
     while(alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer));
-    usleep(66666);
+    //usleep(66666);
     return 1;
 }
 

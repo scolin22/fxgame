@@ -165,7 +165,7 @@ char explodeTile(FruitCtrl* fruitCtrl, int x, int y, tile_t tile, int owner) {
 }
 
 void explodeFruit(FruitCtrl *fruitCtrl, Fruit fruit) {
-    //addSound(sb, "EXPLODE");
+    addSound(sb, "EXPLODE");
     if(fruit.tileOn == BLOCK)
     	changeTile(fruitCtrl->map, fruit.posX, fruit.posY, BLOCK);
     //might not work because only checks one of the two fruits stacked

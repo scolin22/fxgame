@@ -13,6 +13,7 @@
 #include "sdcard.h"
 #include "AI.h"
 #include "Sound.h"
+#include "sys/alt_timestamp.h"
 
 #define switches (volatile char *) 0x0004430
 #define leds (char *) 0x0004420
@@ -126,7 +127,7 @@ int main() {
     initSound(sb);
 
     //Init bg sound
-    //initSoundBG(sb);
+    initSoundBG(sb);
 
     //Init sound interrupt
     initSoundFinal(sb);
@@ -172,8 +173,11 @@ int main() {
     chooseFruitForPlayer(fruitCtrl, watermelon, 0);
     chooseFruitForPlayer(fruitCtrl, banana, 1);
 
+    alt_timestamp_start();
     while (1) {
-        //refreshSoundBG(sb);
+    	while (alt_timestamp() < 1666666);
+    	alt_timestamp_start();
+        refreshSoundBG(sb);
     	handleEvents(p1);
     	handleEvents(p2);
         //handleAI(ai1, fruitCtrl, p1);

@@ -48,7 +48,7 @@ tile_t counterToSpawn(int count) {
 	for (i = 0; i < NUM_TILES; i++) {
 		sum += spawnRate[i];
 		if (count < sum) {
-			printf("Choose tile %d, count was %d\n", i, count);
+			//printf("Choose tile %d, count was %d\n", i, count);
 			return (tile_t)i;
 		}
 	}
@@ -59,6 +59,7 @@ static void timer_ISR( void *arg)
 {
     Score* score = (Score*)arg;
     score->timeLeft--;
+    //printf("ISR CALLED!\n");
 
     if(score->timeLeft%2 == 0) {
 		int x = rand()%(NTILEX);
