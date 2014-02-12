@@ -181,11 +181,13 @@ void addSound(SoundBuffer *sb, char *action) {
 
     int i;
     int write = sb->read;   //write to where are we about to read
+    int reset = write;
     for(i = 0; i < size; i++) {
         sb->mix[write] += (file)[i];
         write = (write + 1) % SIZE;
     }
     if (offset == 1) {
-        sb->write = write + size;
+        sb->read = reset;
+        sb->write = write;
     }
 }

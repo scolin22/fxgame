@@ -129,8 +129,6 @@ int main() {
     //Init fx sounds
     initSoundFX(sb);
 
-    addSound(sb, "START");
-
     //Init bg sound
     initSoundBG(sb);
 
@@ -151,6 +149,8 @@ int main() {
     chooseFruitForPlayer(fruitCtrl, watermelon, 1);
 
     alt_timestamp_start();
+
+    addSound(sb, "START");
 
     while (1) {
     	while (alt_timestamp() < 1666666);
