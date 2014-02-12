@@ -76,6 +76,7 @@ void movePress (Player* p, char ascii) {
             p->posY -= TILE_SIZE;
     }
     p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 1;
+    printf("Player is walking on %d\n", checkType(p->map, p->posX, p->posY));
 }
 
 void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer)
@@ -125,7 +126,9 @@ char checkCollision (Player* p, direction dir)
 {
 	mapTile** map = p->map;
     tile_t tile = checkType(map, p->posX, p->posY);
-    if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
+	if (tile == END) {
+    	return 1;
+	} else if (p->posX < 0 || p->posY < 0 || (p->posX+p->width) >= SCREEN_WIDTH || (p->posY+p->height) >= SCREEN_HEIGHT) {
         return 1;
     } else if (tile == EXPLOSION && p->respawnTime == 0) {
     	if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner == p->id && map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == orange)
@@ -153,6 +156,8 @@ char checkCollision (Player* p, direction dir)
         return 0;
     } else if (tile == FRUIT && checkPowerUps(p,kick)) {
         Fruit* fruit = checkForFruitAtPosition(p->fruitCtrl, p->posX, p->posY);
+        if (fruit->tileOn == BLOCK)
+        	return 1;
         if(dir == right)
             fruit->velX = 1;
         else if(dir == left)

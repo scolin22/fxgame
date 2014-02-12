@@ -33,6 +33,7 @@ int main() {
     initFruits(fruitCtrl,map,score);
 
     Player* p1 = (Player*)malloc(sizeof(Player));
+    players = (Players*)malloc(sizeof(Players));
 
     p1->posX = 16;
     p1->posY = 16;
@@ -125,45 +126,41 @@ int main() {
     initSound(sb);
 
     //Init bg sound
-    initSoundBG(sb);
+    //initSoundBG(sb);
 
     //Init sound interrupt
     initSoundFinal(sb);
 
     int in = 0;
-    while (1) {
+//    while (1) {
         //Refresh bg sound
-        refreshSoundBG(sb);
 
-        in++;
-        if (in == 10) {
-            addSound(sb, "ALIVE");
-        }
-        if (in == 30) {
-            addSound(sb, "DEATH");
-        }
-        if (in == 40) {
-            addSound(sb, "DROP");
-        }
-        if (in == 50) {
-            addSound(sb, "END");
-        }
-        if (in == 60) {
-            addSound(sb, "EXPLODE");
-        }
-        if (in == 70) {
-            addSound(sb, "POWERUP");
-        }
-        if (in == 80) {
-            addSound(sb, "START");
-        }
-        if (in > 80) {
-            in = 0;
-        }
 
-        handleEvents(p1, IORD(switches, 0));
-
-        move(p1, map, fruitCtrl);
+//        in++;
+//        if (in == 10) {
+//            addSound(sb, "ALIVE");
+//        }
+//        if (in == 30) {
+//            addSound(sb, "DEATH");
+//        }
+//        if (in == 40) {
+//            addSound(sb, "DROP");
+//        }
+//        if (in == 50) {
+//            addSound(sb, "END");
+//        }
+//        if (in == 60) {
+//            addSound(sb, "EXPLODE");
+//        }
+//        if (in == 70) {
+//            addSound(sb, "POWERUP");
+//        }
+//        if (in == 80) {
+//            addSound(sb, "START");
+//        }
+//        if (in > 80) {
+//            in = 0;
+//        }
 
     //init timer//
     printf("Initializing Timer \n");
@@ -176,6 +173,7 @@ int main() {
     chooseFruitForPlayer(fruitCtrl, banana, 1);
 
     while (1) {
+        //refreshSoundBG(sb);
     	handleEvents(p1);
     	handleEvents(p2);
         //handleAI(ai1, fruitCtrl, p1);

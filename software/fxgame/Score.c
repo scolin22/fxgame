@@ -48,7 +48,7 @@ tile_t counterToSpawn(int count) {
 	for (i = 0; i < NUM_TILES; i++) {
 		sum += spawnRate[i];
 		if (count < sum) {
-			//printf("Choose tile %d, count was %d\n", i, count);
+			printf("Choose tile %d, count was %d\n", i, count);
 			return (tile_t)i;
 		}
 	}
@@ -61,11 +61,10 @@ static void timer_ISR( void *arg)
     score->timeLeft--;
 
     if(score->timeLeft%2 == 0) {
-		srand(score->timeLeft);
 		int x = rand()%(NTILEX);
 		int y = rand()%(NTILEY);
 		if (score->map[y][x].t == GRASS && score->map[y][x].playerOn == 0)
-			changeTile(score->map, x*TILE_SIZE, y*TILE_SIZE, counterToSpawn(rand()%score->spawnRateTotal));
+			changeTile(score->map, x*TILE_SIZE, y*TILE_SIZE, counterToSpawn(rand()%(score->spawnRateTotal)));
     }
     IOWR_16DIRECT(TIMER_0_BASE,0,0); //needed to show that interrupt finished executing
     IOWR_16DIRECT(TIMER_0_BASE,4,0x5); //restarts the hardware timer before exiting the isr
