@@ -71,7 +71,7 @@ char targetPlayer (AI* a, Player* p);
 char preExplodePlayerHit (AI* a, int x, int y, Player* p);
 
 
-void handleAI (AI* a, Player* p);
+void handleAI (AI* a, Player* p, char switches);
 void moveAI (AI* a);
 void renderAI (AI* a, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 void updateAI(AI* a);
