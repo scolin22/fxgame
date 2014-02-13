@@ -209,8 +209,8 @@ int main() {
     		alt_timestamp_start();
     		handleEvents(p1);
     		handleEvents(p2);
-    		handleAI(ai1, p1, 0);
-    		handleAI(ai2, p1, 0);
+    		handleAI(ai1, p1, p2, 0);
+    		handleAI(ai2, p1, p2, 0);
     		//handleAI(ai1, fruitCtrl, p1);
     		updateFruits(fruitCtrl);
     		updatePlayer(p1);

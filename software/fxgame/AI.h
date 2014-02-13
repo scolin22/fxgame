@@ -31,7 +31,8 @@ typedef enum {
     IDLE,
     AVOID_FRUIT, // typical avoid fruit state
     FIND_CRATE, // move towards spot to destroy crate
-    HUNT_PLAYER, // move towards spot where I can attack player
+    HUNT_PLAYER1, // move towards spot where I can attack player
+    HUNT_PLAYER2,
     DESTORY, // drop bomb on current spot
     HIDE, // run and hide
     HUNT_GOOD_POWERUP,
@@ -74,7 +75,7 @@ typedef struct Path {
     char length;
 } Path;
 
-void decide (AI* a, Player* p);
+void decide (AI* a, Player* p1, Player* p2);
 
 void preExplodeMap (AI* a);
 void preExplodeFruit (AI* a, Fruit fruit);
@@ -93,7 +94,7 @@ char preExplodePlayerHit (AI* a, int x, int y, Player* p);
 char targetPowerUp (AI* a, char d, ai_priority w);
 
 
-void handleAI (AI* a, Player* p, char switches);
+void handleAI (AI* a, Player* p1, Player* p2, char switches);
 void moveAI (AI* a);
 void renderAI (AI* a, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 void updateAI(AI* a);

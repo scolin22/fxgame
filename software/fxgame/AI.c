@@ -1,4 +1,7 @@
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "AI.h"
 #include "Map.h"
 #include "Fruits.h"
@@ -6,13 +9,18 @@
 #include "Player.h"
 
 //TODO: what if player too far, no crates????
-
-void decide (AI* a, Player* p)
+void decide (AI* a, Player* p1, Player* p2)
 {
     int x = x_to_tx(a->posX);
     int y = y_to_ty(a->posY);
 
     preExplodeMap(a);
+
+    if (rand() % 2 == 0) {
+    	Player* p = p2;
+    	p2 = p1;
+    	p1 = p;
+    }
 
     //Can increase AI reaction time by adding decide(a,p) after every state change
     if (a->state == IDLE) {
@@ -22,8 +30,10 @@ void decide (AI* a, Player* p)
             a->state = HUNT_GOOD_POWERUP;
         } else if (targetPowerUp(a, 6, FRUITS) == 1) {
             a->state = HUNT_DECENT_POWERUP;
-        } else if (targetPlayer (a, p) != -1) {
-            a->state = HUNT_PLAYER;
+        } else if (targetPlayer (a, p1) != -1) {
+            a->state = HUNT_PLAYER1;
+        } else if (targetPlayer (a, p2) != -1) {
+        	a->state = HUNT_PLAYER2;
         } else if (targetPowerUp(a, 2, NONE) == 1) {
             a->state = HUNT_BAD_POWERUP;
         } else {
@@ -42,8 +52,10 @@ void decide (AI* a, Player* p)
             a->state = HUNT_GOOD_POWERUP;
         } else if (targetPowerUp(a, 6, FRUITS) == 1) {
             a->state = HUNT_DECENT_POWERUP;
-        } else if (targetPlayer(a, p) != -1) {
-            a->state = HUNT_PLAYER;
+        } else if (targetPlayer(a, p1) != -1) {
+            a->state = HUNT_PLAYER1;
+        } else if (targetPlayer(a, p2) != -1) {
+        	a->state = HUNT_PLAYER2;
         } else {
             int r = targetMostCrates(a, 3);
             if (r == -1) {
@@ -55,7 +67,7 @@ void decide (AI* a, Player* p)
                 a->state = DESTORY;
             }
         }
-    } else if (a->state == HUNT_PLAYER) {
+    } else if (a->state == HUNT_PLAYER1) {
         if (checkSafe (a, x, y) == 0) {
             a->state = AVOID_FRUIT;
         } else if (targetPowerUp(a, 6, INVINCIBLE) == 1) {
@@ -63,7 +75,25 @@ void decide (AI* a, Player* p)
         } else if (targetPowerUp(a, 6, FRUITS) == 1) {
             a->state = HUNT_DECENT_POWERUP;
         } else {
-            int r = targetPlayer(a, p);
+            int r = targetPlayer(a, p1);
+            if (r == -1) {
+                // Player too far away
+                a->state = IDLE;
+            } else if (r == 0) {
+                // Keep moving
+            } else if (r == 1) {
+                a->state = DESTORY;
+            }
+        }
+    } else if (a->state == HUNT_PLAYER2) {
+        if (checkSafe (a, x, y) == 0) {
+            a->state = AVOID_FRUIT;
+        } else if (targetPowerUp(a, 6, INVINCIBLE) == 1) {
+            a->state = HUNT_GOOD_POWERUP;
+        } else if (targetPowerUp(a, 6, FRUITS) == 1) {
+            a->state = HUNT_DECENT_POWERUP;
+        } else {
+            int r = targetPlayer(a, p2);
             if (r == -1) {
                 // Player too far away
                 a->state = IDLE;
@@ -109,8 +139,10 @@ void decide (AI* a, Player* p)
             a->state = AVOID_FRUIT;
         } else if(targetPowerUp(a, 6, FRUITS) == 1) {
             a->state = HUNT_DECENT_POWERUP;
-        } else if (targetPlayer (a, p) != -1) {
-            a->state = HUNT_PLAYER;
+        } else if (targetPlayer (a, p1) != -1) {
+            a->state = HUNT_PLAYER1;
+        } else if (targetPlayer (a, p2) != -1) {
+        	a->state = HUNT_PLAYER2;
         } else if (targetPowerUp(a, 2, NONE) == 1) {
 
         } else {
@@ -249,80 +281,81 @@ char targetPowerUp (AI* a, char d, ai_priority w)
 
 char targetPlayer (AI* a, Player* pl)
 {
-    if(abs(pl->posX - a->posX) <= 6*TILE_SIZE && abs(pl->posY - a->posY) <= 6*TILE_SIZE) {
-        Path path[PATH_ARRAY_SIZE];
-        char path_bit[NTILEY][NTILEX] = {{0}};
+	if (pl == 0) {
+		return -1;
+	}
+	Path path[PATH_ARRAY_SIZE];
+	char path_bit[NTILEY][NTILEX] = {{0}};
 
-        path[0].x = x_to_tx(a->posX);
-        path[0].y = y_to_ty(a->posY);
-        path[0].length = 0;
-        path[0].prevIndex = -1;
-        path_bit[path[0].y][path[0].x] = 1;
+	path[0].x = x_to_tx(a->posX);
+	path[0].y = y_to_ty(a->posY);
+	path[0].length = 0;
+	path[0].prevIndex = -1;
+	path_bit[path[0].y][path[0].x] = 1;
 
-        int i;
-        int e;
+	int i;
+	int e;
 
-        for (i = 0, e = 1; i < e && e < PATH_ARRAY_SIZE; i++) {
-            Path p = path[i];
-            int x = p.x;
-            int y = p.y;
+	for (i = 0, e = 1; i < e && e < PATH_ARRAY_SIZE; i++) {
+		Path p = path[i];
+		int x = p.x;
+		int y = p.y;
 
-            if (p.length > LONGEST_PLAYER_PATH) {
-                return -1;
-            } else if (preExplodePlayerHit(a, x, y, pl) == 1) {
-                int l = p.length - 1;
-                if (l == -1) {
-                    return 1;
-                }
-                a->next = 0;
-                a->end = l + 1;
-                while (l >= 0) {
-                    p = path[i];
-                    if (p.length - 1 != l || i == -1) {
-                        printf("targetPlayer::CRITICAL AI ERROR\n");
-                    }
-                    a->destX[l] = p.x;
-                    a->destY[l] = p.y;
-                    i = p.prevIndex;
-                    l--;
-                }
-                return 0;
-            } else {
-                if (e < PATH_ARRAY_SIZE && checkSafe(a, x, y-1) && path_bit[y-1][x] == 0) {
-                    path[e].y = y-1;
-                    path[e].x = x;
-                    path[e].length = p.length+1;
-                    path[e].prevIndex = i;
-                    e++;
-                    path_bit[y-1][x] = 1;
-                }
-                if (e < PATH_ARRAY_SIZE && checkSafe(a, x, y+1) && path_bit[y+1][x] == 0) {
-                    path[e].y = y+1;
-                    path[e].x = x;
-                    path[e].length = p.length+1;
-                    path[e].prevIndex = i;
-                    e++;
-                    path_bit[y+1][x] = 1;
-                }
-                if (e < PATH_ARRAY_SIZE && checkSafe(a, x-1, y) && path_bit[y][x-1] == 0) {
-                    path[e].y = y;
-                    path[e].x = x-1;
-                    path[e].length = p.length+1;
-                    path[e].prevIndex = i;
-                    e++;
-                    path_bit[y][x-1] = 1;
-                }
-                if (e < PATH_ARRAY_SIZE && checkSafe(a, x+1, y) && path_bit[y][x+1] == 0) {
-                    path[e].y = y;
-                    path[e].x = x+1;
-                    path[e].length = p.length+1;
-                    path[e].prevIndex = i;
-                    e++;
-                    path_bit[y][x+1] = 1;
-                }
-            }
-        }
-    }
+		if (p.length > LONGEST_PLAYER_PATH) {
+			return -1;
+		} else if (preExplodePlayerHit(a, x, y, pl) == 1) {
+			int l = p.length - 1;
+			if (l == -1) {
+				return 1;
+			}
+			a->next = 0;
+			a->end = l + 1;
+			while (l >= 0) {
+				p = path[i];
+				if (p.length - 1 != l || i == -1) {
+					printf("targetPlayer::CRITICAL AI ERROR\n");
+				}
+				a->destX[l] = p.x;
+				a->destY[l] = p.y;
+				i = p.prevIndex;
+				l--;
+			}
+			return 0;
+		} else {
+			if (e < PATH_ARRAY_SIZE && checkSafe(a, x, y-1) && path_bit[y-1][x] == 0) {
+				path[e].y = y-1;
+				path[e].x = x;
+				path[e].length = p.length+1;
+				path[e].prevIndex = i;
+				e++;
+				path_bit[y-1][x] = 1;
+			}
+			if (e < PATH_ARRAY_SIZE && checkSafe(a, x, y+1) && path_bit[y+1][x] == 0) {
+				path[e].y = y+1;
+				path[e].x = x;
+				path[e].length = p.length+1;
+				path[e].prevIndex = i;
+				e++;
+				path_bit[y+1][x] = 1;
+			}
+			if (e < PATH_ARRAY_SIZE && checkSafe(a, x-1, y) && path_bit[y][x-1] == 0) {
+				path[e].y = y;
+				path[e].x = x-1;
+				path[e].length = p.length+1;
+				path[e].prevIndex = i;
+				e++;
+				path_bit[y][x-1] = 1;
+			}
+			if (e < PATH_ARRAY_SIZE && checkSafe(a, x+1, y) && path_bit[y][x+1] == 0) {
+				path[e].y = y;
+				path[e].x = x+1;
+				path[e].length = p.length+1;
+				path[e].prevIndex = i;
+				e++;
+				path_bit[y][x+1] = 1;
+			}
+		}
+	}
     return -1;
 }
 
@@ -722,7 +755,7 @@ char preCheckExplosion (AI* a, int x, int y, int owner)
     return 0;
 }
 
-void handleAI (AI* a, Player* p, char switches)
+void handleAI (AI* a, Player* p1, Player* p2, char switches)
 {
     checkCollisionAI(a);
     if (switches > 0) {
@@ -731,7 +764,7 @@ void handleAI (AI* a, Player* p, char switches)
         return;
     }
     if (a->stunnedTime < 1) {
-        decide (a, p);
+        decide (a, p1, p2);
 
         int destX;
         int destY;
@@ -764,7 +797,7 @@ void handleAI (AI* a, Player* p, char switches)
                 a->velX = 0;
                 a->velY = 0;
                 a->next++;
-                handleAI (a, p, switches);
+                handleAI (a, p1, p2, switches);
                 return;
             }
             a->move = 0;
