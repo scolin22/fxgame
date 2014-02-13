@@ -60,7 +60,7 @@ typedef struct Menu {
 	TIME_LIMIT timeMode;
 }Menu;
 
-void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer);
+void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 int getCursorPosition(Menu*);
 void initMenu(Menu* menu);
 void handleMenu(char ascii);

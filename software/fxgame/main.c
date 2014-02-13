@@ -171,7 +171,7 @@ int main() {
         alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
         alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 1);
     	alt_up_char_buffer_clear(char_buffer);
-    	runMenu(menu, char_buffer);
+    	runMenu(menu, char_buffer, pixel_buffer);
     	srand(alt_timestamp());
     	initMap(map);
     	initFruits(fruitCtrl,map,score);

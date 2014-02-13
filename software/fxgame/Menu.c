@@ -14,8 +14,8 @@ int getCursorPosition(Menu* menu) {
 	return MENU_TITLE_Y + menu->optionSelected + 1;
 }
 
-void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer) {
-	char buffer[32];
+void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffer_dma_dev *pixel_buffer) {
+	char buffer[64];
 	while(1) {
 
 		refreshSoundBG(sb);
@@ -23,14 +23,17 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer) {
 		if (menu->hasChanged == 0)
 			continue;
 
-		if (menu->hasChanged == 2)
+		if (menu->hasChanged == 2) {
 			alt_up_char_buffer_clear(char_buffer);
+		    alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
+		    alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 1);
+		}
 
 		menu->hasChanged = 0;
 
 		if (menu->mode == MAIN_MENU) {
-			sprintf(buffer, "Menu");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y);
+			sprintf(buffer, "FRUIT EXPLOSION");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y-1);
 
 			sprintf(buffer, "Game Start");
 			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+1);
@@ -48,8 +51,8 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer) {
 			sprintf(buffer, ">>>");
 			alt_up_char_buffer_string(char_buffer, buffer, 20, getCursorPosition(menu));
 		} else if (menu->mode == INSTRUCTIONS){
-			sprintf(buffer, "Instructions");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y);
+			sprintf(buffer, "INSTRUCTIONS");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y-1);
 
 			sprintf(buffer, "Back To Main Menu");
 			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+1);
@@ -60,9 +63,70 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer) {
 			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+3);
 			sprintf(buffer, ">>>");
 			alt_up_char_buffer_string(char_buffer, buffer, 20, getCursorPosition(menu));
+
+	        draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->GLVE_pixel_map, 26, 148);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BULL_pixel_map, 42, 148);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->STAR_pixel_map, 58, 148);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->PLUS_pixel_map, 26, 132);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->RAD_pixel_map, 42, 132);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->KICK_pixel_map, 58, 132);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BRNZ_pixel_map, 26, 172);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->SILV_pixel_map, 42, 172);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->GOLD_pixel_map, 58, 172);
+
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BGRASS_pixel_map, 10, 108);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CGRASS_pixel_map, 26, 108);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OGRASS_pixel_map, 42, 108);
+            draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WGRASS_pixel_map, 58, 108);
+            refresh(pixel_buffer);
+
+			sprintf(buffer, "Controls: How to Play");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+5);
+			sprintf(buffer, "P1: A - LEFT, D - RIGHT, W - UP, S - DOWN, Q - DROP FRUIT");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+7);
+			sprintf(buffer, "P2: 4 - LEFT, 6 - RIGHT, 8 - UP, 5 - DOWN, 7 - DROP FRUIT");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+8);
+
+			sprintf(buffer, "Fruits: Different fruits have different abilities");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+10);
+			sprintf(buffer, "Banana - Your fruits stun your victims");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+12);
+			sprintf(buffer, "Cherry - Double Your Inventory");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+13);
+			sprintf(buffer, "Orange - Also explode diagonally");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+14);
+			sprintf(buffer, "Watermelon - Can explode through walls");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+15);
+
+			sprintf(buffer, "Power-ups: Picking these up give points & abilities");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+17);
+			sprintf(buffer, "TNT - Increase the amount of fruits you can place");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+19);
+			sprintf(buffer, "Clouds - Increase the range of your fruits");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+20);
+			sprintf(buffer, "Shoe - Allow you to kick fruits");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+21);
+			sprintf(buffer, "Glove - Allow you to throw fruits");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+22);
+			sprintf(buffer, "Bulldozer -Allow you to walk over crates and walls");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+23);
+			sprintf(buffer, "Star - Make you temporarily invincible");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+24);
+
+			sprintf(buffer, "Collectables: Collecting these will give you points");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+26);
+			sprintf(buffer, "Banana - Your fruits stun your victims");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+28);
+			sprintf(buffer, "Red Coin - 50 points");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+29);
+			sprintf(buffer, "Grey Coin - 200 points");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+30);
+			sprintf(buffer, "Gold Coin - 500 points");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+31);
+
 		} else if (menu->mode == OPTIONS) {
-			sprintf(buffer, "Options");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y);
+			sprintf(buffer, "OPTIONS");
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y-1);
 
 			sprintf(buffer, "Back To Main Menu");
 			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+1);
