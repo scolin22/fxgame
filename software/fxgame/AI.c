@@ -822,31 +822,37 @@ void checkCollisionAI (AI* a)
             *(players->list[a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].owner]->score) += 100;
         *(a->score) -= 200;
     } else if (tile == COLLECTABLE_1) {
-        *(a->score) += 200;
+        *(a->score) += 50;
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == COLLECTABLE_2) {
-        *(a->score) += 500;
+        *(a->score) += 200;
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == COLLECTABLE_3) {
-        *(a->score) += 1000;
+        *(a->score) += 500;
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_FRUITS) {
+    	*(a->score) += 50;
         increaseFruitCount(a->fruitCtrl, a->id);
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_RADIUS) {
+    	*(a->score) += 50;
         increaseFruitRadius(a->fruitCtrl, a->id);
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_KICK) {
+    	*(a->score) += 50;
 //        setPowerUps(p, kick);
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_TOSS) {
+    	*(a->score) += 50;
 //        setPowerUps(p, toss);
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_INVINCIBLE) {
+    	*(a->score) += 50;
         setPowerUpsAI(a, invincible);
         a->respawnTime = RESPAWN_TIME*5;
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_BULLDOZER) {
+    	*(a->score) += 50;
 //        setPowerUps(p, bulldozer);
 //        p->bullCount++;
         changeTile(a->fruitCtrl->map, x, y, GRASS);

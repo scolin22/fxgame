@@ -151,17 +151,17 @@ int main() {
 
     printf("Booted images\n");
 
-//    //Init sound
-//    initSound(sb);
-//
-//    //Init fx sounds
+    //Init sound
+    initSound(sb);
+
+    //Init fx sounds
 //    initSoundFX(sb);
-//
-//    //Init bg sound
-//    initSoundBG(sb);
-//
-//    //Init sound interrupt
-//    initSoundFinal(sb);
+
+    //Init bg sound
+    initSoundBG(sb);
+
+    //Init sound interrupt
+    initSoundFinal(sb);
 
     initMenu(menu);
 
