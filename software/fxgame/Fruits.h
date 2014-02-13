@@ -4,8 +4,9 @@
 #include "Score.h"
 #include "Map.h"
 #include "Types.h"
-#define FRUITS_PER_PLAYER 10
+#define FRUITS_PER_PLAYER 5
 #define INIT_FRUITS 1
+#define MAX_RADIUS 9
 #define FRUIT_TIMEOUT 30
 #define EXPLOSION_TIMEOUT 15
 #define DEFAULT_RADIUS 1

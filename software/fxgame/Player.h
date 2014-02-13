@@ -9,7 +9,7 @@
 #include "PowerUps.h"
 
 #define RESPAWN_TIME 30
-#define STUNNED_TIME 10
+#define STUNNED_TIME 45
 static const int VELOCITY = 5;
 
 typedef struct Player {

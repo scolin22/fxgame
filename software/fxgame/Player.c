@@ -234,21 +234,21 @@ char checkCollision (Player* p, direction dir)
         if( map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == banana)
             p->stunnedTime = STUNNED_TIME;
         if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id)
-        	*(players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score) += 100;
-        *(p->score) -= 100;
+        	*(players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score) += 200;
+        *(p->score) -= 200;
         return 0;
     } else if (tile == EXPLOSION) {
         return 0;
     } else if (tile == COLLECTABLE_1) {
-    	*(p->score) += 100;
+    	*(p->score) += 50;
     	changeTile(map, p->posX, p->posY, GRASS);
         return 0;
     } else if (tile == COLLECTABLE_2) {
-    	*(p->score) += 500;
+    	*(p->score) += 200;
     	changeTile(map, p->posX, p->posY, GRASS);
         return 0;
     } else if (tile == COLLECTABLE_3) {
-    	*(p->score) += 1000;
+    	*(p->score) += 500;
     	changeTile(map, p->posX, p->posY, GRASS);
         return 0;
     } else if (tile == FRUIT && checkPowerUps(p,kick)) {
@@ -265,22 +265,28 @@ char checkCollision (Player* p, direction dir)
             fruit->velY = 1;
         return 1;
     } else if (tile == POWERUP_FRUITS) {
+    	*(p->score) += 50;
     	increaseFruitCount(p->fruitCtrl, p->id);
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_RADIUS) {
+    	*(p->score) += 50;
         increaseFruitRadius(p->fruitCtrl, p->id);
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_KICK) {
+    	*(p->score) += 50;
         setPowerUps(p, kick);
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_TOSS) {
+    	*(p->score) += 50;
         setPowerUps(p, toss);
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_INVINCIBLE) {
+    	*(p->score) += 50;
         setPowerUps(p, invincible);
         p->respawnTime = RESPAWN_TIME*5;
         changeTile(map, p->posX, p->posY, GRASS);
     } else if (tile == POWERUP_BULLDOZER) {
+    	*(p->score) += 50;
         setPowerUps(p, bulldozer);
         p->bullCount++;
         changeTile(map, p->posX, p->posY, GRASS);
