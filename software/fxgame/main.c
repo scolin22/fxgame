@@ -96,6 +96,7 @@ int main() {
     ai1->width = TILE_SIZE-2;
     ai1->dropBomb = 0;
     ai1->respawnTime = 0;
+    ai1->stunnedTime = 0;
     ai1->id = 2;
     ai1->lives = 10;
     ai1->velX = 0;
@@ -116,6 +117,7 @@ int main() {
     ai2->width = TILE_SIZE-2;
     ai2->dropBomb = 0;
     ai2->respawnTime = 0;
+    ai2->stunnedTime = 0;
     ai2->id = 3;
     ai2->lives = 10;
     ai2->velX = 0;
@@ -129,6 +131,8 @@ int main() {
 
     players->list[p1->id] = p1;
     players->list[p2->id] = p2;
+    scores[0] = ai1->score;
+    scores[1] = ai2->score;
 
     printf("Initializing Setup \n");
 
@@ -236,6 +240,8 @@ int main() {
     	menu->optionsMax = 3;
     	resetPlayer1(p1);
     	resetPlayer2(p2);
+    	resetAI1(ai1);
+    	resetAI2(ai2);
     }
     return 0;
 }

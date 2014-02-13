@@ -13,6 +13,7 @@
 #define LONGEST_DECENTPICKUP_PATH 10
 #define LONGEST_BADPICKUP_PATH 2
 #define LONGEST_CRATE_PATH 40
+#define NUM_AIS 2
 
 typedef enum {
     GOLD,
@@ -68,6 +69,8 @@ typedef struct AI {
     char map[NTILEY][NTILEX];
 } AI;
 
+
+
 typedef struct Path {
     char x;
     char y;
@@ -99,5 +102,11 @@ void moveAI (AI* a);
 void renderAI (AI* a, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 void updateAI(AI* a);
 void chooseFruitForAI(AI* p, FruitCtrl* fruitCtrl, fruitType type);
+void setPowerUpsAI(AI *p, powerUps pwrUp);
+void togglePowerUpAI(AI *p, powerUps pwrUp);
+char checkPowerUpsAI(AI *p, powerUps pwrUp);
+void resetAI1(AI *ai);
+void resetAI2(AI* ai);
+
 
 #endif //AI_H

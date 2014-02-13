@@ -118,7 +118,7 @@ void movePress (Player* p, char ascii) {
             p->posY -= TILE_SIZE;
     }
     p->map[y_to_ty(p->posY)][x_to_tx(p->posX)].playerOn = 1;
-    printf("Player is walking on %d\n", checkType(p->map, p->posX, p->posY));
+    //printf("Player is walking on %d\n", checkType(p->map, p->posX, p->posY));
 }
 
 
@@ -233,8 +233,10 @@ char checkCollision (Player* p, direction dir)
         p->respawnTime = RESPAWN_TIME;
         if( map[y_to_ty(p->posY)][x_to_tx(p->posX)].type == banana)
             p->stunnedTime = STUNNED_TIME;
-        if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id)
+        if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id && (map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner < 2))
         	*(players->list[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner]->score) += 200;
+        if(map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner != p->id && (map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner >= 2))
+        	*(scores[map[y_to_ty(p->posY)][x_to_tx(p->posX)].owner-2]) += 200;
         *(p->score) -= 200;
         return 0;
     } else if (tile == EXPLOSION) {

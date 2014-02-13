@@ -15,6 +15,7 @@ void decide (AI* a, Player* p1, Player* p2)
     int y = y_to_ty(a->posY);
 
     preExplodeMap(a);
+    printf("decide %i,%i\n", a->id, a->state);
 
     if (rand() % 2 == 0) {
     	Player* p = p2;
@@ -173,13 +174,10 @@ char targetPowerUp (AI* a, char d, ai_priority w)
         int y = p.y;
         //TODO: we should probably reduce the longest_path for certain situations
         if (w <= INVINCIBLE && d > LONGEST_GOODPICKUP_PATH) {
-            printf("THIS 1\n");
             return -1;
         } else if (w > INVINCIBLE && w <= FRUITS && d > LONGEST_DECENTPICKUP_PATH) {
-            printf("THIS 2\n");
             return -1;
         } else if (w > FRUITS && d > LONGEST_BADPICKUP_PATH) {
-            printf("THIS 3\n");
             return -1;
         } else if (p.length > d) {
             if (best_powerup_index != -1) {
@@ -275,7 +273,6 @@ char targetPowerUp (AI* a, char d, ai_priority w)
         }
         return 1;
     }
-    printf("END\n");
     return -1;
 }
 
@@ -757,6 +754,7 @@ char preCheckExplosion (AI* a, int x, int y, int owner)
 
 void handleAI (AI* a, Player* p1, Player* p2, char switches)
 {
+    printf("handleAI %i,%i\n", a->id, a->state);
     checkCollisionAI(a);
     if (switches > 0) {
         a->velX = 0;
@@ -822,9 +820,9 @@ void checkCollisionAI (AI* a)
             a->stunnedTime = STUNNED_TIME;
         if(a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].owner != a->id)
             *(players->list[a->fruitCtrl->map[y_to_ty(y)][x_to_tx(x)].owner]->score) += 100;
-        *(a->score) -= 100;
+        *(a->score) -= 200;
     } else if (tile == COLLECTABLE_1) {
-        *(a->score) += 100;
+        *(a->score) += 200;
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == COLLECTABLE_2) {
         *(a->score) += 500;
@@ -845,8 +843,8 @@ void checkCollisionAI (AI* a)
 //        setPowerUps(p, toss);
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_INVINCIBLE) {
-//        setPowerUps(p, invincible);
-//        p->respawnTime = RESPAWN_TIME*5;
+        setPowerUpsAI(a, invincible);
+        a->respawnTime = RESPAWN_TIME*5;
         changeTile(a->fruitCtrl->map, x, y, GRASS);
     } else if (tile == POWERUP_BULLDOZER) {
 //        setPowerUps(p, bulldozer);
@@ -927,6 +925,8 @@ void updateAI(AI* a)
 {
     if (a->respawnTime > 0)
         a->respawnTime--;
+    else if (checkPowerUpsAI(a, invincible))
+    	togglePowerUp(a, invincible);
     if(a->stunnedTime > 0)
         a->stunnedTime--;
 }
@@ -935,4 +935,58 @@ void chooseFruitForAI(AI* p, FruitCtrl* fruitCtrl, fruitType type) {
     fruitCtrl->types[p->id] = type;
     if (type == cherry)
         fruitCtrl->maxFruits[p->id]++;
+}
+
+char checkPowerUpsAI(AI *p, powerUps pwrUp) {
+    if (!(p->pwrUps & pwrUp))
+        return 0;
+    return 1;
+}
+
+void setPowerUpsAI(AI *p, powerUps pwrUp) {
+    p->pwrUps = p->pwrUps | pwrUp;
+}
+
+void togglePowerUpAI(AI *p, powerUps pwrUp) {
+    p->pwrUps = p->pwrUps ^ pwrUp;
+}
+
+void resetAI1(AI *ai) {
+    ai->posX = 16;
+    ai->posY = 16+TILE_SIZE*12;
+    ai->next = 0;
+    ai->end = 0;
+    ai->height = TILE_SIZE-2;
+    ai->width = TILE_SIZE-2;
+    ai->dropBomb = 0;
+    ai->respawnTime = 0;
+    ai->stunnedTime = 0;
+    ai->id = 2;
+    ai->lives = 10;
+    ai->velX = 0;
+    ai->velY = 0;
+    ai->move = 0;
+    ai->state = IDLE;
+    ai->dir = left;
+    ai->pwrUps = 0;
+}
+
+void resetAI2(AI* ai) {
+    ai->posX = 16+TILE_SIZE*17;
+    ai->posY = 16;
+    ai->next = 0;
+    ai->end = 0;
+    ai->height = TILE_SIZE-2;
+    ai->width = TILE_SIZE-2;
+    ai->dropBomb = 0;
+    ai->respawnTime = 0;
+    ai->stunnedTime = 0;
+    ai->id = 3;
+    ai->lives = 10;
+    ai->velX = 0;
+    ai->velY = 0;
+    ai->move = 0;
+    ai->state = IDLE;
+    ai->dir = left;
+    ai->pwrUps = 0;
 }

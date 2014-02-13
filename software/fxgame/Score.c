@@ -1,5 +1,7 @@
 #include "Score.h"
 
+int *scores[2];
+
 /* itoa:  convert n to characters in s */
 char *itoa(int value, char *buf) {
     sprintf(buf, "%d", value);

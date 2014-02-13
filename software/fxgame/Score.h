@@ -15,6 +15,8 @@ typedef struct Score {
     mapTile** map;
 } Score;
 
+extern int *scores[2];
+
 char renderScore (Score* p, alt_up_char_buffer_dev *char_buffer);
 void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer);
 void initTimer(void* score, alt_up_char_buffer_dev *char_buffer);
