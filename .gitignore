@@ -3,7 +3,7 @@
 *.qpf
 *.qsf
 *.bsf
-*.sopcinfo
+#*.sopcinfo
 
 # Ignoring everything except for .c and .h files in software/fxgame/
 software/fxgame/*
