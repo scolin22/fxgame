@@ -97,5 +97,6 @@ void handleAI (AI* a, Player* p, char switches);
 void moveAI (AI* a);
 void renderAI (AI* a, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 void updateAI(AI* a);
+void chooseFruitForAI(AI* p, FruitCtrl* fruitCtrl, fruitType type);
 
 #endif //AI_H

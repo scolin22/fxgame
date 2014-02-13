@@ -897,3 +897,9 @@ void updateAI(AI* a)
     if(a->stunnedTime > 0)
         a->stunnedTime--;
 }
+
+void chooseFruitForAI(AI* p, FruitCtrl* fruitCtrl, fruitType type) {
+    fruitCtrl->types[p->id] = type;
+    if (type == cherry)
+        fruitCtrl->maxFruits[p->id]++;
+}

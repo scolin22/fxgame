@@ -12,10 +12,12 @@ char *secondsToTime(int seconds, char *buf) {
 }
 
 char renderScore (Score* s, alt_up_char_buffer_dev *char_buffer) {
-    alt_up_char_buffer_string(char_buffer, "                ", 50, 1);
-    alt_up_char_buffer_string(char_buffer, "                ", 50, 2);
+    alt_up_char_buffer_string(char_buffer, "          ", 50, 1);
+    alt_up_char_buffer_string(char_buffer, "          ", 50, 2);
     alt_up_char_buffer_string(char_buffer, itoa(s->scores[0], s->buffer), 50, 1);
     alt_up_char_buffer_string(char_buffer, itoa(s->scores[1], s->buffer), 50, 2);
+    alt_up_char_buffer_string(char_buffer, itoa(s->scores[2], s->buffer), 70, 1);
+    alt_up_char_buffer_string(char_buffer, itoa(s->scores[3], s->buffer), 70, 2);
     if (s->timeLeft >= 0) {
         alt_up_char_buffer_string(char_buffer, "                ", 20, 1);
         alt_up_char_buffer_string(char_buffer, secondsToTime(s->timeLeft, s->buffer), 20, 1);
@@ -35,13 +37,13 @@ void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
         }
     }
 
-    alt_up_char_buffer_string(char_buffer, "GAME OVER!", 36, 26);
+    alt_up_char_buffer_string(char_buffer, "GAME OVER!", 36, 28);
     sprintf(s->buffer, "Player %d Won", bestPlayer+1);
-    alt_up_char_buffer_string(char_buffer, s->buffer, 35, 27);
+    alt_up_char_buffer_string(char_buffer, s->buffer, 35, 29);
     sprintf(s->buffer, "With %d Points",maxScore);
-    alt_up_char_buffer_string(char_buffer, s->buffer, 33, 28);
+    alt_up_char_buffer_string(char_buffer, s->buffer, 33, 30);
     sprintf(s->buffer, "Press 'Y' For Main Menu");
-    alt_up_char_buffer_string(char_buffer, s->buffer, 29, 29);
+    alt_up_char_buffer_string(char_buffer, s->buffer, 29, 31);
 }
 
 tile_t counterToSpawn(int count) {
@@ -101,6 +103,8 @@ void initTimer(void* score, alt_up_char_buffer_dev *char_buffer)
     //printf("past interrupt\n");
     alt_up_char_buffer_string(char_buffer, "Player 1", 40, 1);
     alt_up_char_buffer_string(char_buffer, "Player 2", 40, 2);
+    alt_up_char_buffer_string(char_buffer, "AI 1", 60, 1);
+    alt_up_char_buffer_string(char_buffer, "AI 2", 60, 2);
     alt_up_char_buffer_string(char_buffer, "Time Left", 10, 1);
     return;
 }

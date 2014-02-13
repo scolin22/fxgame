@@ -87,8 +87,8 @@ int main() {
     p2->map = map;
     p2->bullCount = 0;
     
-    /*AI* ai1 = (AI*)malloc(sizeof(AI));
-    ai1->posX = 16+TILE_SIZE*17;
+    AI* ai1 = (AI*)malloc(sizeof(AI));
+    ai1->posX = 16;
     ai1->posY = 16+TILE_SIZE*12;
     ai1->next = 0;
     ai1->end = 0;
@@ -96,12 +96,36 @@ int main() {
     ai1->width = TILE_SIZE-2;
     ai1->dropBomb = 0;
     ai1->respawnTime = 0;
-    ai1->id = 1;
+    ai1->id = 2;
     ai1->lives = 10;
     ai1->velX = 0;
     ai1->velY = 0;
     ai1->move = 0;
-    ai1->state = IDLE;*/
+    ai1->state = IDLE;
+    ai1->dir = left;
+    ai1->pwrUps = 0;
+    ai1->score = &(score->scores[ai1->id]);
+    ai1->fruitCtrl = fruitCtrl;
+
+    AI* ai2 = (AI*)malloc(sizeof(AI));
+    ai2->posX = 16+TILE_SIZE*17;
+    ai2->posY = 16;
+    ai2->next = 0;
+    ai2->end = 0;
+    ai2->height = TILE_SIZE-2;
+    ai2->width = TILE_SIZE-2;
+    ai2->dropBomb = 0;
+    ai2->respawnTime = 0;
+    ai2->id = 3;
+    ai2->lives = 10;
+    ai2->velX = 0;
+    ai2->velY = 0;
+    ai2->move = 0;
+    ai2->state = IDLE;
+    ai2->dir = left;
+    ai2->pwrUps = 0;
+    ai2->score = &(score->scores[ai2->id]);
+    ai2->fruitCtrl = fruitCtrl;
 
     players->list[p1->id] = p1;
     players->list[p2->id] = p2;
@@ -174,6 +198,8 @@ int main() {
 
     	chooseFruitForPlayer(p1, fruitCtrl, (fruitType)menu->p1Mode);
     	chooseFruitForPlayer(p2, fruitCtrl, (fruitType)menu->p2Mode);
+    	chooseFruitForAI(ai1, fruitCtrl, cherry);
+    	chooseFruitForAI(ai2, fruitCtrl, cherry);
 
     	struct timeval tm;
 
@@ -183,15 +209,19 @@ int main() {
     		alt_timestamp_start();
     		handleEvents(p1);
     		handleEvents(p2);
+    		handleAI(ai1, p1, 0);
+    		handleAI(ai2, p1, 0);
     		//handleAI(ai1, fruitCtrl, p1);
     		updateFruits(fruitCtrl);
     		updatePlayer(p1);
     		updatePlayer(p2);
-    		//updateAI(ai1);
+    		updateAI(ai1);
+    		updateAI(ai2);
     		renderMap(map, pixel_buffer);
     		renderPlayer (p1, pixel_buffer);
     		renderPlayer (p2, pixel_buffer);
-    		//renderAI (ai1, pixel_buffer);
+    		renderAI (ai1, pixel_buffer);
+    		renderAI (ai2, pixel_buffer);
     		int ret = renderScore (score, char_buffer);
     		refresh(pixel_buffer);
     		if (!ret)

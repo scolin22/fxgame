@@ -4,7 +4,6 @@
 #include "animations.h"
 #include "Types.h"
 
-#define NUM_PLAYERS 2
 #define NUM_TILES 15
 
 static const int SCREEN_WIDTH = 320;
