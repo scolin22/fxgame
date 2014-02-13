@@ -79,6 +79,9 @@ static void keyboard_ISR( void *arg)
 						movePress(players->list[0], ascii);
 					if (players->list[1]->stunnedTime < 1)
 						movePress(players->list[1], ascii);
+            	} else if (menu->mode == GAMEOVER && ascii == 'Y') {
+            		printf("this worked\n");
+            		menu->mode = MAIN_MENU;
             	} else /*if (menu->mode == MENU)*/ {
             		handleMenu(ascii);
             	}

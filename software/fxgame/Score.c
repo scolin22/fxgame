@@ -39,8 +39,9 @@ void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
     sprintf(s->buffer, "Player %d Won", bestPlayer+1);
     alt_up_char_buffer_string(char_buffer, s->buffer, 35, 27);
     sprintf(s->buffer, "With %d Points",maxScore);
-    alt_up_char_buffer_string(char_buffer, s->buffer, 35, 28);
-
+    alt_up_char_buffer_string(char_buffer, s->buffer, 33, 28);
+    sprintf(s->buffer, "Press 'Y' For Main Menu");
+    alt_up_char_buffer_string(char_buffer, s->buffer, 29, 29);
 }
 
 tile_t counterToSpawn(int count) {
@@ -54,20 +55,24 @@ tile_t counterToSpawn(int count) {
 			return (tile_t)i;
 		}
 	}
+
 	return GRASS;
 }
 
 static void timer_ISR( void *arg)
 {
     Score* score = (Score*)arg;
-    score->timeLeft--;
+
+    if (score->timeLeft >= 0)
+    	score->timeLeft--;
     //printf("ISR CALLED!\n");
 
-    if(score->timeLeft%2 == 0) {
+    if(score->timeLeft%2 == 0 && score->timeLeft > 0) {
 		int x = rand()%(NTILEX);
 		int y = rand()%(NTILEY);
 		if (score->map[y][x].t == GRASS && score->map[y][x].playerOn == 0)
-			changeTile(score->map, x*TILE_SIZE, y*TILE_SIZE, counterToSpawn(rand()%(score->spawnRateTotal)));
+			if(x > 4 && x < 15)
+				changeTile(score->map, x*TILE_SIZE, y*TILE_SIZE, counterToSpawn(rand()%(score->spawnRateTotal)));
     }
     IOWR_16DIRECT(TIMER_0_BASE,0,0); //needed to show that interrupt finished executing
     IOWR_16DIRECT(TIMER_0_BASE,4,0x5); //restarts the hardware timer before exiting the isr

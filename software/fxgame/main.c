@@ -4,6 +4,7 @@
 #include <io.h>
 #include <time.h>
 #include <assert.h>
+#include <sys/time.h>
 
 #include "Map.h"
 #include "Player.h"
@@ -25,7 +26,7 @@
 
 int main() {
 	menu = malloc(sizeof(Menu));
-    mapTile** map = initMap();
+    mapTile** map = allocateMap();
 
     //initialize other stuff such as vga, sd card, etc.
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
@@ -36,8 +37,9 @@ int main() {
     FruitCtrl* fruitCtrl = malloc(sizeof(FruitCtrl));
     initFruits(fruitCtrl,map,score);
 
-    Player* p1 = (Player*)malloc(sizeof(Player));
     players = (Players*)malloc(sizeof(Players));
+
+    Player* p1 = (Player*)malloc(sizeof(Player));
 
     p1->posX = 16;
     p1->posY = 16;
@@ -133,11 +135,18 @@ int main() {
 //    //Init sound interrupt
 //    initSoundFinal(sb);
 
-    alt_up_char_buffer_clear(char_buffer);
     initMenu(menu);
 
     while (1) {
+    	alt_timestamp_start();
+    	printf("game done\n");
+        alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
+        alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 1);
+    	alt_up_char_buffer_clear(char_buffer);
     	runMenu(menu, char_buffer);
+    	srand(alt_timestamp());
+    	initMap(map);
+    	initFruits(fruitCtrl,map,score);
     	renderMap(map, pixel_buffer);
     	refresh(pixel_buffer);
     	renderMap(map, pixel_buffer);
@@ -166,6 +175,8 @@ int main() {
     	chooseFruitForPlayer(p1, fruitCtrl, (fruitType)menu->p1Mode);
     	chooseFruitForPlayer(p2, fruitCtrl, (fruitType)menu->p2Mode);
 
+    	struct timeval tm;
+
     	alt_timestamp_start();
     	while (1) {
     		while (alt_timestamp() < 3333333);
@@ -188,8 +199,13 @@ int main() {
     	}
     	alt_up_pixel_buffer_dma_draw_box(pixel_buffer, 96, 96, 96+128, 96+48, 0x0000,0);
     	gameOver(score, char_buffer);
+    	printf("game done2\n");
+    	menu->mode = GAMEOVER;
+    	while (menu->mode == GAMEOVER);
+    	menu->hasChanged = 2;
+    	menu->optionsMax = 3;
+    	resetPlayer1(p1);
+    	resetPlayer2(p2);
     }
-
-    destroyMap(map);
     return 0;
 }

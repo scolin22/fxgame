@@ -191,13 +191,17 @@ void toggleTime(){
 }
 
 void handleMenu(char ascii) {
+	if (menu->mode == GAMEOVER) {
+		menu->mode == MAIN_MENU;
+	}
+
 	if (ascii == '8' && menu->optionSelected > 0) {
 		menu->optionSelected--;
 		menu->hasChanged = 1;
 	} else if (ascii == '2' && menu->optionSelected < menu->optionsMax - 1) {
 		menu->optionSelected++;
 		menu->hasChanged = 1;
-	} else if (ascii == 'A') {
+	} else if (ascii == 'Y') {
 		menu->hasChanged = 2;
 		if (menu->mode == MAIN_MENU) {
 			switch (menu->optionSelected) {

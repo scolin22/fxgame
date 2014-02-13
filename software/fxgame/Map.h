@@ -25,7 +25,7 @@ static const char maplayout[] = "55555555555555555555"
                                 "56666666666666666665"
                                 "56464646466464646465"
                                 "56666666666666666665"
-                                "56464646466464646465"
+                                "50464646466464646405"
                                 "50066666666666666005"
                                 "55555555555555555555";
 //6789:
@@ -61,7 +61,6 @@ typedef struct mapTile {
     char lastTile;
 } mapTile;
 
-mapTile** initMap ();
 void tilePowerUp(mapTile** d, int x, int y, int on);
 void destroyMap (mapTile** d);
 tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner, fruitType type);
@@ -69,6 +68,8 @@ tile_t changeTile(mapTile** d, int x, int y, tile_t tile);
 tile_t checkType (mapTile** d, int x, int y);
 void debugPrint (mapTile** d);
 void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer);
+void initMap (mapTile** d);
+mapTile** allocateMap ();
 
 char x_to_tx (int x);
 char y_to_ty (int y);

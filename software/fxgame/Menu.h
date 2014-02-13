@@ -10,6 +10,7 @@
 #include <system.h>
 #include "animations.h"
 #include "Fruits.h"
+#include "Score.h"
 
 #ifndef MENU_H_
 #define MENU_H_
@@ -23,7 +24,8 @@ typedef enum {
 	MAIN_MENU,
 	INSTRUCTIONS,
 	OPTIONS,
-	GAME
+	GAME,
+	GAMEOVER
 }MENU_MODE;
 
 typedef enum {
@@ -51,7 +53,7 @@ typedef struct Menu {
 	volatile int optionSelected;
 	int optionsMax;
 	char hasChanged;
-	MENU_MODE mode;
+	volatile MENU_MODE mode;
 	PLAYER_MODE p1Mode;
 	PLAYER_MODE p2Mode;
 	AI_MODE aiMode;

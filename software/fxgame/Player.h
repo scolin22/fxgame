@@ -52,5 +52,7 @@ void renderPlayer (Player* p, alt_up_pixel_buffer_dma_dev *pixel_buffer);
 char checkCollision (Player* p, direction dir);
 char checkPowerUps(Player *p, powerUps pwrUp);
 void setPowerUps(Player *p, powerUps pwrUp);
+void resetPlayer2(Player* p);
+void resetPlayer1(Player* p);
 
 #endif //PLAYER_H

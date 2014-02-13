@@ -2,6 +2,48 @@
 
 Players *players;
 
+void resetPlayer1(Player* p) {
+    p->posX = 16;
+    p->posY = 16;
+    p->height = TILE_SIZE-2;
+    p->width = TILE_SIZE-2;
+    p->respawnTime = 0;
+    p->stunnedTime = 0;
+    p->dropBomb = 0;
+    p->id = 0;
+    p->leftKey = 'A';
+    p->rightKey = 'D';
+    p->upKey = 'W';
+    p->downKey = 'S';
+    p->fruitKey = 'Q';
+    p->velX = 0;
+    p->velY = 0;
+    p->dir = left;
+    p->pwrUps = 0;
+    p->bullCount = 0;
+}
+
+void resetPlayer2(Player* p){
+    p->posX = 16+TILE_SIZE*17;
+    p->posY = 16+TILE_SIZE*12;
+    p->height = TILE_SIZE-2;
+    p->width = TILE_SIZE-2;
+    p->dropBomb = 0;
+    p->respawnTime = 0;
+    p->stunnedTime = 0;
+    p->id = 1;
+    p->leftKey = '4';
+    p->rightKey = '6';
+    p->upKey = '8';
+    p->downKey = '5';
+    p->fruitKey = '7';
+    p->velX = 0;
+    p->velY = 0;
+    p->dir = left;
+    p->pwrUps = 0;
+    p->bullCount = 0;
+}
+
 void handleEvents (Player* p)
 {
     checkCollision(p, none);

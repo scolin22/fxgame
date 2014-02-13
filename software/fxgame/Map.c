@@ -4,7 +4,7 @@
 
 #include "Map.h"
 
-mapTile** initMap ()
+mapTile** allocateMap ()
 {
     mapTile** d = (mapTile**)malloc(NTILEY*sizeof(mapTile*));
     int i;
@@ -12,10 +12,11 @@ mapTile** initMap ()
         d[i] = (mapTile*)malloc(NTILEX*sizeof(mapTile));
     }
 
-    struct timeval tm;
-    gettimeofday(&tm, NULL);
-    srand(tm.tv_sec + tm.tv_usec);
-    
+    return d;
+}
+
+void initMap (mapTile** d)
+{
     int y;
     for (y = 0; y < NTILEY; y++) {
         int x;
@@ -37,8 +38,6 @@ mapTile** initMap ()
             d[y][x].lastTile = d[y][x].t;
         }
     }
-
-    return d;
 }
 
 void destroyMap (mapTile** d)
