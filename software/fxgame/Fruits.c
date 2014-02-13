@@ -397,7 +397,6 @@ void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl){
 	    return;
 	}
 
-    changeTile(map, fruit->posX, fruit->posY, GRASS);
     set_db(map, fruit->posX, fruit->posY);
 
     int initX = fruit->posX;
@@ -456,9 +455,13 @@ void moveFruit(mapTile** map, Fruit* fruit, FruitCtrl* fruitCtrl){
         fruit->tossed = 0;
         //printf("didn't kick\n");
     } else {
-    	//printf("did kick\n");
+    	changeTile(map, initX, initY, fruit->tileOn);
+    	fruit->tileOn = checkType(map, fruit->posX, fruit->posY);
     }
-    changeTileWithOwner(map, fruit->posX, fruit->posY, FRUIT, fruit->owner, fruitCtrl->types[fruit->owner]);
+
+    if(!(fruit->posX == initX && fruit->posY == initY)) {
+    	changeTileWithOwner(map, fruit->posX, fruit->posY, FRUIT, fruit->owner, fruitCtrl->types[fruit->owner]);
+    }
 }
 
 char checkFruitCollision (mapTile** map, Fruit* f)

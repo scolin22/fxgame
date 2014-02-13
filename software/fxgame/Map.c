@@ -34,6 +34,7 @@ mapTile** initMap ()
             }
             d[y][x].type = normal;
             d[y][x].hasPowerUp = 0;
+            d[y][x].lastTile = d[y][x].t;
         }
     }
 
@@ -64,6 +65,12 @@ tile_t changeTileWithOwner(mapTile** d, int x, int y, tile_t tile, char owner, f
 	set_db(d, x, y);
 	x = x_to_tx(x);
     y = y_to_ty(y);
+    if (tile != FRUIT)
+    	d[y][x].lastTile = tile;
+    if (tile == FRUIT && d[y][x].t == BLOCK)
+    	d[y][x].lastTile = BLOCK;
+    if (tile == FRUIT && d[y][x].t == CRATE)
+    	d[y][x].lastTile = CRATE;
     tile_t temp = d[y][x].t;
     d[y][x].t = tile;
     d[y][x].db = 2;
@@ -110,13 +117,53 @@ void renderMap (mapTile** d, alt_up_pixel_buffer_dma_dev *pixel_buffer)
                     case FRUIT:
                     //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0xF00F,1);
                     if (d[j][i].type == orange)
-                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->O_pixel_map, x, y);
+                    	switch (d[j][i].lastTile) {
+                    	case(BLOCK):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OWALL_pixel_map, x, y);
+                    		break;
+                    	case(CRATE):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OCRATE_pixel_map, x, y);
+                    		break;
+                    	default:
+                    		draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->OGRASS_pixel_map, x, y);
+                    		break;
+                    	}
                     else if (d[j][i].type == watermelon)
-                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->W_pixel_map, x, y);
+                    	switch (d[j][i].lastTile) {
+                    	case(BLOCK):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WWALL_pixel_map, x, y);
+                    		break;
+                    	case(CRATE):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WCRATE_pixel_map, x, y);
+                    		break;
+                    	default:
+                    		draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->WGRASS_pixel_map, x, y);
+                    		break;
+                    	}
                     else if (d[j][i].type == banana)
-                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->B_pixel_map, x, y);
+                    	switch (d[j][i].lastTile) {
+                    	case(BLOCK):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BWALL_pixel_map, x, y);
+                    		break;
+                    	case(CRATE):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BCRATE_pixel_map, x, y);
+                    		break;
+                    	default:
+                    		draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BGRASS_pixel_map, x, y);
+                    		break;
+                    	}
                     else if (d[j][i].type == cherry)
-                    	draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->C_pixel_map, x, y);
+                    	switch (d[j][i].lastTile) {
+                    	case(BLOCK):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CWALL_pixel_map, x, y);
+                    		break;
+                    	case(CRATE):
+							draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CCRATE_pixel_map, x, y);
+                    		break;
+                    	default:
+                    		draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->CGRASS_pixel_map, x, y);
+                    		break;
+                    	}
                     break;
                     case EXPLOSION:
                     //alt_up_pixel_buffer_dma_draw_box(pixel_buffer, x, y, x + TILE_SIZE - 1, y + TILE_SIZE - 1, 0x2900,1);

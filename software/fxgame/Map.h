@@ -58,6 +58,7 @@ typedef struct mapTile {
     char owner;
     fruitType type;
     char hasPowerUp;
+    char lastTile;
 } mapTile;
 
 mapTile** initMap ();

@@ -69,6 +69,22 @@ typedef struct Pixel_Map{
     Pixel* ODOWN_pixel_map;
     Pixel* ORIGHT_pixel_map;
     Pixel* OLEFT_pixel_map;
+
+    Pixel* BCRATE_pixel_map;
+    Pixel* BWALL_pixel_map;
+    Pixel* BGRASS_pixel_map;
+
+    Pixel* CCRATE_pixel_map;
+    Pixel* CWALL_pixel_map;
+    Pixel* CGRASS_pixel_map;
+
+    Pixel* OCRATE_pixel_map;
+    Pixel* OWALL_pixel_map;
+    Pixel* OGRASS_pixel_map;
+
+    Pixel* WCRATE_pixel_map;
+    Pixel* WWALL_pixel_map;
+    Pixel* WGRASS_pixel_map;
 } Pixel_Map;
 
 extern Pixel_Map* booted_bmps;

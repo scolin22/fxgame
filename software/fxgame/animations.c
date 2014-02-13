@@ -46,7 +46,7 @@ alt_up_pixel_buffer_dma_dev *init_pixel_stuff(char *location){
 int refresh(alt_up_pixel_buffer_dma_dev *pixel_buffer) {
     alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
     while(alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer)){
-    	refreshSoundBG(sb);
+    	//refreshSoundBG(sb);
     }
     //usleep(66666);
     return 1;
@@ -142,6 +142,22 @@ int boot_bmps(Pixel_Map* booted_bmps) {
     booted_bmps->ODOWN_pixel_map = init_pixel_map_16_from_bmp("ODOWN.bmp");
     booted_bmps->OLEFT_pixel_map = init_pixel_map_16_from_bmp("OLEFT.bmp");
     booted_bmps->ORIGHT_pixel_map = init_pixel_map_16_from_bmp("ORIGHT.BMP");
+
+    booted_bmps->BCRATE_pixel_map = init_pixel_map_16_from_bmp("BCRATE.bmp");
+    booted_bmps->BWALL_pixel_map = init_pixel_map_16_from_bmp("BWALL.bmp");
+    booted_bmps->BGRASS_pixel_map = init_pixel_map_16_from_bmp("BGRASS.BMP");
+
+    booted_bmps->CCRATE_pixel_map = init_pixel_map_16_from_bmp("CCRATE.bmp");
+    booted_bmps->CWALL_pixel_map = init_pixel_map_16_from_bmp("CWALL.bmp");
+    booted_bmps->CGRASS_pixel_map = init_pixel_map_16_from_bmp("CGRASS.BMP");
+
+    booted_bmps->OCRATE_pixel_map = init_pixel_map_16_from_bmp("OCRATE.bmp");
+    booted_bmps->OWALL_pixel_map = init_pixel_map_16_from_bmp("OWALL.bmp");
+    booted_bmps->OGRASS_pixel_map = init_pixel_map_16_from_bmp("OGRASS.BMP");
+
+    booted_bmps->WCRATE_pixel_map = init_pixel_map_16_from_bmp("WCRATE.bmp");
+    booted_bmps->WWALL_pixel_map = init_pixel_map_16_from_bmp("WWALL.bmp");
+    booted_bmps->WGRASS_pixel_map = init_pixel_map_16_from_bmp("WGRASS.BMP");
 
     return booted_bmps;
 }

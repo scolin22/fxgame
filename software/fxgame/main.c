@@ -121,17 +121,17 @@ int main() {
 
     printf("Booted images\n");
 
-    //Init sound
-    initSound(sb);
-
-    //Init fx sounds
-    initSoundFX(sb);
-
-    //Init bg sound
-    initSoundBG(sb);
-
-    //Init sound interrupt
-    initSoundFinal(sb);
+//    //Init sound
+//    initSound(sb);
+//
+//    //Init fx sounds
+//    initSoundFX(sb);
+//
+//    //Init bg sound
+//    initSoundBG(sb);
+//
+//    //Init sound interrupt
+//    initSoundFinal(sb);
 
     alt_up_char_buffer_clear(char_buffer);
     initMenu(menu);
@@ -168,7 +168,7 @@ int main() {
 
     	alt_timestamp_start();
     	while (1) {
-    		while (alt_timestamp() < 1666666);
+    		while (alt_timestamp() < 3333333);
     		alt_timestamp_start();
     		handleEvents(p1);
     		handleEvents(p2);
