@@ -18,8 +18,14 @@ void decide (AI* a, Player* p)
     if (a->state == IDLE) {
         if (checkSafe(a, x, y) == 0) {
             a->state = AVOID_FRUIT;
+        } else if (targetPowerUp(a, 6, INVINCIBLE) == 1) {
+            a->state = HUNT_GOOD_POWERUP;
+        } else if (targetPowerUp(a, 6, FRUITS) == 1) {
+            a->state = HUNT_DECENT_POWERUP;
         } else if (targetPlayer (a, p) != -1) {
             a->state = HUNT_PLAYER;
+        } else if (targetPowerUp(a, 2, NONE) == 1) {
+            a->state = HUNT_BAD_POWERUP;
         } else {
             a->state = FIND_CRATE;
         }
@@ -32,6 +38,10 @@ void decide (AI* a, Player* p)
     } else if (a->state == FIND_CRATE) {
         if (checkSafe (a, x, y) == 0) {
             a->state = AVOID_FRUIT;
+        } else if (targetPowerUp(a, 6, INVINCIBLE) == 1) {
+            a->state = HUNT_GOOD_POWERUP;
+        } else if (targetPowerUp(a, 6, FRUITS) == 1) {
+            a->state = HUNT_DECENT_POWERUP;
         } else if (targetPlayer(a, p) != -1) {
             a->state = HUNT_PLAYER;
         } else {
@@ -48,6 +58,10 @@ void decide (AI* a, Player* p)
     } else if (a->state == HUNT_PLAYER) {
         if (checkSafe (a, x, y) == 0) {
             a->state = AVOID_FRUIT;
+        } else if (targetPowerUp(a, 6, INVINCIBLE) == 1) {
+            a->state = HUNT_GOOD_POWERUP;
+        } else if (targetPowerUp(a, 6, FRUITS) == 1) {
+            a->state = HUNT_DECENT_POWERUP;
         } else {
             int r = targetPlayer(a, p);
             if (r == -1) {
@@ -65,14 +79,172 @@ void decide (AI* a, Player* p)
         a->state = HIDE;
     } else if (a->state == HIDE) {
         // Skip one frame before hiding
-        if (a->bombTicks < FRUIT_TIMEOUT + EXPLOSION_TIMEOUT + 4 && checkSafe (a, x, y) == 0) {
+        if (a->bombTicks < FRUIT_TIMEOUT + EXPLOSION_TIMEOUT + 1 && checkSafe (a, x, y) == 0) {
             targetClosestSafeSpot(a);
         }
         a->bombTicks--;
         if (a->bombTicks <= 0) {
             a->state = IDLE;
         }
+    } else if (a->state == HUNT_GOOD_POWERUP) {
+        if(targetPowerUp(a, 6, INVINCIBLE) == 1) {
+
+        } else {
+            a->state = IDLE;
+        }
+    } else if (a->state == HUNT_DECENT_POWERUP) {
+        if(targetPowerUp(a, 6, INVINCIBLE) == 1) {
+            a->state = HUNT_GOOD_POWERUP;
+        } else if(checkSafe(a, x, y) == 0) {
+            a->state = AVOID_FRUIT;
+        } else if(targetPowerUp(a, 6, FRUITS) == 1) {
+
+        } else {
+            a->state = IDLE;
+        }
+    } else if (a->state = HUNT_BAD_POWERUP) {
+        if(targetPowerUp(a, 6, INVINCIBLE) == 1) {
+            a->state = HUNT_GOOD_POWERUP;
+        } else if(checkSafe(a, x, y) == 0) {
+            a->state = AVOID_FRUIT;
+        } else if(targetPowerUp(a, 6, FRUITS) == 1) {
+            a->state = HUNT_DECENT_POWERUP;
+        } else if (targetPlayer (a, p) != -1) {
+            a->state = HUNT_PLAYER;
+        } else if (targetPowerUp(a, 2, NONE) == 1) {
+
+        } else {
+            a->state = IDLE;
+        }
     }
+}
+
+// return -1 if no power ups, 1 if invincible or better (always take),
+// 2 if bronze or better (only take if idle), 3 if garbage (only take if idle).
+char targetPowerUp (AI* a, char d, ai_priority w)
+{
+    Path path[PATH_ARRAY_SIZE];
+    char path_bit[NTILEY][NTILEX] = {{0}};
+
+    path[0].x = x_to_tx(a->posX);
+    path[0].y = y_to_ty(a->posY);
+    path[0].length = 0;
+    path[0].prevIndex = -1;
+    path_bit[path[0].y][path[0].x] = 1;
+
+    ai_priority best_powerup = NONE;
+    char best_powerup_index = -1;
+    int i, e;
+    for (i = 0, e = 1; i < e && e < PATH_ARRAY_SIZE; i++) {
+        Path p = path[i];
+        int x = p.x;
+        int y = p.y;
+        //TODO: we should probably reduce the longest_path for certain situations
+        if (w <= INVINCIBLE && d > LONGEST_GOODPICKUP_PATH) {
+            printf("THIS 1\n");
+            return -1;
+        } else if (w > INVINCIBLE && w <= FRUITS && d > LONGEST_DECENTPICKUP_PATH) {
+            printf("THIS 2\n");
+            return -1;
+        } else if (w > FRUITS && d > LONGEST_BADPICKUP_PATH) {
+            printf("THIS 3\n");
+            return -1;
+        } else if (p.length > d) {
+            if (best_powerup_index != -1) {
+                break;
+            } else {
+                d++;
+            }
+        }
+        if (p.length <= d) {
+            // If gold and best power up found is worse than gold (greater than the enum)
+            if (a->fruitCtrl->map[y][x].t == COLLECTABLE_3 && best_powerup > GOLD) {
+                best_powerup = GOLD;
+                best_powerup_index = i;
+                break; // Might as well break since nothing is better than gold
+            } else if (a->fruitCtrl->map[y][x].t == COLLECTABLE_2 && best_powerup > SILVER) {
+                best_powerup = SILVER;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == COLLECTABLE_1 && best_powerup > BRONZE) {
+                best_powerup = BRONZE;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == POWERUP_INVINCIBLE && best_powerup > INVINCIBLE) {
+                best_powerup = INVINCIBLE;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == POWERUP_RADIUS && best_powerup > RADIUS) {
+                best_powerup = RADIUS;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == POWERUP_FRUITS && best_powerup > FRUITS) {
+                best_powerup = FRUITS;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == POWERUP_KICK && best_powerup > KICK) {
+                best_powerup = KICK;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == POWERUP_BULLDOZER && best_powerup > BULLDOZER) {
+                best_powerup = BULLDOZER;
+                best_powerup_index = i;
+            } else if (a->fruitCtrl->map[y][x].t == POWERUP_TOSS && best_powerup > TOSS) {
+                best_powerup = TOSS;
+                best_powerup_index = i;
+            }
+            if (e < PATH_ARRAY_SIZE && checkSafe(a, x, y-1) && path_bit[y-1][x] == 0) {
+                path[e].y = y-1;
+                path[e].x = x;
+                path[e].length = p.length+1;
+                path[e].prevIndex = i;
+                e++;
+                path_bit[y-1][x] = 1;
+            }
+            if (e < PATH_ARRAY_SIZE && checkSafe(a, x, y+1) && path_bit[y+1][x] == 0) {
+                path[e].y = y+1;
+                path[e].x = x;
+                path[e].length = p.length+1;
+                path[e].prevIndex = i;
+                e++;
+                path_bit[y+1][x] = 1;
+            }
+            if (e < PATH_ARRAY_SIZE && checkSafe(a, x-1, y) && path_bit[y][x-1] == 0) {
+                path[e].y = y;
+                path[e].x = x-1;
+                path[e].length = p.length+1;
+                path[e].prevIndex = i;
+                e++;
+                path_bit[y][x-1] = 1;
+            }
+            if (e < PATH_ARRAY_SIZE && checkSafe(a, x+1, y) && path_bit[y][x+1] == 0) {
+                path[e].y = y;
+                path[e].x = x+1;
+                path[e].length = p.length+1;
+                path[e].prevIndex = i;
+                e++;
+                path_bit[y][x+1] = 1;
+            }
+        }
+    }
+    if (best_powerup <= w && best_powerup_index != -1) {
+        int i = best_powerup_index;
+        Path p = path[i];
+        int l = p.length - 1;
+        if (l == -1) {
+            printf("targetPowerUp::WTFFFFF\n");
+            return -1; // SHOULDN'T HAPPEN
+        }
+        a->next = 0;
+        a->end = l + 1;
+        while (l >= 0) {
+            p = path[i];
+            if (p.length - 1 != l || i == -1) {
+                printf("targetPowerUp::CRITICAL AI ERROR\n");
+            }
+            a->destX[l] = p.x;
+            a->destY[l] = p.y;
+            i = p.prevIndex;
+            l--;
+        }
+        return 1;
+    }
+    printf("END\n");
+    return -1;
 }
 
 char targetPlayer (AI* a, Player* pl)
@@ -95,10 +267,9 @@ char targetPlayer (AI* a, Player* pl)
             int x = p.x;
             int y = p.y;
 
-            if (p.length > LONGEST_PATH) {
+            if (p.length > LONGEST_PLAYER_PATH) {
                 return -1;
             } else if (preExplodePlayerHit(a, x, y, pl) == 1) {
-                printf("(%i,%i)\n", x, y);
                 int l = p.length - 1;
                 if (l == -1) {
                     return 1;
@@ -174,7 +345,7 @@ char targetClosestSafeSpot (AI* a)
         int x = p.x;
         int y = p.y;
 
-        if (p.length > LONGEST_PATH) {
+        if (p.length > LONGEST_PLAYER_PATH) {
             return -1;
         } else if (checkSafe (a, x, y) == 1) {
             int l = p.length - 1;
@@ -250,7 +421,7 @@ char targetMostCrates (AI* a, char d)
         int x = p.x;
         int y = p.y;
 
-        if (d > LONGEST_PATH) {
+        if (d > LONGEST_CRATE_PATH) {
             return -1;
         } else if (p.length > d) {
             if (max_crates_index != -1) {
@@ -574,7 +745,7 @@ void handleAI (AI* a, Player* p, char switches)
             return;
         }
 
-        if (a->move == 1) {
+        if (a->move == 3) {
             if (x_to_tx(a->posX) == destX && y_to_ty(a->posY) != destY) {
                 a->velX = 0;
                 if (y_to_ty(a->posY) > destY) {

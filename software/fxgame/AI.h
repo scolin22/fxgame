@@ -8,7 +8,24 @@
 #include "Map.h"
 
 #define PATH_ARRAY_SIZE 100
-#define LONGEST_PATH 20
+#define LONGEST_PLAYER_PATH 10
+#define LONGEST_GOODPICKUP_PATH 30
+#define LONGEST_DECENTPICKUP_PATH 10
+#define LONGEST_BADPICKUP_PATH 2
+#define LONGEST_CRATE_PATH 40
+
+typedef enum {
+    GOLD,
+    SILVER,
+    BRONZE,
+    INVINCIBLE,
+    RADIUS,
+    FRUITS,
+    KICK,
+    BULLDOZER,
+    TOSS,
+    NONE
+} ai_priority;
 
 typedef enum {
     IDLE,
@@ -16,7 +33,10 @@ typedef enum {
     FIND_CRATE, // move towards spot to destroy crate
     HUNT_PLAYER, // move towards spot where I can attack player
     DESTORY, // drop bomb on current spot
-    HIDE // run and hide
+    HIDE, // run and hide
+    HUNT_GOOD_POWERUP,
+    HUNT_DECENT_POWERUP,
+    HUNT_BAD_POWERUP
 } state_t;
 
 typedef struct AI {
@@ -37,8 +57,8 @@ typedef struct AI {
 
     FruitCtrl* fruitCtrl;
     char dropBomb;
-    int destY[LONGEST_PATH];
-    int destX[LONGEST_PATH];
+    int destY[LONGEST_CRATE_PATH];
+    int destX[LONGEST_CRATE_PATH];
     int next;
     int end;
     char move;
@@ -69,6 +89,8 @@ char preExplodeCrateCount (AI* a, int x, int y);
 
 char targetPlayer (AI* a, Player* p);
 char preExplodePlayerHit (AI* a, int x, int y, Player* p);
+
+char targetPowerUp (AI* a, char d, ai_priority w);
 
 
 void handleAI (AI* a, Player* p, char switches);
