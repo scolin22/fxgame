@@ -67,23 +67,35 @@ void initSound(SoundBuffer *sb) {
     printf("Init audio: %p\n", sb->audio);
 }
 
-void initFX(char *filename, short int *storage) {
-    int size = sizeWav(filename);
-    printf("Size %d words (16-bit .wav)\n", size);
+short int* initFX(char *filename, int *size) {
+    *size = sizeWav(filename);
+    printf("Size %d words (16-bit .wav)\n", *size);
 
-    storage = (short int *) malloc(size * sizeof(short int));
+    short int *storage = (short int *) malloc(*size * sizeof(short int));
     wav fp = openWav(filename);
     int i = 0;
     short int data1, data2;
 
-    for(i = 0; i < size; i++) {
+    for(i = 0; i < *size; i++) {
         data1 = alt_up_sd_card_read(fp);
         data2 = alt_up_sd_card_read(fp);
         short int res = (data2 << 8) | data1;
         (storage)[i] = res / 2;
     }
     alt_up_sd_card_fclose(fp);
-    printf("%s storage filled\n\n", filename);
+    printf("Filled at %p with %d\n\n", storage, (storage)[0]);
+    return storage;
+}
+
+//Init fx sounds
+void initSoundFX(SoundBuffer *sb) {
+    sb->alive = initFX("alive.wav", &(sb->aliveSize));
+    sb->death = initFX("death.wav", &(sb->deathSize));
+    sb->drop = initFX("drop.wav", &(sb->dropSize));
+    sb->end = initFX("end.wav", &(sb->endSize));
+    sb->explode = initFX("explode.wav", &(sb->explodeSize));
+    sb->powerup = initFX("powerup.wav", &(sb->powerupSize));
+    sb->start = initFX("start.wav", &(sb->startSize));
 }
 
 //Init bg sound
@@ -134,39 +146,48 @@ void refreshSoundBG(SoundBuffer *sb) {
 }
 
 void addSound(SoundBuffer *sb, char *action) {
-    char *filename;
+    short int *file;
+    int size;
+    int offset = 0;
 
     if (strcmp(action, "ALIVE") == 0) {
-        filename = "alive.wav";
+        file = sb->alive;
+        size = sb->aliveSize;
     } else if (strcmp(action, "DEATH") == 0) {
-        filename = "death.wav";
+        file = sb->death;
+        size = sb->deathSize;
     } else if (strcmp(action, "DROP") == 0) {
-        filename = "drop.wav";
+        file = sb->drop;
+        size = sb->dropSize;
     } else if (strcmp(action, "END") == 0) {
-        filename = "end.wav";
+        file = sb->end;
+        size = sb->endSize;
     } else if (strcmp(action, "EXPLODE") == 0) {
-        filename = "explode.wav";
+        file = sb->explode;
+        size = sb->explodeSize;
     } else if (strcmp(action, "POWERUP") == 0) {
-        filename = "powerup.wav";
+        file = sb->powerup;
+        size = sb->powerupSize;
     } else if (strcmp(action, "START") == 0) {
-        filename = "start.wav";
+        file = sb->start;
+        size = sb->startSize;
+        offset = 1;
     } else {
         printf("No action associated with this sound\n" );
         return;
     }
 
-    int size = sizeWav(filename);
-    wav fp = openWav(filename);
-    int i;
-    short int data1, data2;
-    int write = sb->read;   //write to where are we about to read
+    printf("Add at %p with value %X\n", file, file[0]);
 
+    int i;
+    int write = sb->read;   //write to where are we about to read
+    int reset = write;
     for(i = 0; i < size; i++) {
-        data1 = alt_up_sd_card_read(fp);
-        data2 = alt_up_sd_card_read(fp);
-        short int res = (data2 << 8) | data1;
-        sb->mix[write] += res / 2;
+        sb->mix[write] += (file)[i];
         write = (write + 1) % SIZE;
     }
-    alt_up_sd_card_fclose(fp);
+    if (offset == 1) {
+        sb->read = reset;
+        sb->write = write;
+    }
 }

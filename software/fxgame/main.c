@@ -124,6 +124,9 @@ int main() {
     //Init sound
     initSound(sb);
 
+    //Init fx sounds
+    initSoundFX(sb);
+
     //Init bg sound
     initSoundBG(sb);
 
