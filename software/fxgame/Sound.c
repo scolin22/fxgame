@@ -127,6 +127,7 @@ void initSoundFinal(SoundBuffer *sb) {
 
 //Refresh bg sound if mix can be written to
 void refreshSoundBG(SoundBuffer *sb) {
+	return;
     short int data1, data2;
     while (sb->write != sb->read) {
         data1 = alt_up_sd_card_read(sb->fp);

@@ -15,7 +15,7 @@ void decide (AI* a, Player* p1, Player* p2)
     int y = y_to_ty(a->posY);
 
     preExplodeMap(a);
-    printf("decide %i,%i\n", a->id, a->state);
+    //printf("decide %i,%i\n", a->id, a->state);
 
     if (rand() % 2 == 0) {
     	Player* p = p2;
@@ -754,7 +754,7 @@ char preCheckExplosion (AI* a, int x, int y, int owner)
 
 void handleAI (AI* a, Player* p1, Player* p2, char switches)
 {
-    printf("handleAI %i,%i\n", a->id, a->state);
+    //printf("handleAI %i,%i\n", a->id, a->state);
     checkCollisionAI(a);
     if (switches > 0) {
         a->velX = 0;
