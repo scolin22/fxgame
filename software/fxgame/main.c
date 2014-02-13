@@ -183,7 +183,7 @@ int main() {
     		if (!ret)
     			break;
     	}
-    	alt_up_pixel_buffer_dma_draw_box(pixel_buffer, 96, 96, 96+128, 96+48, 0x0000,1);
+    	alt_up_pixel_buffer_dma_draw_box(pixel_buffer, 96, 96, 96+128, 96+48, 0x0000,0);
     	gameOver(score, char_buffer);
     }
 
