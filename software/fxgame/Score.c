@@ -67,7 +67,7 @@ static void timer_ISR( void *arg)
     	score->timeLeft--;
     //printf("ISR CALLED!\n");
 
-    if(score->timeLeft%2 == 0 && score->timeLeft > 0) {
+    if(score->timeLeft > 0) {
 		int x = rand()%(NTILEX);
 		int y = rand()%(NTILEY);
 		if (score->map[y][x].t == GRASS && score->map[y][x].playerOn == 0)

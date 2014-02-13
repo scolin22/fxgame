@@ -52,7 +52,8 @@ void increaseFruitCount(FruitCtrl *fruitCtrl, int owner) {
 void increaseFruitRadius(FruitCtrl *fruitCtrl, int owner) {
     int i;
     for (i = owner*FRUITS_PER_PLAYER; i < (owner+1)*FRUITS_PER_PLAYER; i++) {
-        fruitCtrl->fruits[i].radius++;
+    	if (fruitCtrl->fruits[i].radius < MAX_RADIUS)
+    		fruitCtrl->fruits[i].radius++;
     }
 }
 
