@@ -33,36 +33,36 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffe
 
 		if (menu->mode == MAIN_MENU) {
 			sprintf(buffer, "FRUIT EXPLOSION");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y-1);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y-1);
 
 			sprintf(buffer, "Game Start");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+1);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+1);
 
 			sprintf(buffer, "Instructions");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+2);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+2);
 
 			sprintf(buffer, "Options");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+3);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+3);
 
 			sprintf(buffer, "   ");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+1);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+2);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+3);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+1);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+2);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+3);
 			sprintf(buffer, ">>>");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, getCursorPosition(menu));
+			alt_up_char_buffer_string(char_buffer, buffer, 31, getCursorPosition(menu));
 		} else if (menu->mode == INSTRUCTIONS){
 			sprintf(buffer, "INSTRUCTIONS");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y-1);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y-1);
 
 			sprintf(buffer, "Back To Main Menu");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+1);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+1);
 
 			sprintf(buffer, "   ");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+1);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+2);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+3);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+1);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+2);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+3);
 			sprintf(buffer, ">>>");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, getCursorPosition(menu));
+			alt_up_char_buffer_string(char_buffer, buffer, 31, getCursorPosition(menu));
 
 	        draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->GLVE_pixel_map, 26, 148);
             draw_screen_from_pixel_map_16(pixel_buffer,  booted_bmps->BULL_pixel_map, 42, 148);
@@ -111,7 +111,7 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffe
 			sprintf(buffer, "Bulldozer -Allow you to walk over crates and walls");
 			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+23);
 			sprintf(buffer, "Star - Make you temporarily invincible");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+24);
+			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+35);
 
 			sprintf(buffer, "Collectables: Collecting these will give you points");
 			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+26);
@@ -126,13 +126,13 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffe
 
 		} else if (menu->mode == OPTIONS) {
 			sprintf(buffer, "OPTIONS");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y-1);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y-1);
 
 			sprintf(buffer, "Back To Main Menu");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+1);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+1);
 
 			sprintf(buffer, "Player 1");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+2);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+2);
 
 			switch(menu->p1Mode) {
 			case(ORANGE):
@@ -151,10 +151,10 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffe
 				sprintf(buffer, "Off");
 				break;
 			}
-			alt_up_char_buffer_string(char_buffer, buffer, 44, MENU_TITLE_Y+2);
+			alt_up_char_buffer_string(char_buffer, buffer, 55, MENU_TITLE_Y+2);
 
 			sprintf(buffer, "Player 2");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+3);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+3);
 			switch(menu->p2Mode) {
 			case(ORANGE):
 		sprintf(buffer, "Orange");
@@ -172,25 +172,24 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffe
 				sprintf(buffer, "Off");
 				break;
 			}
-			alt_up_char_buffer_string(char_buffer, buffer, 44, MENU_TITLE_Y+3);
+			alt_up_char_buffer_string(char_buffer, buffer, 55, MENU_TITLE_Y+3);
 
 			sprintf(buffer, "AI");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+4);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+4);
 			switch(menu->aiMode) {
 			case(AI_1):
 		sprintf(buffer, "1");
 			break;
-			case(AI_2):
 		sprintf(buffer, "2");
 			break;
 			default:
 				sprintf(buffer, "Off");
 				break;
 			}
-			alt_up_char_buffer_string(char_buffer, buffer, 44, MENU_TITLE_Y+4);
+			alt_up_char_buffer_string(char_buffer, buffer, 55, MENU_TITLE_Y+4);
 
 			sprintf(buffer, "Time Limit");
-			alt_up_char_buffer_string(char_buffer, buffer, 24, MENU_TITLE_Y+5);
+			alt_up_char_buffer_string(char_buffer, buffer, 35, MENU_TITLE_Y+5);
 			switch(menu->timeMode) {
 			case(MIN_1):
 				sprintf(buffer, "1 Minute");
@@ -204,16 +203,16 @@ void runMenu(Menu* menu, alt_up_char_buffer_dev* char_buffer, alt_up_pixel_buffe
 			case(MIN_10):
 				sprintf(buffer, "10 Minutes");
 			}
-			alt_up_char_buffer_string(char_buffer, buffer, 44, MENU_TITLE_Y+5);
+			alt_up_char_buffer_string(char_buffer, buffer, 55, MENU_TITLE_Y+5);
 
 			sprintf(buffer, "   ");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+1);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+2);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+3);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+4);
-			alt_up_char_buffer_string(char_buffer, buffer, 20, MENU_TITLE_Y+5);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+1);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+2);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+3);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+4);
+			alt_up_char_buffer_string(char_buffer, buffer, 31, MENU_TITLE_Y+5);
 			sprintf(buffer, ">>>");
-			alt_up_char_buffer_string(char_buffer, buffer, 20, getCursorPosition(menu));
+			alt_up_char_buffer_string(char_buffer, buffer, 31, getCursorPosition(menu));
 		} else if (menu->mode == GAME)
 			break;
 	}
