@@ -35,9 +35,9 @@ void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
         }
     }
 
-    alt_up_char_buffer_string(char_buffer, "GAME OVER!", 34, 14);
+    alt_up_char_buffer_string(char_buffer, "GAME OVER!", 34, 26);
     sprintf(s->buffer, "Player %d Won With %d Points", bestPlayer+1, maxScore);
-    alt_up_char_buffer_string(char_buffer, s->buffer, 24, 15);
+    alt_up_char_buffer_string(char_buffer, s->buffer, 24, 27);
 
 }
 

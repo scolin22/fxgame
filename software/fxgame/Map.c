@@ -32,7 +32,7 @@ mapTile** initMap ()
                     d[y][x].t = GRASS;
                 }
             }
-            d[y][x].type = noType;
+            d[y][x].type = normal;
             d[y][x].hasPowerUp = 0;
         }
     }
@@ -80,7 +80,7 @@ void tilePowerUp(mapTile** d, int x, int y, int on) {
 }
 
 tile_t changeTile(mapTile** d, int x, int y, tile_t tile) {
-    return changeTileWithOwner(d, x, y, tile, -1, noType);
+    return changeTileWithOwner(d, x, y, tile, -1, normal);
 }
 
 char x_to_tx (int x)

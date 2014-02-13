@@ -12,6 +12,7 @@
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
 #include "io.h"
+#include "Sound.h"
 
 #define HEIGHT 240
 #define WIDTH 320

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Fruits.h"
 #include "Score.h"
+#include "Menu.h"
 #include "animations.h"
 #include "sdcard.h"
 #include "AI.h"
@@ -23,7 +24,9 @@
 #define PS 256
 
 int main() {
+	menu = malloc(sizeof(Menu));
     mapTile** map = initMap();
+
     //initialize other stuff such as vga, sd card, etc.
     alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_stuff("/dev/pixel_buffer_dma");
     alt_up_char_buffer_dev *char_buffer = init_char_stuff("/dev/char_drawer");
@@ -118,11 +121,6 @@ int main() {
 
     printf("Booted images\n");
 
-    renderMap(map, pixel_buffer);
-    refresh(pixel_buffer);
-    renderMap(map, pixel_buffer);
-    refresh(pixel_buffer);
-
     //Init sound
     initSound(sb);
 
@@ -132,71 +130,63 @@ int main() {
     //Init sound interrupt
     initSoundFinal(sb);
 
-    int in = 0;
-//    while (1) {
-        //Refresh bg sound
+    alt_up_char_buffer_clear(char_buffer);
+    initMenu(menu);
 
-
-//        in++;
-//        if (in == 10) {
-//            addSound(sb, "ALIVE");
-//        }
-//        if (in == 30) {
-//            addSound(sb, "DEATH");
-//        }
-//        if (in == 40) {
-//            addSound(sb, "DROP");
-//        }
-//        if (in == 50) {
-//            addSound(sb, "END");
-//        }
-//        if (in == 60) {
-//            addSound(sb, "EXPLODE");
-//        }
-//        if (in == 70) {
-//            addSound(sb, "POWERUP");
-//        }
-//        if (in == 80) {
-//            addSound(sb, "START");
-//        }
-//        if (in > 80) {
-//            in = 0;
-//        }
-
-    //init timer//
-    printf("Initializing Timer \n");
-    initTimer(score, char_buffer);
-    score->timeLeft = 300;
-    score->map = map;
-    printf("Done timer: \n");
-
-    p1->type = orange;
-    chooseFruitForPlayer(fruitCtrl, orange, 0);
-    p2->type = watermelon;
-    chooseFruitForPlayer(fruitCtrl, watermelon, 1);
-
-    alt_timestamp_start();
     while (1) {
-    	while (alt_timestamp() < 1666666);
+    	runMenu(menu, char_buffer);
+    	renderMap(map, pixel_buffer);
+    	refresh(pixel_buffer);
+    	renderMap(map, pixel_buffer);
+    	refresh(pixel_buffer);
+    	//init timer//
+    	printf("Initializing Timer \n");
+    	initTimer(score, char_buffer);
+
+    	switch(menu->timeMode) {
+    	case(MIN_1):
+    		score->timeLeft = 60;
+    		break;
+    	case(MIN_3):
+    		score->timeLeft = 180;
+    		break;
+    	case(MIN_5):
+    		score->timeLeft = 300;
+    		break;
+    	default:
+    		score->timeLeft = 599;
+    		break;
+    	}
+    	score->map = map;
+    	printf("Done timer: \n");
+
+    	chooseFruitForPlayer(p1, fruitCtrl, (fruitType)menu->p1Mode);
+    	chooseFruitForPlayer(p2, fruitCtrl, (fruitType)menu->p2Mode);
+
     	alt_timestamp_start();
-        refreshSoundBG(sb);
-    	handleEvents(p1);
-    	handleEvents(p2);
-        //handleAI(ai1, fruitCtrl, p1);
-        updateFruits(fruitCtrl);
-        updatePlayer(p1);
-        updatePlayer(p2);
-        //updateAI(ai1);
-        renderMap(map, pixel_buffer);
-        renderPlayer (p1, pixel_buffer);
-        renderPlayer (p2, pixel_buffer);
-        //renderAI (ai1, pixel_buffer);
-        int ret = renderScore (score, char_buffer);
-        refresh(pixel_buffer);
-        if (!ret)
-        	break;
+    	while (1) {
+    		while (alt_timestamp() < 1666666);
+    		alt_timestamp_start();
+    		handleEvents(p1);
+    		handleEvents(p2);
+    		//handleAI(ai1, fruitCtrl, p1);
+    		updateFruits(fruitCtrl);
+    		updatePlayer(p1);
+    		updatePlayer(p2);
+    		//updateAI(ai1);
+    		renderMap(map, pixel_buffer);
+    		renderPlayer (p1, pixel_buffer);
+    		renderPlayer (p2, pixel_buffer);
+    		//renderAI (ai1, pixel_buffer);
+    		int ret = renderScore (score, char_buffer);
+    		refresh(pixel_buffer);
+    		if (!ret)
+    			break;
+    	}
+    	alt_up_pixel_buffer_dma_draw_box(pixel_buffer, 96, 96, 96+128, 96+48, 0x0000,1);
+    	gameOver(score, char_buffer);
     }
-    gameOver(score, char_buffer);
+
     destroyMap(map);
     return 0;
 }

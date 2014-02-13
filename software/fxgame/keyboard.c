@@ -1,5 +1,6 @@
 #include "keyboard.h"
 #include "Player.h"
+#include "Menu.h"
 
 ////////////////////////////////////////////////////////////////////
 // Table of scan code, make code and their corresponding values
@@ -69,13 +70,18 @@ static void keyboard_ISR( void *arg)
             if (released && keyboard[idx].pressed == 1){
                 //printf("Released %c!\n", ascii);
                 keyboard[idx].pressed = 0;
-            }else if (!released && keyboard[idx].pressed == 0){
-                //printf("Pressed %c!\n", ascii);
-                keyboard[idx].pressed = 1;
-                if (players->list[0]->stunnedTime < 1)
-                	movePress(players->list[0], ascii);
-                if (players->list[1]->stunnedTime < 1)
-                	movePress(players->list[1], ascii);
+            }
+            if (!released && keyboard[idx].pressed == 0){
+            	keyboard[idx].pressed = 1;
+            	printf("Pressed %c!\n", ascii);
+            	if (menu->mode == GAME) {
+					if (players->list[0]->stunnedTime < 1)
+						movePress(players->list[0], ascii);
+					if (players->list[1]->stunnedTime < 1)
+						movePress(players->list[1], ascii);
+            	} else /*if (menu->mode == MENU)*/ {
+            		handleMenu(ascii);
+            	}
             }
         }
         else
