@@ -211,21 +211,34 @@ int main() {
     	while (1) {
     		while (alt_timestamp() < 3333333);
     		alt_timestamp_start();
-    		handleEvents(p1);
-    		handleEvents(p2);
-    		handleAI(ai1, p1, p2, 0);
-    		handleAI(ai2, p1, p2, 0);
+
+    		if (menu->p1Mode != PLAYER_OFF)
+    			handleEvents(p1);
+    		if (menu->p2Mode != PLAYER_OFF)
+    			handleEvents(p2);
+    		if (menu->aiMode != AI_OFF)
+    			handleAI(ai1, (menu->p1Mode != PLAYER_OFF) ? p1 : 0, (menu->p2Mode != PLAYER_OFF) ? p2 : 0, 0);
+    		if (menu->aiMode == AI_2)
+    			handleAI(ai2, (menu->p1Mode != PLAYER_OFF) ? p1 : 0, (menu->p2Mode != PLAYER_OFF) ? p2 : 0, 0);
     		//handleAI(ai1, fruitCtrl, p1);
     		updateFruits(fruitCtrl);
-    		updatePlayer(p1);
-    		updatePlayer(p2);
-    		updateAI(ai1);
-    		updateAI(ai2);
+    		if (menu->p1Mode != PLAYER_OFF)
+    			updatePlayer(p1);
+    		if (menu->p2Mode != PLAYER_OFF)
+    			updatePlayer(p2);
+    		if (menu->aiMode != AI_OFF)
+    			updateAI(ai1);
+    		if (menu->aiMode == AI_2)
+    			updateAI(ai2);
     		renderMap(map, pixel_buffer);
-    		renderPlayer (p1, pixel_buffer);
-    		renderPlayer (p2, pixel_buffer);
-    		renderAI (ai1, pixel_buffer);
-    		renderAI (ai2, pixel_buffer);
+    		if (menu->p1Mode != PLAYER_OFF)
+    			renderPlayer (p1, pixel_buffer);
+    		if (menu->p2Mode != PLAYER_OFF)
+    			renderPlayer (p2, pixel_buffer);
+    		if (menu->aiMode != AI_OFF)
+    			renderAI (ai1, pixel_buffer);
+    		if (menu->aiMode == AI_2)
+    			renderAI (ai2, pixel_buffer);
     		int ret = renderScore (score, char_buffer);
     		refresh(pixel_buffer);
     		if (!ret)

@@ -40,7 +40,10 @@ void gameOver(Score* s, alt_up_char_buffer_dev *char_buffer) {
     }
 
     alt_up_char_buffer_string(char_buffer, "GAME OVER!", 36, 28);
-    sprintf(s->buffer, "Player %d Won", bestPlayer+1);
+    if (bestPlayer > 1)
+    	sprintf(s->buffer, "AI %d Won", bestPlayer+1-2);
+    else
+    	sprintf(s->buffer, "Player %d Won", bestPlayer+1);
     alt_up_char_buffer_string(char_buffer, s->buffer, 35, 29);
     sprintf(s->buffer, "With %d Points",maxScore);
     alt_up_char_buffer_string(char_buffer, s->buffer, 33, 30);

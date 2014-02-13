@@ -75,9 +75,9 @@ static void keyboard_ISR( void *arg)
             	keyboard[idx].pressed = 1;
             	//printf("Pressed %c!\n", ascii);
             	if (menu->mode == GAME) {
-					if (players->list[0]->stunnedTime < 1)
+					if (menu->p1Mode != PLAYER_OFF && players->list[0]->stunnedTime < 1)
 						movePress(players->list[0], ascii);
-					if (players->list[1]->stunnedTime < 1)
+					if (menu->p2Mode != PLAYER_OFF && players->list[1]->stunnedTime < 1)
 						movePress(players->list[1], ascii);
             	} else if (menu->mode == GAMEOVER && ascii == 'Y') {
             		printf("this worked\n");
